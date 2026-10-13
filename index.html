@@ -458,6 +458,17 @@ html.flowon,html.flowon body{overflow:hidden}
 .tytips h4{margin:12px 0 0;font-size:14px}
 .tytips code{font-family:var(--f-py);background:var(--jade-soft);color:var(--jade);padding:1px 6px;border-radius:5px}
 
+/* bàn phím pinyin */
+.tywarn{border:1px solid var(--t2);background:color-mix(in srgb,var(--t2) 10%,var(--surface));border-radius:12px;padding:10px 12px;font-size:13.5px;line-height:1.5}
+.vkb{display:flex;flex-direction:column;gap:6px;padding:8px 4px;background:var(--line);border-radius:14px;user-select:none;-webkit-user-select:none}
+.vrow{display:flex;gap:5px;justify-content:center}
+.vk{flex:1;max-width:46px;height:46px;border:0;border-radius:8px;background:var(--surface);font-family:var(--f-py);font-size:19px;box-shadow:0 2px 0 color-mix(in srgb,var(--ink) 25%,transparent);padding:0;touch-action:manipulation}
+.vk:active{background:var(--jade-soft)}
+.vk.wide{max-width:64px;flex:1.4;font-size:18px}
+.vk.space{max-width:none;flex:5;font-family:var(--f-body);font-size:14.5px;font-weight:600;color:var(--jade)}
+.vk.en{background:var(--jade);color:#fff}
+#tyIn[readonly]{caret-color:transparent}
+
 /* talk */
 .talk{display:grid;grid-template-columns:240px minmax(0,1fr);gap:24px;align-items:start}
 @media (max-width:820px){.talk{grid-template-columns:minmax(0,1fr)}}
@@ -635,6 +646,14 @@ html.flowon,html.flowon body{overflow:hidden}
     <div class="tyout hz" id="tyOut" aria-live="polite"></div>
     <div class="cands" id="tyCands"></div>
     <div class="tyinwrap"><label for="tyIn" class="sr">Ô gõ pinyin</label><input id="tyIn" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="Gõ pinyin không dấu, ví dụ: nihao" enterkeyhint="done"><button class="btn" id="tyBack" aria-label="Xóa chữ cuối">⌫</button></div>
+    <div class="tywarn" id="tyWarn" hidden>Máy đang bật <b>bộ gõ tiếng Việt</b> (Unikey, EVKey hoặc bàn phím tiếng Việt), nên phím w, s, f, r, x, j bị đổi thành dấu. Ứng dụng đã tự chuyển ngược, nhưng để gõ chính xác hãy tắt bộ gõ tiếng Việt (Unikey/EVKey: <b>Ctrl + Shift</b> hoặc <b>Alt + Z</b>) hoặc dùng bàn phím pinyin trên màn hình.</div>
+    <div class="vkb" id="vkb" hidden>
+      <div class="vrow"><button class="vk" data-vk="q">q</button><button class="vk" data-vk="w">w</button><button class="vk" data-vk="e">e</button><button class="vk" data-vk="r">r</button><button class="vk" data-vk="t">t</button><button class="vk" data-vk="y">y</button><button class="vk" data-vk="u">u</button><button class="vk" data-vk="i">i</button><button class="vk" data-vk="o">o</button><button class="vk" data-vk="p">p</button></div>
+      <div class="vrow"><button class="vk" data-vk="a">a</button><button class="vk" data-vk="s">s</button><button class="vk" data-vk="d">d</button><button class="vk" data-vk="f">f</button><button class="vk" data-vk="g">g</button><button class="vk" data-vk="h">h</button><button class="vk" data-vk="j">j</button><button class="vk" data-vk="k">k</button><button class="vk" data-vk="l">l</button></div>
+      <div class="vrow"><button class="vk" data-vk="z">z</button><button class="vk" data-vk="x">x</button><button class="vk" data-vk="c">c</button><button class="vk" data-vk="v">v</button><button class="vk" data-vk="b">b</button><button class="vk" data-vk="n">n</button><button class="vk" data-vk="m">m</button><button class="vk wide" data-vk="bk" aria-label="Xóa">⌫</button></div>
+      <div class="vrow"><button class="vk space" data-vk="sp">Chọn chữ 1 (Space)</button><button class="vk wide en" data-vk="en">↵</button></div>
+    </div>
+    <div class="ctrls"><button class="btn" id="vkToggle">⌨ Bàn phím pinyin trên màn hình</button></div>
     <div class="ctrls"><button class="btn" id="tyHint">Gợi ý pinyin</button><button class="btn" id="tySkip">Bỏ qua</button><button class="btn pri" id="tyNext" hidden>Tiếp →</button></div>
     <div class="prog" style="justify-content:center"><span id="tyStat"></span></div>
     <details class="panel tytips"><summary>Mẹo gõ và cách cài bàn phím tiếng Trung</summary>
@@ -644,6 +663,7 @@ html.flowon,html.flowon body{overflow:hidden}
         <li>Nhấn <b>Space</b> chọn chữ thứ nhất, phím số <b>1–9</b> chọn chữ khác. Trên điện thoại, bấm vào chữ.</li>
         <li>Gõ <b>cả từ</b> sẽ ra đúng chữ nhanh hơn gõ từng âm: <code>shenme</code> → 什么, <code>xiexie</code> → 谢谢.</li>
         <li>Nhiều chữ cùng âm: <code>ta</code> → 他 (anh ấy) / 她 (cô ấy). Nhìn nghĩa nhỏ dưới mỗi chữ gợi ý để chọn đúng.</li>
+        <li><b>Tắt bộ gõ tiếng Việt</b> khi gõ pinyin (Unikey/EVKey: Ctrl + Shift hoặc Alt + Z; điện thoại: đổi sang bàn phím tiếng Anh), hoặc dùng bàn phím pinyin trên màn hình của ứng dụng.</li>
         <li>Dùng dấu <b>'</b> khi dễ nhầm ranh giới âm: <code>xi'an</code> (西安) khác <code>xian</code> (先).</li>
       </ul>
       <h4>Cài bàn phím pinyin thật</h4>
@@ -2218,7 +2238,7 @@ function renderType(){
   $('#tyCands').innerHTML=TY.buf?(TY.cands.length?TY.cands.map((x,i)=>`<button class="cand" data-cand="${i}"><span class="cn">${i+1}</span><span class="hz">${x.e.h}</span><small>${esc(wordMean(x.e.h).split(/[;,(]/)[0])}</small></button>`).join(''):'<span class="sub">Không có chữ nào khớp với "'+esc(TY.buf)+'". Kiểm tra lại cách viết pinyin.</span>'):`<span class="sub">${TY.done?'Chính xác! Nhấn Enter hoặc "Tiếp" để sang chữ mới.':'Gõ pinyin không dấu vào ô bên dưới, chữ gợi ý sẽ hiện ở đây.'}</span>`;
   $('#tyNext').hidden=!TY.done; $('#tyHint').hidden=TY.done; $('#tySkip').hidden=TY.done;
   $('#tyStat').innerHTML=`Đúng <b>${TY.ok}</b>/${TY.n} · Chuỗi <b>${TY.streak}</b>`;
-  $('#tyWrap').classList.toggle('ok',TY.done);
+  $('#tyWrap').classList.toggle('ok',TY.done); $('#tyWarn').hidden=!TY.viet;
 }
 function tyChoose(i){
   const x=TY.cands[i]; if(!x||TY.done) return;
@@ -2236,12 +2256,44 @@ function tyKey(e){
   if(e.key===' '||e.key==='Enter'){e.preventDefault();tyChoose(0)}
   else if(/^[1-9]$/.test(e.key)){e.preventDefault();tyChoose(+e.key-1)}
 }
+/* Bộ gõ tiếng Việt (Telex) đổi phím: w→ư, ow→ơ, aw→ă, aa→â, dd→đ, s/f/r/x/j→dấu. Đổi ngược lại về phím gốc. */
+function vnToKeys(raw){
+  const d=raw.toLowerCase().replace(/ü/g,'v').normalize('NFD'); const g=[];
+  for(const ch of d){ if(/[\u0300-\u036f]/.test(ch)&&g.length) g[g.length-1].m+=ch; else g.push({b:ch,m:''}); }
+  const TONE={'\u0301':'s','\u0300':'f','\u0309':'r','\u0303':'x','\u0323':'j'}; let out='', pend='';
+  for(let i=0;i<g.length;i++){const {b,m}=g[i]; const horn=m.includes('\u031b'), breve=m.includes('\u0306');
+    let tone=''; for(const c of m) if(TONE[c]) tone=TONE[c];
+    let k=b==='đ'?'d':b;
+    if(horn&&b==='u'){k='w'; if(g[i+1]&&g[i+1].b==='o'&&g[i+1].m.includes('\u031b')){ i++; for(const c of g[i].m) if(TONE[c]) tone=TONE[c]; k='wo'; }}
+    else if(horn&&b==='o') k='ow';
+    else if(breve) k=b+'w';
+    const vowel=/[aeiouy]/.test(b);
+    if(!vowel&&pend){out+=pend;pend=''}
+    out+=k; if(tone) pend=tone;
+  }
+  return (out+pend).replace(/[^a-z]/g,'');
+}
 function tyInput(e){
-  const raw=e.target.value; const mt=raw.match(/^([a-zA-ZüÜ']*)([ 1-9])$/);
-  const letters=(mt?mt[1]:raw).toLowerCase().replace(/ü/g,'v').replace(/[^a-z]/g,'');
-  TY.buf=letters; e.target.value=letters;
-  if(mt&&letters){tyChoose(mt[2]===' '?0:+mt[2]-1);return}
+  if(TY.done){e.target.value='';return}
+  const raw=e.target.value; const mt=raw.match(/([ 1-9])$/); const body=mt?raw.slice(0,-1):raw;
+  const viet=/[^\x00-\x7F]/.test(body.replace(/[üÜ]/g,''));
+  const letters=vnToKeys(body);
+  TY.buf=letters; if(viet&&!TY.viet){TY.viet=true;}
+  if(mt&&letters){e.target.value=letters;tyChoose(mt[1]===' '?0:+mt[1]-1);return}
+  if(!viet&&raw!==letters) e.target.value=letters;
   renderType();
+}
+function vkPress(k){
+  const inp=$('#tyIn');
+  if(k==='bk'){ if(TY.buf){TY.buf=TY.buf.slice(0,-1);inp.value=TY.buf;} else if(TY.out&&!TY.done){TY.out=[...TY.out].slice(0,-1).join('');} renderType(); return }
+  if(k==='sp'||k==='en'){ if(TY.done) tyNew(); else if(TY.buf) tyChoose(0); return }
+  if(TY.done) return; TY.buf+=k; inp.value=TY.buf; renderType();
+}
+function setVk(on){
+  TY.vk=on; const inp=$('#tyIn'); $('#vkb').hidden=!on; inp.readOnly=on;
+  if(on) inp.setAttribute('inputmode','none'); else inp.removeAttribute('inputmode');
+  $('#vkToggle').textContent=on?'Dùng bàn phím của máy':'⌨ Bàn phím pinyin trên màn hình';
+  try{localStorage.setItem(KEY+'.vk',on?'1':'0')}catch(e){}
 }
 
 /* ---------- levels & lessons ---------- */
@@ -2300,7 +2352,7 @@ function view(v){
   if(v==='quiz') renderQ();
   if(v==='talk') renderTalk(); else if(playing) stopAll();
   if(v==='rad') renderRad();
-  if(v==='type'){renderType(); setTimeout(()=>{if(matchMedia('(pointer:fine)').matches)$('#tyIn').focus()},50);}
+  if(v==='type'){renderType(); setTimeout(()=>{if(!TY.vk&&matchMedia('(pointer:fine)').matches)$('#tyIn').focus()},50);}
   if(v!=='talk'&&!FL) stopMic();
   if(v==='learn') show(cur,{anim:false});
   try{localStorage.setItem(KEY+'.view',v)}catch(e){}
@@ -2318,7 +2370,8 @@ document.addEventListener('click',e=>{
   if(t.dataset.rt){radTab=t.dataset.rt;renderRad();return}
   if(t.dataset.tym){TY.mode=t.dataset.tym;TY.item=null;tyNew();return}
   if(t.dataset.tys){TY.scope=t.dataset.tys;TY.item=null;tyNew();return}
-  if(t.dataset.cand!==undefined){tyChoose(+t.dataset.cand);$('#tyIn').focus();return}
+  if(t.dataset.cand!==undefined){tyChoose(+t.dataset.cand);if(!TY.vk)$('#tyIn').focus();return}
+  if(t.dataset.vk!==undefined){vkPress(t.dataset.vk);return}
   if(t.dataset.rf){rFilter=t.dataset.rf;$('#rq').value='';renderRadList();return}
   if(t.dataset.rn){radSel=+t.dataset.rn;renderRadList();if(window.innerWidth<860)$('#radDetail').scrollIntoView({behavior:'smooth',block:'start'});return}
   if(t.dataset.rad){radSel=+t.dataset.rad;radTab='list';view('rad');return}
@@ -2358,10 +2411,11 @@ document.addEventListener('click',e=>{
     case 'moreNew': {const fresh=[...new Set([...curLesson().cs,...levelChars(S.lv),...CHARS.map(x=>x.c)])].filter(c=>!S.srs[c]).slice(0,10); if(!fresh.length){toast('Bạn đã học hết các chữ trong bộ');break} cardQ=fresh.map(c=>'+'+c); renderCard(); break;}
     case 'qStart': startQuiz(); break;
     case 'qBack': QZ=null; renderQ(); break;
-    case 'tyNext': tyNew(); $('#tyIn').focus(); break;
+    case 'tyNext': tyNew(); if(!TY.vk)$('#tyIn').focus(); break;
+    case 'vkToggle': setVk(!TY.vk); if(!TY.vk)$('#tyIn').focus(); break;
     case 'tySkip': TY.n++; TY.streak=0; tyNew(); break;
-    case 'tyHint': TY.hint=true; renderType(); $('#tyIn').focus(); break;
-    case 'tyBack': if(TY.buf){TY.buf=TY.buf.slice(0,-1);$('#tyIn').value=TY.buf;}else if(TY.out&&!TY.done){TY.out=[...TY.out].slice(0,-1).join('');} renderType(); $('#tyIn').focus(); break;
+    case 'tyHint': TY.hint=true; renderType(); if(!TY.vk)$('#tyIn').focus(); break;
+    case 'tyBack': if(TY.buf){TY.buf=TY.buf.slice(0,-1);$('#tyIn').value=TY.buf;}else if(TY.out&&!TY.done){TY.out=[...TY.out].slice(0,-1).join('');} renderType(); if(!TY.vk)$('#tyIn').focus(); break;
     case 'rAnim': if(WR) WR.animateCharacter(); break;
     case 'gNext': case 'gSkip': if(t.id==='gSkip'){GM.total++;GM.streak=0;} GM.msg=''; newRound(); break;
     case 'gHint': GM.hint=true; GM.msg='Bộ phận viền đỏ nét đứt là một phần của chữ.'; renderGame(); break;
@@ -2380,7 +2434,10 @@ document.addEventListener('click',e=>{
 $('#dlgLines').addEventListener('click',e=>{const a=e.target.closest('a[data-learnc]');if(a){stopAll();view('learn');show(a.dataset.learnc);scrollTo({top:0,behavior:'smooth'})}});
 $('#rq').addEventListener('input',()=>renderRadList());
 $('#tyIn').addEventListener('input',tyInput); $('#tyIn').addEventListener('keydown',tyKey);
-document.addEventListener('pointerdown',e=>{if(e.target.closest('.cand,#tyBack'))e.preventDefault()});
+document.addEventListener('pointerdown',e=>{if(e.target.closest('.cand,#tyBack,.vk'))e.preventDefault()});
+(()=>{let v=null;try{v=localStorage.getItem(KEY+'.vk')}catch(e){} setVk(v!=null?v==='1':matchMedia('(pointer:coarse)').matches);})();
+document.addEventListener('keydown',e=>{ if($('#v-type').hidden||FL||document.activeElement===$('#tyIn')||e.target.matches('input,textarea')) return;
+  if(e.ctrlKey||e.metaKey||e.altKey) return; if(/^[a-z]$/i.test(e.key)){e.preventDefault();vkPress(e.key.toLowerCase())} else if(e.key==='Backspace'){e.preventDefault();vkPress('bk')} else if(e.key===' '||e.key==='Enter'){e.preventDefault();vkPress(e.key===' '?'sp':'en')} else if(/^[1-9]$/.test(e.key)&&TY.buf){e.preventDefault();tyChoose(+e.key-1)} });
 $('#q').addEventListener('input',()=>{renderList(); const q=$('#q').value.trim(); const first=visibleChars()[0]; if(q&&first&&first.c!==cur) show(first.c,{anim:false});});
 document.addEventListener('keydown',e=>{
   if(FL){ if(e.key==='Enter'){const b=$('#fMain'); if(b&&!b.disabled){e.preventDefault();b.click()}} if(e.key==='Escape') closeFlow(); return; }
