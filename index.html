@@ -1370,7 +1370,7 @@ function wColors(){return {strokeColor:css('--ink'),radicalColor:css('--jade'),o
 const loader=(c,ok,err)=>STROKES[c]?ok(STROKES[c]):err&&err();
 function makeWriter(el,c,size,extra={}){
   el.innerHTML='';
-  return HanziWriter.create(el,c,Object.assign({width:size,height:size,padding:size*.06,charDataLoader:loader,strokeAnimationSpeed:1,delayBetweenStrokes:260,showOutline:true},wColors(),extra));
+  return HanziWriter.create(el,c,Object.assign({renderer:'canvas',width:size,height:size,padding:size*.06,charDataLoader:loader,strokeAnimationSpeed:1,delayBetweenStrokes:260,showOutline:true},wColors(),extra));
 }
 function boxSize(box,max){const w=Math.min(max,box.parentElement.clientWidth||max,window.innerWidth-40);box.style.setProperty('--sz',w+'px');return w}
 let W1=null,W2=null,cur=CHARS[0].c,looping=false;
