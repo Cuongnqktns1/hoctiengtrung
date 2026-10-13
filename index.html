@@ -31,6 +31,7 @@
   --t1:#EE6A5E; --t2:#E5A245; --t3:#5FBF84; --t4:#6FA3E8; --t0:#8E9A95; --good:#5FBF84; --bad:#EE6A5E; color-scheme:dark}
 
 *{box-sizing:border-box}
+[hidden]{display:none!important}
 html,body{background:var(--paper);color:var(--ink)}
 body{font-family:var(--f-body);font-size:15px;line-height:1.55;padding-inline:16px;padding-block:0 40px}
 button{font:inherit;color:inherit;cursor:pointer}
@@ -327,6 +328,136 @@ button.part:hover{background:var(--paper)}
 .gopt.hint{border-color:var(--accent);border-style:dashed}
 .pill.link{cursor:pointer;border:0;font:inherit;font-size:12.5px}
 
+/* flow (học từng bước) */
+html.flowon,html.flowon body{overflow:hidden}
+.flow{position:fixed;inset:0;z-index:50;background:var(--paper);display:flex;flex-direction:column;padding-top:env(safe-area-inset-top,0px)}
+.fbar{display:flex;align-items:center;gap:14px;padding:12px 16px;max-width:680px;width:100%;margin:0 auto}
+.fx{border:0;background:none;font-size:22px;width:40px;height:40px;color:var(--muted);flex:none}
+.fprog{flex:1;height:12px;background:var(--line);border-radius:12px;overflow:hidden}
+.fprog i{display:block;height:100%;width:0;background:var(--jade);border-radius:12px;transition:width .35s}
+.fbody{flex:1;overflow:auto;-webkit-overflow-scrolling:touch}
+.fbody>*{max-width:680px;margin-left:auto;margin-right:auto}
+.fbody{padding:4px 16px 28px}
+.ffoot{border-top:1px solid var(--line);background:var(--surface);padding:14px 16px calc(14px + env(safe-area-inset-bottom,0px))}
+.ffoot.ok{background:color-mix(in srgb,var(--good) 14%,var(--surface));border-top-color:var(--good)}
+.ffoot.no{background:color-mix(in srgb,var(--bad) 12%,var(--surface));border-top-color:var(--bad)}
+.fin{max-width:680px;margin:0 auto}
+.fres{margin-bottom:12px;font-size:15px;line-height:1.5}.fres b{font-size:19px;display:block;margin-bottom:2px}
+.ffoot.ok .fres b{color:var(--good)}.ffoot.no .fres b{color:var(--bad)}
+.fres .hz{font-size:20px}
+.fbtn{width:100%;border:0;border-radius:16px;padding:16px;font-size:17px;font-weight:700;background:var(--jade);color:#fff;letter-spacing:.03em;text-transform:uppercase;box-shadow:0 4px 0 color-mix(in srgb,var(--jade) 70%,#000)}
+.fbtn:active{transform:translateY(2px);box-shadow:0 2px 0 color-mix(in srgb,var(--jade) 70%,#000)}
+.fbtn:disabled{background:var(--line);color:var(--muted);box-shadow:none}
+.fbtn.no{background:var(--bad);box-shadow:0 4px 0 color-mix(in srgb,var(--bad) 70%,#000)}
+.ftitle{font-size:22px;margin:10px 0 16px;text-wrap:balance}
+.fsub{color:var(--muted);margin:-8px 0 14px;font-size:14px}
+.fintro{text-align:center;display:flex;flex-direction:column;align-items:center;gap:6px;padding-top:8px}
+.fart{display:flex;align-items:center;justify-content:center;gap:18px;min-height:140px}
+.fart .emo{font-size:120px;line-height:1}
+.fold svg{width:84px;height:84px;stroke:var(--ink);fill:none;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;opacity:.75}
+.fold svg .f{fill:var(--ink);stroke:none}.fold svg .a{stroke:var(--accent);stroke-width:6}
+.fhz{display:flex;align-items:center;gap:10px}.fhz .hz{font-size:88px;line-height:1.1}
+.fpy{font-size:26px;font-weight:500}.fhv{color:var(--muted)}.fhv b{color:var(--jade);font-size:19px}
+.fmean{font-size:22px;font-weight:600}
+.fhint{max-width:44ch;font-size:16px;line-height:1.6;margin:8px 0 0}
+.fparts{display:flex;align-items:center;gap:8px;margin-top:6px}
+.fp{display:flex;flex-direction:column;align-items:center;border:1px solid var(--line);border-radius:12px;padding:6px 10px;background:var(--surface)}
+.fp .emo{font-size:22px}.fp .hz{font-size:26px}.fp small{font-size:11.5px;color:var(--muted)}
+.fword{display:flex;align-items:center;gap:16px;margin-bottom:24px}.fword .hz{font-size:38px;line-height:1.2}.fword .py{color:var(--muted);font-size:16px}
+.spk.big{width:64px;height:64px;border-radius:18px;background:var(--jade);color:#fff;border:0;box-shadow:0 4px 0 color-mix(in srgb,var(--jade) 70%,#000);flex:none}
+.spk.big svg{width:28px;height:28px}
+.spk.slow{background:var(--jade-soft);color:var(--jade);box-shadow:none}.spk.slow .emo{font-size:28px}
+.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.pcard{border:2px solid var(--line);border-radius:18px;background:var(--surface);padding:0;overflow:hidden;display:flex;flex-direction:column;align-items:stretch;text-align:center}
+.pcard .emo{font-size:68px;padding:20px 0;background:var(--jade-soft);line-height:1.1}
+.pcard .pl{padding:12px 8px;font-size:15.5px;font-weight:500;min-height:56px;display:grid;place-items:center}
+.pcard.sel{border-color:var(--jade);box-shadow:0 0 0 2px var(--jade)}
+.pcard.right{border-color:var(--good);box-shadow:0 0 0 2px var(--good)}.pcard.wrong{border-color:var(--bad);box-shadow:0 0 0 2px var(--bad)}
+.flisten{display:flex;gap:12px;margin-bottom:10px}
+.linkbtn{border:0;background:none;color:var(--jade);font-weight:600;padding:4px 0;text-align:left;font-size:15px}
+.ansarea{min-height:132px;margin:14px 0 6px;padding:8px 0;display:flex;flex-wrap:wrap;gap:8px;align-content:flex-start;background:repeating-linear-gradient(to bottom,transparent 0,transparent 64px,var(--jade) 64px,var(--jade) 66px)}
+.pool{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:18px}
+.wtile{border:1.5px solid var(--line);border-bottom-width:4px;border-radius:12px;background:var(--surface);padding:6px 10px 4px;display:inline-flex;flex-direction:column;align-items:center;min-width:46px;height:62px;justify-content:center}
+.wtile .tp{font-size:12.5px;color:var(--muted);font-family:var(--f-py);line-height:1.2}
+.wtile .th{font-family:var(--f-hz);font-size:24px;line-height:1.2}
+.wtile.ghost{background:var(--line);border-color:var(--line)}.wtile.ghost *{visibility:hidden}
+.wtile[aria-pressed="true"]{border-color:var(--jade);background:var(--jade-soft)}
+.fline{display:flex;align-items:center;gap:14px;margin-bottom:20px}
+.fvi2{font-size:17px;font-weight:500;margin-bottom:14px}
+.blank{display:inline-flex;flex-direction:column;align-items:center;border-bottom:2px solid var(--jade);min-width:56px;padding:0 4px;vertical-align:bottom}
+.blank .tp{font-size:11.5px;color:var(--muted);font-family:var(--f-py)}.blank .th{font-family:var(--f-hz);color:var(--jade)}
+.olist{display:flex;flex-direction:column;gap:10px}
+.ocard{border:2px solid var(--line);border-bottom-width:4px;border-radius:14px;padding:14px 16px;text-align:left;font-size:16px;background:var(--surface)}
+.ocard.sel{border-color:var(--jade);background:var(--jade-soft)}.ocard.right{border-color:var(--good)}.ocard.wrong{border-color:var(--bad)}
+.ruby{font-size:24px;line-height:1.2;display:flex;flex-wrap:wrap;align-items:flex-end;gap:0 1px;min-width:0}
+.tk{border:0;background:none;padding:2px 1px;display:inline-flex;flex-direction:column;align-items:center;border-radius:6px;color:inherit}
+.tk .tp{font-size:11.5px;color:var(--muted);font-family:var(--f-py);line-height:1.25;white-space:nowrap}
+.tk .th{font-family:var(--f-hz);line-height:1.3}
+.tk:hover,.tk:focus-visible{background:var(--accent-soft)}.tk:hover .th{color:var(--accent)}
+.tpun{font-family:var(--f-hz);line-height:1.3;padding-bottom:2px}
+.hidepy .tp{visibility:hidden}
+.chat{display:flex;flex-direction:column;gap:10px}
+.bub{max-width:88%;align-self:flex-start;background:var(--surface);border:1px solid var(--line);border-radius:18px 18px 18px 6px;padding:8px 12px 10px;transition:border-color .2s,box-shadow .2s}
+.bub.b{align-self:flex-end;border-radius:18px 18px 6px 18px;background:color-mix(in srgb,var(--jade) 9%,var(--surface))}
+.bub.playing{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.bwho{font-size:11.5px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.05em}
+.bub.b .bwho{color:var(--jade)}
+.bvi{font-size:14px;color:var(--muted);margin-top:4px}
+.myturn{align-self:flex-start;max-width:92%;border:2px dashed var(--accent);border-radius:18px;padding:10px 14px;background:var(--surface)}
+.myturn.b{align-self:flex-end;border-color:var(--jade)}
+.q2{font-size:18px;font-weight:600;margin:4px 0}
+.fdone{text-align:center;padding-top:30px;display:flex;flex-direction:column;align-items:center;gap:6px}
+.fdone h2{margin:6px 0 0;font-size:26px}
+.stars{font-size:40px;letter-spacing:6px;color:var(--line)}.stars .on{color:#E8A93B}
+.pop{position:fixed;z-index:70;background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:0 10px 28px rgba(0,0,0,.18);padding:12px 14px}
+.pophead{display:flex;align-items:center;justify-content:space-between;gap:8px}.pophead .hz{font-size:30px}
+.popm{font-size:15px;margin-top:4px}
+.startl{margin:2px 0 0}
+.dlgbtns{display:flex;gap:6px;flex-wrap:wrap}
+
+/* mic */
+.mic{width:52px;height:52px;border-radius:50%;border:0;background:var(--accent);color:#fff;display:grid;place-items:center;flex:none;box-shadow:0 4px 0 color-mix(in srgb,var(--accent) 70%,#000)}
+.mic svg{width:24px;height:24px}.mic.big{width:88px;height:88px}.mic.big svg{width:40px;height:40px}
+.mic.on{animation:micpulse 1.2s infinite;background:var(--bad)}
+@keyframes micpulse{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--accent) 55%,transparent)}100%{box-shadow:0 0 0 24px transparent}}
+@media (prefers-reduced-motion:reduce){.mic.on{animation:none;outline:4px solid var(--accent)}}
+.micwrap{display:flex;flex-direction:column;align-items:center;gap:8px;margin:20px 0 6px;text-align:center}
+.srlive{min-height:30px;font-size:22px;color:var(--muted)}
+.srres{display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px;align-items:center;border:1px solid var(--line);border-radius:14px;padding:12px 14px;background:var(--surface);margin-top:10px}
+.srscore{font-size:36px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1}.srscore small{font-size:13px;color:var(--muted);font-weight:500}
+.srres.good{border-color:var(--good)}.srres.good .srscore,.srres.good b{color:var(--good)}
+.srres.mid{border-color:var(--t2)}.srres.mid .srscore,.srres.mid b{color:var(--t2)}
+.srres.bad{border-color:var(--bad)}.srres.bad .srscore,.srres.bad b{color:var(--bad)}
+.srline{font-size:24px;margin:2px 0;word-break:break-all}
+.mk-ok{color:var(--good)}.mk-no{color:var(--bad);text-decoration:underline wavy;text-underline-offset:4px}
+.srheard{font-size:13px;color:var(--muted)}.srheard .hz{font-size:15px}
+.roleact{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:8px}
+.bscore{float:right;font-size:12px;font-weight:700;margin-left:8px}.bscore.good{color:var(--good)}.bscore.mid{color:var(--t2)}.bscore.bad{color:var(--bad)}
+.ruby.rlarge{font-size:30px;justify-content:center}
+.fbtn.skip{background:var(--surface);color:var(--muted);border:2px solid var(--line);box-shadow:none}
+/* gõ pinyin */
+.tywrap{max-width:640px}
+.tycard{min-height:200px;gap:6px}
+.tybig{font-size:88px;line-height:1.15}.tysent{font-size:28px;line-height:1.5;text-wrap:balance}
+.tyhint{font-size:20px;color:var(--jade);font-weight:500}
+.tyout{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;font-size:36px;min-height:60px}
+.tyout .slot{width:48px;height:52px;border-bottom:3px solid var(--line);display:flex;align-items:flex-end;justify-content:center}
+.tyout .tybuf{font-family:var(--f-py);font-size:16px;color:var(--accent);padding-bottom:4px;white-space:nowrap}
+.tyout .mk-ok,.tyout .mk-no{width:48px;text-align:center;border-bottom:3px solid currentColor}
+.tywrap.ok .tycard{border-color:var(--good);box-shadow:inset 0 0 0 1px var(--good)}
+.cands{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;min-height:58px;align-items:center}
+.cand{border:1px solid var(--line);border-bottom-width:3px;background:var(--surface);border-radius:10px;padding:4px 10px;display:inline-grid;grid-template-columns:auto auto;grid-template-areas:"n h" "m m";column-gap:6px;align-items:center;max-width:150px}
+.cand .cn{grid-area:n;font-size:11px;color:var(--muted)}.cand .hz{grid-area:h;font-size:26px;line-height:1.2}
+.cand small{grid-area:m;font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:130px}
+.cand:first-child{border-color:var(--jade)}
+.tyinwrap{display:flex;gap:8px}
+#tyIn{flex:1;min-width:0;font:inherit;font-family:var(--f-py);font-size:20px;padding:12px 14px;border:2px solid var(--jade);border-radius:12px;background:var(--surface);color:var(--ink)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.tytips summary{cursor:pointer;font-weight:600}
+.tytips ul{padding-left:20px;margin:10px 0;display:flex;flex-direction:column;gap:6px;font-size:14.5px}
+.tytips h4{margin:12px 0 0;font-size:14px}
+.tytips code{font-family:var(--f-py);background:var(--jade-soft);color:var(--jade);padding:1px 6px;border-radius:5px}
+
 /* talk */
 .talk{display:grid;grid-template-columns:240px minmax(0,1fr);gap:24px;align-items:start}
 @media (max-width:820px){.talk{grid-template-columns:minmax(0,1fr)}}
@@ -346,7 +477,7 @@ button.part:hover{background:var(--paper)}
 .sub{color:var(--muted);font-size:14px;margin:2px 0 0}
 .lines{display:flex;flex-direction:column;gap:10px}
 .line{display:grid;grid-template-columns:36px minmax(0,1fr) auto;gap:12px;align-items:start;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px;transition:border-color .2s,box-shadow .2s}
-.line.b{background:color-mix(in srgb,var(--jade) 5%,var(--surface))}
+.line.b{background:color-mix(in srgb,var(--jade) 6%,var(--surface));grid-template-columns:auto minmax(0,1fr) 36px}.line.b .who{order:3}.line.b .lbtns{order:-1}
 .line.playing{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
 .who{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:14px;background:var(--accent-soft);color:var(--accent)}
 .line.b .who{background:var(--jade-soft);color:var(--jade)}
@@ -358,6 +489,8 @@ button.part:hover{background:var(--paper)}
 .lbtn{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:4px 10px 4px 6px;font-size:12.5px;font-weight:600;display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
 .lbtn svg{width:15px;height:15px}
 .lbtn.zh{border-color:var(--accent);color:var(--accent)}
+.lbtn.micl{border-color:var(--jade);color:var(--jade)}.lbtn.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.srin{grid-column:1/-1}.srin:empty{display:none}
 .hidepy .lp,.hidevi .lv{display:none}
 
 .toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--paper);padding:9px 16px;border-radius:999px;font-size:13.5px;opacity:0;transition:opacity .2s;pointer-events:none;max-width:calc(100% - 32px);text-align:center}
@@ -383,6 +516,7 @@ button.part:hover{background:var(--paper)}
   <button class="tab" role="tab" data-v="learn" aria-selected="false">Học chữ</button>
   <button class="tab" role="tab" data-v="cards" aria-selected="false">Ôn thẻ <span class="badge" id="dueBadge">0</span></button>
   <button class="tab" role="tab" data-v="talk" aria-selected="false">Hội thoại</button>
+  <button class="tab" role="tab" data-v="type" aria-selected="false">Gõ pinyin</button>
   <button class="tab" role="tab" data-v="rad" aria-selected="false">Bộ thủ</button>
   <button class="tab" role="tab" data-v="write" aria-selected="false">Luyện viết</button>
   <button class="tab" role="tab" data-v="quiz" aria-selected="false">Kiểm tra</button>
@@ -484,11 +618,41 @@ button.part:hover{background:var(--paper)}
       </div>
       <div class="dlghead">
         <div><h2 class="dlgtitle" id="dlgTitle"></h2><p class="sub" id="dlgSub"></p></div>
-        <button class="btn pri" id="playAll"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>Nghe cả đoạn</button>
+        <div class="dlgbtns"><button class="btn pri" id="playAll"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>Nghe cả đoạn</button><button class="btn acc" id="pracDlg">Luyện tập</button><button class="btn" id="roleA">Nhập vai A</button><button class="btn" id="roleB">Nhập vai B</button></div>
       </div>
       <div class="lines" id="dlgLines"></div>
-      <p class="kbd">Bấm vào chữ Hán màu đỏ để mở trang học chữ đó.</p>
+      <p class="kbd">Bấm vào từng từ để xem nghĩa và nghe phát âm. Chọn "Luyện tập" để làm bài nghe – sắp xếp câu, hoặc "Nhập vai" để tập nói.</p>
     </div>
+  </div>
+</section>
+
+<!-- GÕ PINYIN -->
+<section class="view" id="v-type" hidden>
+  <div class="center tywrap" id="tyWrap">
+    <div class="seg" id="tyMode" style="flex-wrap:wrap;justify-content:center"><button data-tym="char" aria-pressed="true">Theo chữ</button><button data-tym="mean" aria-pressed="false">Theo nghĩa</button><button data-tym="listen" aria-pressed="false">Nghe &amp; gõ</button><button data-tym="sent" aria-pressed="false">Gõ câu</button></div>
+    <div class="seg" id="tyScope" style="flex-wrap:wrap;justify-content:center"><button data-tys="lesson" aria-pressed="true">Bài hiện tại</button><button data-tys="level" aria-pressed="false">Cả cấp</button><button data-tys="all" aria-pressed="false">Tất cả</button></div>
+    <div class="card tycard" id="tyCard"></div>
+    <div class="tyout hz" id="tyOut" aria-live="polite"></div>
+    <div class="cands" id="tyCands"></div>
+    <div class="tyinwrap"><label for="tyIn" class="sr">Ô gõ pinyin</label><input id="tyIn" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="Gõ pinyin không dấu, ví dụ: nihao" enterkeyhint="done"><button class="btn" id="tyBack" aria-label="Xóa chữ cuối">⌫</button></div>
+    <div class="ctrls"><button class="btn" id="tyHint">Gợi ý pinyin</button><button class="btn" id="tySkip">Bỏ qua</button><button class="btn pri" id="tyNext" hidden>Tiếp →</button></div>
+    <div class="prog" style="justify-content:center"><span id="tyStat"></span></div>
+    <details class="panel tytips"><summary>Mẹo gõ và cách cài bàn phím tiếng Trung</summary>
+      <ul>
+        <li>Gõ pinyin <b>không dấu</b>, không cần thanh điệu: 你好 → <code>nihao</code>.</li>
+        <li>Chữ <b>ü</b> gõ bằng phím <b>v</b>: 女 nǚ → <code>nv</code>, 绿 lǜ → <code>lv</code>.</li>
+        <li>Nhấn <b>Space</b> chọn chữ thứ nhất, phím số <b>1–9</b> chọn chữ khác. Trên điện thoại, bấm vào chữ.</li>
+        <li>Gõ <b>cả từ</b> sẽ ra đúng chữ nhanh hơn gõ từng âm: <code>shenme</code> → 什么, <code>xiexie</code> → 谢谢.</li>
+        <li>Nhiều chữ cùng âm: <code>ta</code> → 他 (anh ấy) / 她 (cô ấy). Nhìn nghĩa nhỏ dưới mỗi chữ gợi ý để chọn đúng.</li>
+        <li>Dùng dấu <b>'</b> khi dễ nhầm ranh giới âm: <code>xi'an</code> (西安) khác <code>xian</code> (先).</li>
+      </ul>
+      <h4>Cài bàn phím pinyin thật</h4>
+      <ul>
+        <li><b>iPhone:</b> Cài đặt → Cài đặt chung → Bàn phím → Bàn phím → Thêm bàn phím mới → Tiếng Trung giản thể → Bính âm – QWERTY. Bấm biểu tượng 🌐 để chuyển.</li>
+        <li><b>Android (Gboard):</b> Cài đặt Gboard → Ngôn ngữ → Thêm bàn phím → Tiếng Trung (giản thể) → Bính âm.</li>
+        <li><b>Windows:</b> Cài đặt → Thời gian và ngôn ngữ → Ngôn ngữ và khu vực → Thêm ngôn ngữ → Tiếng Trung (giản thể, Trung Quốc). Bấm Win + Space để chuyển sang Microsoft Pinyin.</li>
+      </ul>
+    </details>
   </div>
 </section>
 
@@ -535,6 +699,12 @@ button.part:hover{background:var(--paper)}
   <div class="center" id="quizBox"></div>
 </section>
 </main>
+<div class="flow" id="flow" hidden role="dialog" aria-label="Bài học">
+  <div class="fbar"><button class="fx" id="fClose" aria-label="Đóng bài học">✕</button><div class="fprog"><i id="fProg"></i></div></div>
+  <div class="fbody" id="fBody"></div>
+  <div class="ffoot" id="fFoot"></div>
+</div>
+<div class="pop" id="pop" hidden></div>
 <div class="toast" id="toast" role="status"></div>
 
 <script>/**
@@ -1595,7 +1765,7 @@ function renderTalk(){
   $('#dlgList').innerHTML=lessonsOf(S.lv).map(l=>`<div class="dlggrp">Bài ${lnum(l)} · ${esc(l.t)}</div>`+l.dl.map(id=>{const d=DIALOGS.find(x=>x.id===id);return `<button class="dlgbtn" data-dlg="${d.id}" aria-current="${d.id===dlg}"><span class="hz">${l.icon}</span>${esc(d.t)}</button>`}).join('')).join('');
   const d=DIALOGS.find(x=>x.id===dlg);
   $('#dlgTitle').textContent=d.t; $('#dlgSub').textContent=d.s+' · '+d.l.length+' câu';
-  $('#dlgLines').innerHTML=d.l.map(([w,h,p,v],i)=>`<div class="line ${w==='B'?'b':''}" data-i="${i}"><div class="who">${w}</div><div><div class="lz">${linkChars(h)}</div><div class="lp">${esc(p)}</div><div class="lv">${esc(v)}</div></div><div class="lbtns"><button class="lbtn zh" data-line="${i}" data-lang="zh" aria-label="Nghe tiếng Trung">${SPK}中文</button><button class="lbtn" data-line="${i}" data-lang="vi" aria-label="Nghe tiếng Việt">${SPK}Việt</button></div></div>`).join('');
+  $('#dlgLines').innerHTML=d.l.map(([w,h,p,v],i)=>`<div class="line ${w==='B'?'b':''}" data-i="${i}"><div class="who">${w}</div><div style="min-width:0"><div class="ruby">${rubyHTML(tokFor(h,p))}</div><div class="lv">${esc(v)}</div></div><div class="lbtns"><button class="lbtn zh" data-line="${i}" data-lang="zh" aria-label="Nghe tiếng Trung">${SPK}中文</button><button class="lbtn" data-line="${i}" data-lang="vi" aria-label="Nghe tiếng Việt">${SPK}Việt</button><button class="lbtn micl" data-micline="${i}" aria-label="Luyện nói câu này">${MICSVG}Nói</button></div><div class="srin" id="srin${i}"></div></div>`).join('');
 }
 function markLine(i){document.querySelectorAll('.line').forEach(el=>el.classList.toggle('playing',+el.dataset.i===i));if(i>=0)document.querySelector(`.line[data-i="${i}"]`)?.scrollIntoView({block:'nearest',behavior:'smooth'})}
 function stopAll(){playing=false;if('speechSynthesis' in window)speechSynthesis.cancel();markLine(-1);$('#playAll').innerHTML='<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>Nghe cả đoạn'}
@@ -1747,6 +1917,333 @@ function renderRad(){
   if(radTab==='guide') renderGuide(); if(radTab==='list') renderRadList(); if(radTab==='game') renderGame();
 }
 
+/* ---------- từ điển & tách từ ---------- */
+const DICT=(()=>{const o={};`你=bạn|好=tốt; khỏe|叫=tên là; gọi|什么=gì; cái gì|名字=tên|我=tôi, mình|小明=Tiểu Minh (tên người)|呢=còn…thì sao? (trợ từ hỏi)|很=rất|高兴=vui mừng|认识=quen biết|吗=không? (trợ từ hỏi)|谢谢=cảm ơn|也=cũng|明天=ngày mai|上学=đi học|见=gặp|是=là; đúng|中国=Trung Quốc|人=người|不=không|越南=Việt Nam|会=biết (làm gì)|说=nói|中文=tiếng Trung|一点儿=một chút|在=đang; ở|学=học|汉字=chữ Hán|难=khó|太=quá, lắm|有=có|意思=ý nghĩa|吃=ăn|饭=cơm|了=rồi (trợ từ hoàn thành)|还=vẫn còn; còn|没有=chưa; không có|我们=chúng tôi, chúng mình|一起=cùng nhau|去=đi|吧=nhé, đi (trợ từ đề nghị)|想=muốn; nghĩ|鱼=cá|这里=ở đây|的=của (trợ từ)|新鲜=tươi|好吃=ngon|家=nhà|几=mấy|口=miệng; lượng từ đếm người trong nhà|三=ba|爸爸=bố|妈妈=mẹ|和=và|老师=giáo viên|她=cô ấy, bà ấy|医生=bác sĩ|爱=yêu|今天=hôm nay|下=xuống; rơi|雨=mưa|下午=buổi chiều|带=mang theo|雨伞=cái ô|热=nóng|客气=khách sáo|对不起=xin lỗi|要=phải; muốn|走=đi; rời đi|没=không; chưa|关系=quan hệ (没关系 = không sao)|再见=tạm biệt|晚安=chúc ngủ ngon|看=nhìn, xem|山=núi|高=cao|啊=à, nhé (trợ từ cảm thán)|一=một|条=con, dòng (lượng từ vật dài)|河=sông|天气=thời tiết|晚上=buổi tối|月亮=mặt trăng|多=nhiều|大人=người lớn|小孩=trẻ con|都=đều|他=anh ấy|手=tay|里=trong|本=quyển (lượng từ sách)|书=sách|电话=điện thoại|号码=số|多少=bao nhiêu|九=chín|八=tám|七=bảy|六=sáu|五=năm|四=bốn|二=hai|记下=ghi lại|岁=tuổi|十八=mười tám|哪儿=ở đâu|桌子=cái bàn|上=trên|手机=điện thoại di động|下面=bên dưới|找到=tìm thấy|狗=con chó|只=con (lượng từ động vật); chỉ|鸟=con chim|爷爷=ông nội|牛=con bò|羊=con dê|骑=cưỡi|马=con ngựa|钓=câu (cá)|你们=các bạn|写=viết|这个=cái này|字=chữ|怎么=thế nào|读=đọc|休=nghỉ|休息=nghỉ ngơi|现在=bây giờ|点=giờ|早上=buổi sáng|十=mười|分=phút|回=về|北京=Bắc Kinh|坐=ngồi; đi (xe, tàu)|火车=tàu hỏa|飞机=máy bay|一路=suốt đường đi|平安=bình an|钱=tiền|十五=mười lăm|块=đồng (tiền)|贵=đắt|卖=bán|十二=mười hai|买=mua|两=hai|个=cái (lượng từ chung)|听=nghe|得=được (trợ từ bổ ngữ)|懂=hiểu|请=xin, mời|慢=chậm|请问=xin hỏi|看见=nhìn thấy|打=gọi (điện); đánh|问问=hỏi thử|住=sống, ở|哪个=nào, cái nào|城市=thành phố|海边=bờ biển|过=đã từng|长城=Vạn Lý Trường Thành|长=dài|做=làm|工作=công việc|工程师=kỹ sư|电厂=nhà máy điện|忙=bận|每天=mỗi ngày|开=mở; họp (开会)|祝=chúc|生日=sinh nhật|快乐=vui vẻ|这=này, đây|送=tặng|礼物=quà|喜欢=thích|季节=mùa|秋天=mùa thu|冷=lạnh|春天=mùa xuân|花=hoa|冬天=mùa đông|风=gió|大=to, lớn|头疼=đau đầu|好像=hình như|生病=bị ốm|医院=bệnh viện|看看=xem thử|药=thuốc|身体=sức khỏe|快=nhanh|点儿=một chút|颜色=màu sắc|红色=màu đỏ|白色=màu trắng|黑色=màu đen|件=chiếc (lượng từ quần áo)|黄色=màu vàng|衣服=quần áo|好看=đẹp|耳朵=cái tai|那=kia, đó|鼻子=cái mũi|刷=chải|牙=răng|次=lần|踢=đá|足球=bóng đá|力气=sức lực|房间=căn phòng|张=cái (lượng từ vật phẳng)|床=giường|把=cái (lượng từ ghế, dao)|椅子=cái ghế|窗户=cửa sổ|白天=ban ngày|不用=không cần|灯=đèn|穿=mặc|大衣=áo khoác|帽子=cái mũ|门口=cửa ra vào|鞋子=đôi giày|那儿=chỗ đó|爱好=sở thích|唱=hát|歌=bài hát|跑步=chạy bộ|周末=cuối tuần|玩=chơi|还是=hay là|船=thuyền|票=vé|机场=sân bay|旅游=du lịch|工厂=nhà máy|发电厂=nhà máy điện|用=dùng|煤=than đá|发=phát (ra)|电=điện|锅炉=lò hơi|那边=bên kia|进=vào|厂=nhà máy|戴=đội, đeo|安全帽=mũ bảo hộ|安全=an toàn|第=thứ (số thứ tự)|安安=An An (tên người)`.split('|').forEach(p=>{const i=p.indexOf('=');o[p.slice(0,i)]=p.slice(i+1)});return o})();
+const WMAP={}; ALLWORDS.forEach(w=>{if(!WMAP[w[0]])WMAP[w[0]]=w[2]});
+const wordMean=h=>DICT[h]||WMAP[h]||(byC[h]&&byC[h].m)||[...h].map(c=>DICT[c]||(byC[c]&&byC[c].m)||'').filter(Boolean).join(' + ');
+const VOWRE=/[aeiouüāáǎàēéěèīíǐìōóǒòūúǔùǖǘǚǜ]+/gi;
+function sylCount(w){let n=0;for(const p of w.split("'")){if(!p)continue;let k=(p.match(VOWRE)||[]).length;if(k&&/r$/i.test(p)&&!/^[eēéěè]r$/i.test(p))k++;n+=k}return n}
+const isHan=ch=>/[㐀-鿿]/.test(ch);
+function tokenize(hz,py){
+  const words=py.replace(/[“”"]/g,' ').split(/\s+/).map(w=>w.replace(/[^A-Za-zÀ-ɏ']/g,'')).filter(w=>w.replace(/'/g,''));
+  const chars=[...hz],toks=[];let ci=0,lead='';
+  for(const w of words){let n=sylCount(w),h='';
+    while(ci<chars.length&&!isHan(chars[ci])){const ch=chars[ci++];if(toks.length)toks[toks.length-1].p+=ch;else lead+=ch}
+    while(n>0&&ci<chars.length){const ch=chars[ci++];if(isHan(ch)){h+=ch;n--}else return null}
+    if(n>0||!h)return null; toks.push({h,py:w,p:''});}
+  while(ci<chars.length){const ch=chars[ci++];if(isHan(ch))return null;if(toks.length)toks[toks.length-1].p+=ch}
+  if(lead&&toks.length)toks[0].lead=lead; return toks;
+}
+const TOKC={};
+const tokFor=(h,p)=>TOKC[h]||(TOKC[h]=tokenize(h,p)||[...h].filter(isHan).map(c=>({h:c,py:'',p:''})));
+const rubyHTML=toks=>toks.map(t=>`${t.lead?`<span class="tpun">${esc(t.lead)}</span>`:''}<button class="tk" data-w="${esc(t.h)}" data-py="${esc(t.py)}"><span class="tp">${esc(t.py)}</span><span class="th">${esc(t.h)}</span></button>${t.p?`<span class="tpun">${esc(t.p)}</span>`:''}`).join('');
+function showPop(el){
+  const h=el.dataset.w, py=el.dataset.py||'', pop=$('#pop');
+  pop.innerHTML=`<div class="pophead"><span class="hz">${esc(h)}</span><button class="spk sm" data-say="${esc(h)}" aria-label="Nghe">${SPK}</button></div><div class="py">${esc(py)}</div><div class="popm">${esc(wordMean(h)||'—')}</div>${byC[h]&&!FL?`<button class="btn" data-hc="${esc(h)}" style="margin-top:8px">Học chữ ${esc(h)}</button>`:''}`;
+  pop.hidden=false; const r=el.getBoundingClientRect(), W=Math.min(240,innerWidth-24);
+  pop.style.width=W+'px'; pop.style.left=Math.max(12,Math.min(innerWidth-W-12,r.left+r.width/2-W/2))+'px';
+  const ph=pop.offsetHeight; pop.style.top=(r.bottom+ph+12>innerHeight?Math.max(12,r.top-ph-8):r.bottom+8)+'px';
+  say(h);
+}
+function speakThen(text,opt,cb){
+  let done=false; const once=()=>{if(!done){done=true;cb&&cb()}};
+  if(!('speechSynthesis' in window)){setTimeout(once,1200);return}
+  speechSynthesis.speak(utter(text,Object.assign({},opt,{onend:once})));
+  setTimeout(once,[...text].length*450+2500);
+}
+let AC=null;
+function beep(ok){try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();const o=AC.createOscillator(),g=AC.createGain();o.connect(g);g.connect(AC.destination);const t=AC.currentTime;o.type='sine';o.frequency.setValueAtTime(ok?660:240,t);if(ok)o.frequency.setValueAtTime(990,t+.11);else o.frequency.setValueAtTime(180,t+.12);g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.18,t+.02);g.gain.exponentialRampToValueAtTime(.0001,t+.38);o.start(t);o.stop(t+.4)}catch(e){}}
+
+/* ---------- micro: nhận dạng giọng nói tiếng Trung ---------- */
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+const MICSVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg>';
+const SRERR={'not-allowed':'Chưa được phép dùng micro. Hãy cho phép micro cho trang này trong cài đặt trình duyệt rồi thử lại.','service-not-allowed':'Trình duyệt chưa bật nhận giọng nói. Trên iPhone: Cài đặt → Siri và Tìm kiếm / Bàn phím → bật Đọc chính tả.','no-speech':'Chưa nghe thấy gì. Hãy nói to, rõ và gần micro hơn.','audio-capture':'Không tìm thấy micro trên thiết bị.','network':'Nhận giọng nói cần kết nối mạng. Hãy kiểm tra Internet.','aborted':''};
+function numZh(d){const D='零一二三四五六七八九';if(d.length>2)return [...d].map(x=>D[+x]).join('');const n=+d;if(n<10)return D[n];if(n<20)return '十'+(n%10?D[n%10]:'');return D[Math.floor(n/10)]+'十'+(n%10?D[n%10]:'')}
+const normCh=c=>({'她':'他','它':'他','两':'二','嘛':'吗','麼':'么'})[c]||c;
+function scoreSpeech(target,heard){
+  const orig=[...target].filter(isHan);
+  const keep=orig.map((c,i)=>!(c==='儿'&&i>0&&'点哪那这玩'.includes(orig[i-1])));
+  const T=orig.map(normCh).filter((_,i)=>keep[i]);
+  const H=[...heard.replace(/\d+/g,numZh)].filter(isHan).map(normCh).filter((c,i,a)=>!(c==='儿'&&i>0&&'点哪那这玩'.includes(a[i-1])));
+  const n=T.length,m=H.length,dp=Array.from({length:n+1},()=>new Array(m+1).fill(0));
+  for(let i=n-1;i>=0;i--)for(let j=m-1;j>=0;j--)dp[i][j]=T[i]===H[j]?dp[i+1][j+1]+1:Math.max(dp[i+1][j],dp[i][j+1]);
+  const okT=new Array(n).fill(false);let i=0,j=0;while(i<n&&j<m){if(T[i]===H[j]){okT[i]=true;i++;j++}else if(dp[i+1][j]>=dp[i][j+1])i++;else j++}
+  let k=0;const marks=orig.map((_,x)=>keep[x]?okT[k++]:true);
+  const score=n?Math.round(100*dp[0][0]/Math.max(n,m)):0;
+  return {score,marks,orig,heard};
+}
+const scoreLabel=s=>s>=85?['Tuyệt vời!','good']:s>=70?['Tốt lắm','good']:s>=50?['Khá rồi, thử lại nhé','mid']:['Chưa đúng, nghe mẫu rồi thử lại','bad'];
+function srResultHTML(r){if(!r)return '';const [lab,cls]=scoreLabel(r.score);
+  return `<div class="srres ${cls}"><div class="srscore">${r.score}<small>/100</small></div><div style="min-width:0"><b>${lab}</b><div class="srline hz">${r.orig.map((c,i)=>`<span class="${r.marks[i]?'mk-ok':'mk-no'}">${c}</span>`).join('')}</div><div class="srheard">Máy nghe được: <span class="hz">${esc(r.heard||'—')}</span></div></div></div>`}
+let REC=null;
+function startMic(btn,target,onDone){
+  if(!SR){toast('Trình duyệt này chưa hỗ trợ nhận giọng nói. Hãy dùng Chrome (Android, máy tính) hoặc Safari (iPhone).');return}
+  if(REC){const r=REC;REC=null;try{r.abort()}catch(e){};document.querySelectorAll('.mic.on').forEach(b=>b.classList.remove('on'));return}
+  try{speechSynthesis.cancel()}catch(e){}
+  const r=new SR(); REC=r; let finished=false, interim='';
+  const finish=(res,err)=>{if(finished)return;finished=true;if(REC===r)REC=null;btn.classList.remove('on');const live=document.getElementById('srLive');if(live)live.textContent='';
+    if(err&&SRERR[err]!==''){toast(SRERR[err]||('Lỗi nhận giọng nói: '+err))} onDone(res,err)};
+  r.lang='zh-CN'; r.interimResults=true; r.maxAlternatives=5; r.continuous=false;
+  r.onresult=e=>{const res=e.results[e.results.length-1];
+    if(res.isFinal){let best=null;for(let a=0;a<res.length;a++){const sc=scoreSpeech(target,res[a].transcript);if(!best||sc.score>best.score)best=sc}finish(best);try{r.stop()}catch(x){}}
+    else{interim=res[0].transcript;const live=document.getElementById('srLive');if(live)live.textContent=interim}};
+  r.onerror=e=>finish(null,e.error);
+  r.onend=()=>{if(!finished){interim?finish(scoreSpeech(target,interim)):finish(null,'no-speech')}};
+  try{r.start();btn.classList.add('on');touch()}catch(e){REC=null;toast('Không bật được micro: '+e.message)}
+}
+const stopMic=()=>{if(REC){const r=REC;REC=null;try{r.abort()}catch(e){}}document.querySelectorAll('.mic.on,.lbtn.on').forEach(b=>b.classList.remove('on'))};
+const micBtn=(attr,big)=>`<button class="mic${big?' big':''}" ${attr} aria-label="Bấm rồi nói">${MICSVG}</button>`;
+
+/* ---------- học theo từng bước (kiểu HelloChinese) ---------- */
+let FL=null;
+const lineOf=(d,i)=>{const [who,hz,py,vi]=d.l[i];return {d,i,who,hz,py,vi,toks:tokFor(hz,py)}};
+let ALLLINES=null; const allLines=()=>ALLLINES||(ALLLINES=DIALOGS.flatMap(d=>d.l.map((_,i)=>lineOf(d,i))));
+const sample=(arr,n)=>shuffle(arr.slice()).slice(0,n);
+function distinctBy(pool,keyFns,first,n){const seen=keyFns.map(f=>new Set([f(first)]));const out=[];for(const y of shuffle(pool.slice())){if(keyFns.every((f,k)=>!seen[k].has(f(y)))){keyFns.forEach((f,k)=>seen[k].add(f(y)));out.push(y)}if(out.length===n)break}return out}
+const charItem=c=>({h:c,py:byC[c].py,vi:byC[c].m,e:emo(c)});
+const wordItem=w=>({h:w[0],py:w[1],vi:w[2],e:w[3]});
+function picStep(item,pool){const opts=shuffle([item,...distinctBy(pool.filter(x=>x.h!==item.h),[x=>x.e,x=>x.vi],item,3)]);return {type:'pic',item,opts,graded:true}}
+function arrangeStep(L){
+  const real=L.toks.map(t=>({h:t.h,py:t.py}));
+  let extra=[]; if(real.length<=6){const others=allLines().filter(x=>x.hz!==L.hz).flatMap(x=>x.toks).filter(t=>!real.some(r=>r.h===t.h));extra=sample(others,real.length<=3?1:2).map(t=>({h:t.h,py:t.py}))}
+  return {type:'arrange',L,tiles:[...real,...extra],n:real.length,graded:true};
+}
+function meanStep(L){const opts=shuffle([L.vi,...distinctBy(allLines().map(x=>x.vi),[v=>v],L.vi,3)]);return {type:'mean',L,opts,graded:true}}
+function fillStep(L){
+  const cand=L.toks.map((t,i)=>i).filter(i=>L.toks[i].py&&(DICT[L.toks[i].h]||WMAP[L.toks[i].h]||byC[L.toks[i].h])); const b=cand.length?cand[Math.floor(Math.random()*cand.length)]:0;
+  const right=L.toks[b]; const pool=allLines().flatMap(x=>x.toks).filter(t=>t.py);
+  const opts=shuffle([{h:right.h,py:right.py},...distinctBy(pool,[t=>t.h],right,3).map(t=>({h:t.h,py:t.py}))]);
+  return {type:'fill',L,b,opts,graded:true};
+}
+function lineSteps(d,max){
+  const idx=d.l.map((_,i)=>i); const pick=max&&idx.length>max?sample(idx,max).sort((a,b)=>a-b):idx; const out=[];
+  pick.forEach((i,k)=>{const L=lineOf(d,i); const t=['arrange','mean','arrange','fill'][k%4]; out.push(t==='arrange'&&L.toks.length<=9?arrangeStep(L):t==='fill'?fillStep(L):t==='mean'?meanStep(L):meanStep(L))});
+  return out;
+}
+function lessonFlow(l){
+  const cs=[...l.cs].slice(0,8), pool=levelChars(l.lv).map(charItem), steps=[];
+  cs.forEach((c,k)=>{steps.push({type:'intro',c}); if(k%2===1) steps.push(picStep(charItem(cs[k-(Math.random()<.5?1:0)]),pool));});
+  if(cs.length%2===1) steps.push(picStep(charItem(cs[cs.length-1]),pool));
+  const vp=(VOCAB[l.id]||[]).map(wordItem); sample(vp,4).forEach(w=>steps.push(picStep(w,vp.length>=6?vp:ALLWORDS.map(wordItem))));
+  const vw=(VOCAB[l.id]||[]).filter(w=>[...w[0]].every(isHan)&&[...w[0]].length>=2); if(vw.length) steps.push(speakStep(wordAsLine(sample(vw,1)[0])));
+  const d=DIALOGS.find(x=>x.id===l.dl[0]); steps.push({type:'chat',d}); steps.push(...lineSteps(d,4));
+  shortLines(d,2).forEach(L=>steps.push(speakStep(L)));
+  steps.push({type:'done',key:'L'+l.id,title:l.t}); return steps;
+}
+function dialogFlow(d){
+  const steps=[{type:'chat',d},...lineSteps(d)];
+  const ws=[...new Set(d.l.flatMap((_,i)=>lineOf(d,i).toks.map(t=>t.h)))].filter(h=>WEMO[h]).map(h=>ALLWORDS.find(w=>w[0]===h)).filter(Boolean);
+  sample(ws,2).forEach(w=>steps.splice(2+Math.floor(Math.random()*(steps.length-2)),0,picStep(wordItem(w),ALLWORDS.map(wordItem))));
+  sample(d.l.map((_,i)=>lineOf(d,i)),2).forEach(L=>steps.push(speakStep(L)));
+  steps.push({type:'done',key:'D'+d.id,title:d.t}); return steps;
+}
+const speakStep=L=>({type:'speak',L,graded:true});
+const wordAsLine=w=>({hz:w[0],py:w[1],vi:w[2],toks:[{h:w[0],py:w[1],p:''}]});
+const shortLines=(d,n)=>d.l.map((_,i)=>lineOf(d,i)).sort((a,b)=>a.toks.length-b.toks.length).slice(0,n);
+const roleFlow=(d,me)=>[{type:'role',d,me},{type:'done',key:'R'+d.id,title:d.t,role:true}];
+function openFlow(steps){
+  if(playing) stopAll(); FL={steps,i:0,score:0,graded:0};
+  $('#flow').hidden=false; document.documentElement.classList.add('flowon'); enterStep();
+}
+function closeFlow(){stopMic();FL=null;$('#flow').hidden=true;$('#pop').hidden=true;document.documentElement.classList.remove('flowon');try{speechSynthesis.cancel()}catch(e){}; if(curView==='home')renderHome(); if(curView==='talk')renderTalk();}
+function enterStep(){
+  stopMic(); const st=FL.steps[FL.i]; st.sel=null; st.checked=false; st.ok=null; st.res=null; st.best=null;
+  if(st.type==='arrange'){st.pool=shuffle(st.tiles.map((_,i)=>i)); st.ans=[]; st.showVi=false;}
+  if(st.type==='role'){st.k=0; st.shown=[]; st.wait=false; st.hint=false; st.busy=false; st.scores={}; st.rres=null;}
+  drawStep();
+  if(st.type==='intro') setTimeout(()=>say(st.c),300);
+  if(st.type==='pic') setTimeout(()=>say(st.item.h),300);
+  if(st.type==='arrange'||st.type==='mean') setTimeout(()=>say(st.L.hz),350);
+  if(st.type==='role') setTimeout(roleNext,400);
+}
+const SPKBIG=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16 9a4 4 0 0 1 0 6M18.5 6.5a8 8 0 0 1 0 11"/></svg>`;
+const listenBtns=t=>`<div class="flisten"><button class="spk big" data-say="${esc(t)}" aria-label="Nghe">${SPKBIG}</button><button class="spk big slow" data-slow="${esc(t)}" aria-label="Nghe chậm"><span class="emo">🐢</span></button></div>`;
+const tileHTMLf=(t,attr,ghost)=>`<button class="wtile${ghost?' ghost':''}" ${attr} ${ghost?'disabled tabindex="-1"':''}>${t.py?`<span class="tp">${esc(t.py)}</span>`:''}<span class="th">${esc(t.h)}</span></button>`;
+const bubble=(L,me,cls='',sc)=>`<div class="bub${L.who==='B'?' b':''}${cls}" data-bi="${L.i}"><span class="bwho">${L.who}${me?(L.who===me?' · bạn':''):''}</span>${sc!=null?`<span class="bscore ${scoreLabel(sc)[1]}">🎤 ${sc}</span>`:''}<div class="ruby">${rubyHTML(L.toks)}</div><div class="bvi">${esc(L.vi)}</div></div>`;
+function drawStep(){
+  const st=FL.steps[FL.i], n=FL.steps.length; $('#fProg').style.width=Math.round(FL.i/(n-1)*100)+'%';
+  let html='', btn='Kiểm tra', ready=false;
+  switch(st.type){
+    case 'intro':{const x=byC[st.c],t=tone(x.py);
+      html=`<div class="fintro"><div class="fart"><span class="emo">${emo(x.c)}</span>${x.pic||x.num?`<span class="fold">${x.num?sticks(x.num):svgPic(x.pic)}</span>`:''}</div>
+      <div class="fhz"><span class="hz">${x.c}</span><button class="spk" data-say="${x.c}" aria-label="Nghe">${SPK}</button></div>
+      <div class="py fpy t${t}">${x.py}</div><div class="fhv">Hán Việt <b>${x.hv}</b></div><div class="fmean">${esc(x.m)}</div>
+      ${x.parts&&x.g!=='chi'?`<div class="fparts">${x.parts.map(p=>`<span class="fp"><span class="emo">${emoFor(p[0])}</span><span class="hz">${p[0]}</span><small>${esc(p[1])}</small></span>`).join('<span class="op">+</span>')}</div>`:''}
+      <p class="fhint">${esc(x.hint)}</p></div>`; btn='Tiếp tục'; ready=true; break;}
+    case 'pic':{const it=st.item;
+      html=`<h2 class="ftitle">Chọn tranh đúng</h2><div class="fword"><button class="spk big" data-say="${esc(it.h)}" aria-label="Nghe">${SPKBIG}</button><div><div class="py">${esc(it.py)}</div><div class="hz">${esc(it.h)}</div></div></div>
+      <div class="pgrid">${st.opts.map((o,i)=>`<button class="pcard${st.sel===i?' sel':''}${st.checked&&o.h===it.h?' right':''}${st.checked&&st.sel===i&&o.h!==it.h?' wrong':''}" data-fo="${i}" ${st.checked?'disabled':''}><span class="emo">${o.e}</span><span class="pl">${esc(o.vi)}</span></button>`).join('')}</div>`; ready=st.sel!=null; break;}
+    case 'chat':{const d=st.d;
+      html=`<h2 class="ftitle">Nghe hội thoại</h2><p class="fsub">${esc(d.t)} · Bấm vào từng từ để xem nghĩa</p><div class="ctrls" style="justify-content:flex-start;margin-bottom:14px"><button class="btn pri" id="fPlayAll">▶ Nghe cả đoạn</button><button class="btn" id="fPlaySlow"><span class="emo">🐢</span> Nghe chậm</button></div><div class="chat">${d.l.map((_,i)=>bubble(lineOf(d,i))).join('')}</div>`; btn='Tiếp tục'; ready=true; break;}
+    case 'arrange':{const L=st.L;
+      html=`<h2 class="ftitle">Bạn đã nghe thấy gì?</h2>${listenBtns(L.hz)}<button class="linkbtn" id="fShowVi">${st.showVi?esc(L.vi):'Xem nghĩa tiếng Việt'}</button>
+      <div class="ansarea">${st.ans.map(i=>tileHTMLf(st.tiles[i],`data-tr="${i}"`)).join('')}</div>
+      <div class="pool">${st.pool.map(i=>tileHTMLf(st.tiles[i],`data-ta="${i}"`,st.ans.includes(i))).join('')}</div>`; ready=st.ans.length===st.n; break;}
+    case 'mean':{const L=st.L;
+      html=`<h2 class="ftitle">Câu này nghĩa là gì?</h2><div class="fline"><button class="spk big" data-say="${esc(L.hz)}" aria-label="Nghe">${SPKBIG}</button><div class="ruby">${rubyHTML(L.toks)}</div></div>
+      <div class="olist">${st.opts.map((o,i)=>`<button class="ocard${st.sel===i?' sel':''}${st.checked&&o===L.vi?' right':''}${st.checked&&st.sel===i&&o!==L.vi?' wrong':''}" data-fo="${i}" ${st.checked?'disabled':''}>${esc(o)}</button>`).join('')}</div>`; ready=st.sel!=null; break;}
+    case 'fill':{const L=st.L;
+      const line=L.toks.map((t,i)=>i===st.b?`<span class="blank">${st.sel!=null?`<span class="tp">${esc(st.opts[st.sel].py)}</span><span class="th">${esc(st.opts[st.sel].h)}</span>`:'<span class="tp">&nbsp;</span><span class="th">＿＿</span>'}</span>${t.p?`<span class="tpun">${esc(t.p)}</span>`:''}`:rubyHTML([t])).join('');
+      html=`<h2 class="ftitle">Chọn từ còn thiếu</h2><div class="fvi2">${esc(L.vi)}</div><div class="fline"><button class="spk big" data-say="${esc(L.hz)}" aria-label="Nghe">${SPKBIG}</button><div class="ruby">${line}</div></div>
+      <div class="pool">${st.opts.map((o,i)=>tileHTMLf(o,`data-fo="${i}"${st.sel===i?' aria-pressed="true"':''} ${st.checked?'disabled':''}`)).join('')}</div>`; ready=st.sel!=null; break;}
+    case 'role':{const d=st.d, me=st.me, cur=st.k<d.l.length?lineOf(d,st.k):null;
+      html=`<h2 class="ftitle">Nhập vai: bạn là ${me}</h2><p class="fsub">${esc(d.t)} · Máy đọc lời của ${me==='A'?'B':'A'}, bạn nói lời của ${me}</p><div class="chat">${st.shown.map(i=>bubble(lineOf(d,i),me,'',st.scores[i])).join('')}
+      ${st.wait&&cur?`<div class="myturn${me==='B'?' b':''}"><span class="bwho">Đến lượt bạn nói</span><div class="q2">${esc(cur.vi)}</div>${st.hint?`<div class="ruby">${rubyHTML(cur.toks)}</div>`:`<button class="linkbtn" id="fHint">Xem gợi ý chữ Hán và pinyin</button>`}<div class="roleact">${micBtn('data-mic="role"')}<div class="srlive hz" id="srLive"></div><button class="btn" data-say="${esc(cur.hz)}">Nghe mẫu</button><button class="btn" data-slow="${esc(cur.hz)}"><span class="emo">🐢</span> Chậm</button></div>${st.rres?srResultHTML(st.rres):`<small class="sub">Bấm 🎤 rồi nói câu trên bằng tiếng Trung để được chấm điểm.</small>`}</div>`:''}</div>`;
+      if(st.k>=d.l.length&&!st.busy){btn='Tiếp tục';ready=true;} else if(st.wait){btn='Tôi đã nói xong';ready=true;} else {btn='Đang nghe…';ready=false;} break;}
+    case 'speak':{const L=st.L;
+      html=`<h2 class="ftitle">Hãy đọc to câu này</h2><div class="flisten"><button class="spk big" data-say="${esc(L.hz)}" aria-label="Nghe mẫu">${SPKBIG}</button><button class="spk big slow" data-slow="${esc(L.hz)}" aria-label="Nghe chậm"><span class="emo">🐢</span></button></div>
+      <div class="ruby rlarge">${rubyHTML(L.toks)}</div><div class="fvi2" style="margin-top:8px">${esc(L.vi)}</div>
+      <div class="micwrap">${micBtn('data-mic="flow"',true)}<div class="srlive hz" id="srLive"></div><small class="sub">${SR?'Bấm micro rồi đọc. Có thể đọc nhiều lần, lấy điểm cao nhất.':'Trình duyệt này chưa hỗ trợ micro. Hãy dùng Chrome hoặc Safari, hoặc bấm Bỏ qua.'}</small></div>
+      ${st.res?srResultHTML(st.res):''}${st.best!=null?`<p class="sub" style="text-align:center">Điểm cao nhất: <b>${st.best}</b>/100 · cần từ 70 để đạt</p>`:''}`;
+      btn=st.best==null?'Bỏ qua':'Kiểm tra'; ready=true; break;}
+    case 'done':{const pct=FL.graded?Math.round(FL.score/FL.graded*100):100; const stars=pct>=90?3:pct>=70?2:pct>=40?1:0;
+      if(!st.saved){st.saved=1;S.fl=S.fl||{};S.fl[st.key]=Math.max(S.fl[st.key]||0,pct);touch();save();}
+      html=`<div class="fdone"><div class="emo" style="font-size:84px">${st.role?'🎭':pct>=70?'🎉':'💪'}</div><h2>${st.role?'Hoàn thành nhập vai!':'Hoàn thành bài!'}</h2><p class="fsub">${esc(st.title)}</p>
+      ${st.role?'<p>Hãy thử đổi vai và luyện lại để nói trôi chảy cả hai phía.</p>':`<div class="stars">${[0,1,2].map(i=>`<span class="${i<stars?'on':''}">★</span>`).join('')}</div><div class="score">${FL.score}/${FL.graded}</div><p>câu trả lời đúng ngay lần đầu</p>`}</div>`; btn='Hoàn tất'; ready=true; break;}
+  }
+  $('#fBody').innerHTML=html;
+  const foot=$('#fFoot');
+  if(st.checked){foot.className='ffoot '+(st.ok?'ok':'no');
+    foot.innerHTML=`<div class="fin"><div class="fres"><b>${st.ok?'Chính xác!':'Chưa đúng'}</b><div>${st.answer}</div></div><button class="fbtn ${st.ok?'':'no'}" id="fMain">Tiếp tục</button></div>`;}
+  else {foot.className='ffoot'; foot.innerHTML=`<div class="fin"><button class="fbtn${st.type==='speak'&&st.best==null?' skip':''}" id="fMain" ${ready?'':'disabled'}>${btn}</button></div>`;}
+}
+function checkStep(st){
+  let ok=false, ans='';
+  if(st.type==='pic'){ok=st.opts[st.sel].h===st.item.h; ans=`<span class="emo">${st.item.e}</span> <span class="hz">${esc(st.item.h)}</span> ${esc(st.item.py)} · ${esc(st.item.vi)}`;}
+  if(st.type==='arrange'){ok=st.ans.map(i=>st.tiles[i].h).join('')===st.L.toks.map(t=>t.h).join(''); ans=`<span class="hz">${esc(st.L.hz)}</span><br>${esc(st.L.py)}<br>${esc(st.L.vi)}`;}
+  if(st.type==='mean'){ok=st.opts[st.sel]===st.L.vi; ans=esc(st.L.vi);}
+  if(st.type==='fill'){ok=st.opts[st.sel].h===st.L.toks[st.b].h; ans=`<span class="hz">${esc(st.L.hz)}</span><br>${esc(st.L.py)}`;}
+  if(st.type==='speak'){stopMic(); ok=st.best>=70; ans=`Điểm phát âm cao nhất: <b>${st.best}</b>/100<br><span class="hz">${esc(st.L.hz)}</span> ${esc(st.L.py)}`;}
+  st.checked=true; st.ok=ok; st.answer=ans;
+  if(!st.retry){FL.graded++; if(ok)FL.score++;}
+  if(!ok&&!st.retry&&st.type!=='speak'){const copy=Object.assign({},st,{retry:true,checked:false,ok:null,sel:null}); FL.steps.splice(FL.steps.length-1,0,copy);}
+  beep(ok); drawStep(); if(st.type!=='mean'&&st.type!=='pic') setTimeout(()=>say(st.L?st.L.hz:st.item.h),250);
+}
+function flowMain(){
+  const st=FL.steps[FL.i];
+  if(st.type==='speak'&&st.best==null){stopMic(); if(FL.i<FL.steps.length-1){FL.i++;enterStep();$('#fBody').scrollTop=0;} return}
+  if(st.graded&&!st.checked){checkStep(st);return}
+  if(st.type==='role'&&st.wait){roleSpoke();return}
+  if(st.type==='done'){closeFlow();return}
+  try{speechSynthesis.cancel()}catch(e){}
+  if(FL.i<FL.steps.length-1){FL.i++; enterStep(); $('#fBody').scrollTop=0;}
+}
+function roleNext(){
+  if(!FL) return; const st=FL.steps[FL.i]; if(st.type!=='role') return; const d=st.d;
+  if(st.k>=d.l.length){st.busy=false;drawStep();return}
+  const L=lineOf(d,st.k);
+  if(L.who===st.me){st.wait=true;st.hint=false;drawStep();scrollChat();return}
+  st.shown.push(st.k); st.k++; st.busy=true; drawStep(); scrollChat(); markBub(L.i);
+  speakThen(L.hz,{rate:tRate,pitch:PITCH[L.who]||1},()=>{markBub(-1); if(FL&&FL.steps[FL.i]===st){st.busy=false; setTimeout(roleNext,350)}});
+}
+function roleSpoke(){
+  stopMic(); const st=FL.steps[FL.i], L=lineOf(st.d,st.k); if(st.rres) st.scores[st.k]=st.rres.score; st.rres=null; st.wait=false; st.shown.push(st.k); st.k++; st.busy=true; drawStep(); scrollChat(); markBub(L.i);
+  speakThen(L.hz,{rate:tRate,pitch:PITCH[L.who]||1},()=>{markBub(-1); if(FL&&FL.steps[FL.i]===st){st.busy=false; setTimeout(roleNext,350)}});
+}
+const markBub=i=>document.querySelectorAll('#fBody .bub').forEach(b=>b.classList.toggle('playing',+b.dataset.bi===i));
+const scrollChat=()=>{const b=$('#fBody');b.scrollTop=b.scrollHeight};
+function flowPlayAll(rate){
+  const st=FL.steps[FL.i]; const d=st.d; try{speechSynthesis.cancel()}catch(e){}
+  const go=i=>{if(!FL||FL.steps[FL.i]!==st)return; if(i>=d.l.length){markBub(-1);return} markBub(i); document.querySelector(`#fBody .bub[data-bi="${i}"]`)?.scrollIntoView({block:'nearest',behavior:'smooth'});
+    speakThen(d.l[i][1],{rate,pitch:PITCH[d.l[i][0]]||1},()=>setTimeout(()=>go(i+1),350))};
+  go(0);
+}
+function flowClick(t){
+  if(!FL) return false; const st=FL.steps[FL.i];
+  if(t.dataset.mic==='flow'&&!st.checked){startMic(t,st.L.hz,res=>{if(res&&FL&&FL.steps[FL.i]===st){st.res=res;st.best=Math.max(st.best??0,res.score);beep(res.score>=70);drawStep()}});return true}
+  if(t.dataset.mic==='role'&&st.wait){const L=lineOf(st.d,st.k);startMic(t,L.hz,res=>{if(res&&FL&&FL.steps[FL.i]===st){st.rres=res;beep(res.score>=70);drawStep()}});return true}
+  if(t.dataset.fo!==undefined&&!st.checked){st.sel=+t.dataset.fo; if(st.type==='pic')say(st.opts[st.sel].h); if(st.type==='fill')say(st.opts[st.sel].h); drawStep(); return true}
+  if(t.dataset.ta!==undefined&&!st.checked){const i=+t.dataset.ta; if(!st.ans.includes(i)){st.ans.push(i); say(st.tiles[i].h); drawStep();} return true}
+  if(t.dataset.tr!==undefined&&!st.checked){st.ans=st.ans.filter(i=>i!==+t.dataset.tr); drawStep(); return true}
+  switch(t.id){
+    case 'fMain': flowMain(); return true;
+    case 'fClose': closeFlow(); return true;
+    case 'fShowVi': st.showVi=!st.showVi; drawStep(); return true;
+    case 'fHint': st.hint=true; drawStep(); return true;
+    case 'fPlayAll': flowPlayAll(tRate); return true;
+    case 'fPlaySlow': flowPlayAll(.55); return true;
+  }
+  return false;
+}
+
+/* ---------- gõ pinyin (bộ gõ mô phỏng) ---------- */
+const pyKey=py=>py.toLowerCase().replace(/[üǖǘǚǜ]/g,'v').normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z]/g,'');
+let IMEDICT=null;
+function imeDict(){
+  if(IMEDICT) return IMEDICT; const m=new Map();
+  const add=(h,py,w)=>{const k=pyKey(py||'');if(!k||!h||![...h].every(isHan))return;const id=k+'|'+h;if(!m.has(id))m.set(id,{h,py,k,w})};
+  CHARS.forEach(x=>add(x.c,x.py,3)); ALLWORDS.forEach(w=>add(w[0],w[1],5)); CHARS.forEach(x=>x.w.forEach(w=>add(w[0],w[1],4)));
+  allLines().forEach(L=>L.toks.forEach(t=>add(t.h,t.py,4)));
+  return IMEDICT=[...m.values()];
+}
+function imeCands(buf){
+  if(!buf) return []; const D=imeDict(), out=[], seen=new Set();
+  const push=(e,c)=>{if(!seen.has(e.h)&&out.length<9){seen.add(e.h);out.push({e,c})}};
+  D.filter(e=>e.k===buf).sort((a,b)=>b.h.length-a.h.length||b.w-a.w).forEach(e=>push(e,buf.length));
+  D.filter(e=>e.k.startsWith(buf)&&e.k!==buf).sort((a,b)=>a.k.length-b.k.length||b.w-a.w).slice(0,4).forEach(e=>push(e,buf.length));
+  for(let len=buf.length-1;len>0&&out.length<9;len--) D.filter(e=>e.k===buf.slice(0,len)).sort((a,b)=>b.h.length-a.h.length||b.w-a.w).forEach(e=>push(e,len));
+  return out;
+}
+let TY={mode:'char',scope:'lesson',item:null,out:'',buf:'',done:false,hint:false,ok:0,n:0,streak:0,cands:[]};
+function tyItems(){
+  const ls=TY.scope==='lesson'?[curLesson()]:TY.scope==='level'?lessonsOf(S.lv):LESSONS;
+  if(TY.mode==='sent') return ls.flatMap(l=>l.dl.flatMap(id=>{const d=DIALOGS.find(x=>x.id===id);return d.l.map((_,i)=>lineOf(d,i))})).map(L=>({h:[...L.hz].filter(isHan).join(''),py:L.py,vi:L.vi,e:'',disp:L.hz,toks:L.toks}));
+  const cs=ls.flatMap(l=>[...l.cs]).map(c=>({h:c,py:byC[c].py,vi:byC[c].m,e:emo(c)}));
+  const ws=ls.flatMap(l=>VOCAB[l.id]||[]).filter(w=>[...w[0]].every(isHan)).map(w=>({h:w[0],py:w[1],vi:w[2],e:w[3]}));
+  return [...cs,...ws];
+}
+function tyNew(){
+  const items=tyItems(); let it=items[Math.floor(Math.random()*items.length)];
+  if(TY.item&&items.length>1) while(it.h===TY.item.h) it=items[Math.floor(Math.random()*items.length)];
+  Object.assign(TY,{item:it,out:'',buf:'',done:false,hint:false,cands:[]});
+  const inp=$('#tyIn'); if(inp) inp.value='';
+  renderType(); if(TY.mode==='listen') setTimeout(()=>say(it.h),250);
+}
+function renderType(){
+  if(!TY.item){tyNew();return}
+  const it=TY.item, m=TY.mode;
+  document.querySelectorAll('#tyMode button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.tym===m));
+  document.querySelectorAll('#tyScope button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.tys===TY.scope));
+  const tsc=document.querySelector('#tyScope [data-tys="lesson"]'); if(tsc) tsc.textContent='Bài: '+curLesson().t;
+  let prompt='';
+  if(m==='char') prompt=`<div class="sub">Gõ pinyin để viết ra:</div><div class="hz tybig">${it.h}</div><div class="sub">${it.e?`<span class="emo">${it.e}</span> `:''}${esc(it.vi)}</div>`;
+  if(m==='mean') prompt=`<div class="emo" style="font-size:72px">${it.e}</div><div class="q">${esc(it.vi)}</div><div class="sub">Viết từ tiếng Trung có nghĩa này</div>`;
+  if(m==='listen') prompt=`<button class="spk big" data-say="${it.h}" aria-label="Nghe lại">${SPKBIG}</button><button class="spk big slow" data-slow="${it.h}" aria-label="Nghe chậm" style="margin-left:8px"><span class="emo">🐢</span></button><div class="sub" style="margin-top:8px">Nghe rồi gõ lại${TY.done?`: ${esc(it.vi)}`:''}</div>`;
+  if(m==='sent') prompt=`<div class="sub">Gõ lại câu hội thoại:</div><div class="hz tysent">${esc(it.disp)}</div><div class="sub">${esc(it.vi)}</div>`;
+  const hint=TY.hint||TY.done?`<div class="tyhint py">${esc(it.py)}</div>`:'';
+  $('#tyCard').innerHTML=prompt+hint;
+  const tgt=[...it.h], out=[...TY.out];
+  $('#tyOut').innerHTML=tgt.map((c,i)=>i<out.length?`<span class="${out[i]===c?'mk-ok':'mk-no'}">${out[i]}</span>`:`<span class="slot">${i===out.length&&TY.buf?`<span class="tybuf">${TY.buf}</span>`:''}</span>`).join('')+(out.length>tgt.length?out.slice(tgt.length).map(c=>`<span class="mk-no">${c}</span>`).join(''):'');
+  TY.cands=imeCands(TY.buf);
+  $('#tyCands').innerHTML=TY.buf?(TY.cands.length?TY.cands.map((x,i)=>`<button class="cand" data-cand="${i}"><span class="cn">${i+1}</span><span class="hz">${x.e.h}</span><small>${esc(wordMean(x.e.h).split(/[;,(]/)[0])}</small></button>`).join(''):'<span class="sub">Không có chữ nào khớp với "'+esc(TY.buf)+'". Kiểm tra lại cách viết pinyin.</span>'):`<span class="sub">${TY.done?'Chính xác! Nhấn Enter hoặc "Tiếp" để sang chữ mới.':'Gõ pinyin không dấu vào ô bên dưới, chữ gợi ý sẽ hiện ở đây.'}</span>`;
+  $('#tyNext').hidden=!TY.done; $('#tyHint').hidden=TY.done; $('#tySkip').hidden=TY.done;
+  $('#tyStat').innerHTML=`Đúng <b>${TY.ok}</b>/${TY.n} · Chuỗi <b>${TY.streak}</b>`;
+  $('#tyWrap').classList.toggle('ok',TY.done);
+}
+function tyChoose(i){
+  const x=TY.cands[i]; if(!x||TY.done) return;
+  TY.out+=x.e.h; TY.buf=TY.buf.slice(x.c); $('#tyIn').value=TY.buf; tyCheck(); renderType();
+}
+function tyCheck(){
+  const it=TY.item;
+  if(TY.out===it.h){TY.done=true;TY.n++;TY.ok+=TY.hint?0:1;TY.streak=TY.hint?0:TY.streak+1;beep(true);say(it.h);touch();
+    if(TY.mode!=='sent'&&byC[it.h]) stat(it.h,!TY.hint); return}
+  if(TY.out.length>=it.h.length){beep(false);toast('Chưa đúng chữ. Bấm ⌫ để xóa và chọn lại chữ đồng âm khác.')}
+}
+function tyKey(e){
+  if(TY.done){if(e.key==='Enter'){e.preventDefault();tyNew()}return}
+  if(!TY.buf){ if(e.key==='Backspace'&&TY.out){e.preventDefault();TY.out=[...TY.out].slice(0,-1).join('');renderType()} return }
+  if(e.key===' '||e.key==='Enter'){e.preventDefault();tyChoose(0)}
+  else if(/^[1-9]$/.test(e.key)){e.preventDefault();tyChoose(+e.key-1)}
+}
+function tyInput(e){
+  const raw=e.target.value; const mt=raw.match(/^([a-zA-ZüÜ']*)([ 1-9])$/);
+  const letters=(mt?mt[1]:raw).toLowerCase().replace(/ü/g,'v').replace(/[^a-z]/g,'');
+  TY.buf=letters; e.target.value=letters;
+  if(mt&&letters){tyChoose(mt[2]===' '?0:+mt[2]-1);return}
+  renderType();
+}
+
 /* ---------- levels & lessons ---------- */
 let vPlaying=false;
 function playVocab(){
@@ -1768,6 +2265,7 @@ function renderHome(){
   $('#curLesson').innerHTML=`<div class="lesson">
     <div class="lhead"><div class="licon">${l.icon}</div><div><div class="eyebrow">Đang học · Cấp ${l.lv} · Bài ${i+1}</div><h2>${esc(l.t)}</h2><p>${esc(l.d)}</p></div>
       <div class="lnav"><button class="btn" data-ls="${ls[(i-1+ls.length)%ls.length].id}">← Bài trước</button><button class="btn" data-ls="${ls[(i+1)%ls.length].id}">Bài tiếp →</button></div></div>
+    <button class="fbtn startl" data-flow="lesson">▶ Học bài này theo từng bước${S.fl&&S.fl['L'+l.id]!=null?` · đã đạt ${S.fl['L'+l.id]}%`:''}</button>
     <div class="lchars">${[...l.cs].map(c=>{const x=byC[c];return `<button class="lchar${isKnown(c)?' known':''}" data-learn="${c}"><span class="emo">${emo(c)}</span><span class="hz">${c}</span><b>${x.hv}</b><small>${esc(x.m)}</small></button>`}).join('')}</div>
     <div class="steps">
       <button class="stepb${st.known===st.n?' ok':''}" data-step="learn"><span class="n">Bước 1</span><strong>Học chữ</strong><small>${st.known}/${st.n} chữ đã thuộc</small></button>
@@ -1789,7 +2287,7 @@ function setLesson(id){
   filter=l.id; dlg=l.dl[0]; pc=l.cs[0]; cur=l.cs[0]; QZ=null;
 }
 function setLevel(lv){ setLesson(S.lastLs[lv]||lessonsOf(lv)[0].id); }
-function refresh(){ renderLvSeg(); renderChips(); view(curView); }
+function refresh(){ renderLvSeg(); renderChips(); TY.item=null; view(curView); }
 
 /* ---------- views & events ---------- */
 function view(v){
@@ -1802,14 +2300,25 @@ function view(v){
   if(v==='quiz') renderQ();
   if(v==='talk') renderTalk(); else if(playing) stopAll();
   if(v==='rad') renderRad();
+  if(v==='type'){renderType(); setTimeout(()=>{if(matchMedia('(pointer:fine)').matches)$('#tyIn').focus()},50);}
+  if(v!=='talk'&&!FL) stopMic();
   if(v==='learn') show(cur,{anim:false});
   try{localStorage.setItem(KEY+'.view',v)}catch(e){}
 }
 document.addEventListener('click',e=>{
+  const pop=$('#pop'); if(!pop.hidden&&!e.target.closest('#pop')&&!e.target.closest('.tk')) pop.hidden=true;
   const t=e.target.closest('button'); if(!t) return;
+  if(t.dataset.w){showPop(t);return}
+  if(t.dataset.slow){say(t.dataset.slow,{rate:.45});return}
+  if(t.dataset.say&&FL){say(t.dataset.say);return}
+  if(flowClick(t)) return;
+  if(t.dataset.flow==='lesson'){openFlow(lessonFlow(curLesson()));return}
   if(t.dataset.v) return view(t.dataset.v);
   if(t.dataset.lv){setLevel(+t.dataset.lv);refresh();return}
   if(t.dataset.rt){radTab=t.dataset.rt;renderRad();return}
+  if(t.dataset.tym){TY.mode=t.dataset.tym;TY.item=null;tyNew();return}
+  if(t.dataset.tys){TY.scope=t.dataset.tys;TY.item=null;tyNew();return}
+  if(t.dataset.cand!==undefined){tyChoose(+t.dataset.cand);$('#tyIn').focus();return}
   if(t.dataset.rf){rFilter=t.dataset.rf;$('#rq').value='';renderRadList();return}
   if(t.dataset.rn){radSel=+t.dataset.rn;renderRadList();if(window.innerWidth<860)$('#radDetail').scrollIntoView({behavior:'smooth',block:'start'});return}
   if(t.dataset.rad){radSel=+t.dataset.rad;radTab='list';view('rad');return}
@@ -1821,6 +2330,7 @@ document.addEventListener('click',e=>{
   if(t.dataset.qs){qScope=t.dataset.qs;renderQ();return}
   if(t.dataset.step==='vocab'){$('#vocabSec').scrollIntoView({behavior:'smooth',block:'start'});return}
   if(t.dataset.step){const s=t.dataset.step; if(s==='quiz'){qScope='lesson';view('quiz');startQuiz();} else view(s==='learn'?'learn':s); if(s==='learn') show(cur); return}
+  if(t.dataset.micline!==undefined){stopAll();const i=+t.dataset.micline,L=DIALOGS.find(x=>x.id===dlg).l[i],box=$('#srin'+i);if(!REC)box.innerHTML='<div class="srlive hz" id="srLive">Đang nghe… hãy đọc câu này</div>';startMic(t,L[1],res=>{box.innerHTML=res?srResultHTML(res):'';if(res)beep(res.score>=70)});return}
   if(t.dataset.dlg){stopAll();dlg=t.dataset.dlg;renderTalk();return}
   if(t.dataset.line!==undefined){stopAll();speakLine(+t.dataset.line,t.dataset.lang);return}
   if(t.dataset.tl){tLang=t.dataset.tl;document.querySelectorAll('#talkLang button').forEach(b=>b.setAttribute('aria-pressed',b===t));return}
@@ -1848,12 +2358,18 @@ document.addEventListener('click',e=>{
     case 'moreNew': {const fresh=[...new Set([...curLesson().cs,...levelChars(S.lv),...CHARS.map(x=>x.c)])].filter(c=>!S.srs[c]).slice(0,10); if(!fresh.length){toast('Bạn đã học hết các chữ trong bộ');break} cardQ=fresh.map(c=>'+'+c); renderCard(); break;}
     case 'qStart': startQuiz(); break;
     case 'qBack': QZ=null; renderQ(); break;
+    case 'tyNext': tyNew(); $('#tyIn').focus(); break;
+    case 'tySkip': TY.n++; TY.streak=0; tyNew(); break;
+    case 'tyHint': TY.hint=true; renderType(); $('#tyIn').focus(); break;
+    case 'tyBack': if(TY.buf){TY.buf=TY.buf.slice(0,-1);$('#tyIn').value=TY.buf;}else if(TY.out&&!TY.done){TY.out=[...TY.out].slice(0,-1).join('');} renderType(); $('#tyIn').focus(); break;
     case 'rAnim': if(WR) WR.animateCharacter(); break;
     case 'gNext': case 'gSkip': if(t.id==='gSkip'){GM.total++;GM.streak=0;} GM.msg=''; newRound(); break;
     case 'gHint': GM.hint=true; GM.msg='Bộ phận viền đỏ nét đứt là một phần của chữ.'; renderGame(); break;
     case 'vocabAll': playVocab(); break;
     case 'addLesson': {let n=0;[...curLesson().cs].forEach(c=>{if(!S.srs[c]){addKnown(c);n++}}); renderHome(); toast(n?`Đã thêm ${n} chữ vào thẻ ôn tập`:'Cả bài đã có trong thẻ ôn tập'); break;}
     case 'playAll': playAll(); break;
+    case 'pracDlg': openFlow(dialogFlow(DIALOGS.find(x=>x.id===dlg))); break;
+    case 'roleA': case 'roleB': openFlow(roleFlow(DIALOGS.find(x=>x.id===dlg),t.id==='roleA'?'A':'B')); break;
     case 'qNext': QZ.i++; renderQ(); break;
     case 'pOutline': outline=!outline; t.textContent=outline?'Ẩn chữ mờ':'Hiện chữ mờ'; outline?W2.showOutline():W2.hideOutline(); break;
     case 'pShow': W2.cancelQuiz(); W2.showCharacter(); W2.animateCharacter({onComplete:()=>setTimeout(()=>practice(pc),600)}); $('#pMsg').textContent='Xem mẫu xong sẽ tự quay lại để bạn viết.'; break;
@@ -1863,8 +2379,11 @@ document.addEventListener('click',e=>{
 });
 $('#dlgLines').addEventListener('click',e=>{const a=e.target.closest('a[data-learnc]');if(a){stopAll();view('learn');show(a.dataset.learnc);scrollTo({top:0,behavior:'smooth'})}});
 $('#rq').addEventListener('input',()=>renderRadList());
+$('#tyIn').addEventListener('input',tyInput); $('#tyIn').addEventListener('keydown',tyKey);
+document.addEventListener('pointerdown',e=>{if(e.target.closest('.cand,#tyBack'))e.preventDefault()});
 $('#q').addEventListener('input',()=>{renderList(); const q=$('#q').value.trim(); const first=visibleChars()[0]; if(q&&first&&first.c!==cur) show(first.c,{anim:false});});
 document.addEventListener('keydown',e=>{
+  if(FL){ if(e.key==='Enter'){const b=$('#fMain'); if(b&&!b.disabled){e.preventDefault();b.click()}} if(e.key==='Escape') closeFlow(); return; }
   if(e.target.matches('input')) return;
   if(!$('#v-cards').hidden){
     if(e.code==='Space'){e.preventDefault();flipCard()}
