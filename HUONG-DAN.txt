@@ -10,7 +10,7 @@ Cài lên điện thoại như ứng dụng:
 - Android (Chrome): menu ⋮ → "Cài đặt ứng dụng" / "Thêm vào màn hình chính".
 - iPhone (Safari): nút Chia sẻ → "Thêm vào MH chính".
 
-Lưu ý khi upload: phải upload cả thư mục "audio" (chứa các file p0.json, p1.json…) –
+Lưu ý khi upload: phải upload cả thư mục "audio" (chứa các file p0.json, p0.js, p1.json, p1.js…) –
 đây là giọng đọc chuẩn thu sẵn. Cách dễ nhất: giải nén zip, kéo thả CẢ thư mục audio vào trang
 "Upload files" của GitHub (GitHub giữ nguyên tên thư mục).
 
