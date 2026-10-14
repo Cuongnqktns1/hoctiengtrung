@@ -1,0 +1,31 @@
+HÁN TỰ HỌA – ĐƯA LÊN GITHUB PAGES
+
+1. Tạo repository mới trên GitHub (ví dụ: han-tu-hoa), để chế độ Public.
+2. Bấm "Add file" → "Upload files", kéo thả TẤT CẢ các file trong thư mục này
+   (index.html, manifest.webmanifest, sw.js, icon-192.png, icon-512.png) vào thư mục gốc của repo → Commit.
+3. Vào Settings → Pages → Source: "Deploy from a branch" → Branch: main, thư mục / (root) → Save.
+4. Sau 1–2 phút, trang có địa chỉ: https://<tên-tài-khoản>.github.io/han-tu-hoa/
+
+Cài lên điện thoại như ứng dụng:
+- Android (Chrome): menu ⋮ → "Cài đặt ứng dụng" / "Thêm vào màn hình chính".
+- iPhone (Safari): nút Chia sẻ → "Thêm vào MH chính".
+
+Lưu ý khi upload: phải upload cả thư mục "audio" (chứa các file p0.json, p1.json…) –
+đây là giọng đọc chuẩn thu sẵn. Cách dễ nhất: giải nén zip, kéo thả CẢ thư mục audio vào trang
+"Upload files" của GitHub (GitHub giữ nguyên tên thư mục).
+
+Giọng đọc:
+- Mặc định dùng giọng chuẩn thu sẵn (người thật đọc từng âm tiết, giọng nam/nữ chuẩn cho từ và câu),
+  không phụ thuộc giọng của điện thoại. Có thể đổi sang "Giọng của máy" trong tab Phát âm.
+- Lần đầu nghe, app tải gói âm thanh nhỏ (khoảng 0,4 MB mỗi gói); sau đó tự lưu để dùng offline.
+
+Micro (luyện nói, nhập vai):
+- Mặc định: thu âm + phân tích thanh điệu ngay trên máy, không cần mạng, chạy trên cả iPhone.
+  App vẽ đường cao độ giọng bạn so với giọng mẫu, chỉ ra chữ nào sai thanh, và cho nghe lại giọng bạn.
+- Cần mở qua https (GitHub Pages đã có sẵn). Lần đầu bấm 🎤, chọn Cho phép dùng micro.
+  Nếu lỡ chặn: iPhone → Cài đặt → Safari → Micro → Cho phép; Chrome → biểu tượng ổ khóa → Micro.
+- Tùy chọn "Nhận dạng chữ (Chrome, cần mạng)" trong tab Phát âm: máy nghe ra chữ Hán bạn nói.
+- Trong tab Phát âm có nút "Thử micro" để kiểm tra.
+
+Cập nhật phiên bản mới: upload đè các file mới lên repo (kể cả thư mục audio). Ứng dụng tự lấy bản mới
+ở lần mở tiếp theo (nếu chưa thấy, đóng hẳn app rồi mở lại).

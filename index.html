@@ -5,6 +5,10 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#B3362B">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
 <title>Hán Tự Họa</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -132,7 +136,7 @@ button.part:hover{background:var(--paper)}
 /* flashcards */
 .center{max-width:620px;margin:8px auto 0;display:flex;flex-direction:column;gap:16px}
 .seg{display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:3px;background:var(--surface);align-self:center}
-.seg button{border:0;background:none;border-radius:999px;padding:5px 14px;font-size:13px;font-weight:500;color:var(--muted)}
+.seg button{border:0;border-radius:8px;margin:3px;background:none;border-radius:999px;padding:5px 14px;font-size:13px;font-weight:500;color:var(--muted)}
 .seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:14px;min-height:340px;padding:28px 24px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center}
 .card .big{font-size:120px;line-height:1.1}
@@ -429,6 +433,14 @@ html.flowon,html.flowon body{overflow:hidden}
 .srres.mid{border-color:var(--t2)}.srres.mid .srscore,.srres.mid b{color:var(--t2)}
 .srres.bad{border-color:var(--bad)}.srres.bad .srscore,.srres.bad b{color:var(--bad)}
 .srline{font-size:24px;margin:2px 0;word-break:break-all}
+.pgraph{grid-column:1/-1;margin:4px 0 0}.pgraph svg{width:100%;height:96px;display:block;background:color-mix(in srgb,var(--line) 25%,transparent);border-radius:10px}
+.pgraph polyline{fill:none;stroke-linecap:round;stroke-linejoin:round}.pgm{stroke:var(--muted);stroke-width:5;opacity:.45}.pgu{stroke:var(--accent);stroke-width:3}.pg0{stroke:var(--line);stroke-dasharray:3 4}
+.pgraph figcaption{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px;margin-top:4px}.lgm,.lgu{display:inline-block;width:18px;height:4px;border-radius:2px;background:var(--muted);opacity:.5}.lgu{background:var(--accent);opacity:1;margin-left:10px}
+.srbtns{grid-column:1/-1;display:flex;gap:8px;flex-wrap:wrap}
+.reclv{display:block;width:min(240px,80%);height:8px;border-radius:4px;background:var(--line);overflow:hidden;margin:6px auto}.reclv i{display:block;height:100%;width:0;background:var(--accent);transition:width .08s}
+.rectx{font-size:13px;color:var(--muted)}
+.setrow{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;margin:8px 0}.seg{display:flex;flex-wrap:wrap;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.seg button{border:0;border-radius:8px;margin:3px;background:var(--surface);color:var(--ink,inherit);padding:8px 12px;font:inherit;font-size:14px;min-height:40px}.seg button[aria-pressed="true"]{background:var(--accent);color:#fff}
 .mk-ok{color:var(--good)}.mk-no{color:var(--bad);text-decoration:underline wavy;text-underline-offset:4px}
 .srheard{font-size:13px;color:var(--muted)}.srheard .hz{font-size:15px}
 .roleact{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:8px}
@@ -564,8 +576,6 @@ html.flowon,html.flowon body{overflow:hidden}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 
-</head>
-<body>
 <header class="top">
   <div class="brand">
     <div class="seal" aria-hidden="true">汉</div>
@@ -2236,7 +2246,7 @@ function tone(py){
 const TONENAME = ['Thanh nhẹ: đọc ngắn, không nhấn','Thanh 1 (ngang cao): giữ giọng cao và đều, như "a" kéo dài','Thanh 2 (đi lên): giống dấu sắc tiếng Việt','Thanh 3 (xuống rồi lên): gần với dấu hỏi tiếng Việt','Thanh 4 (rơi xuống): dứt khoát, gần dấu huyền đọc mạnh'];
 const svgPic = (k) => `<svg viewBox="0 0 100 100" aria-hidden="true">${PICS[k]||''}</svg>`;
 const sticks = n => `<svg viewBox="0 0 100 100" aria-hidden="true">${Array.from({length:n},(_,i)=>`<path d="M${50-(n-1)*11+i*22} 18 V82"/>`).join('')}</svg>`;
-function toast(t){const el=$('#toast');el.textContent=t;el.classList.add('on');clearTimeout(toast._t);toast._t=setTimeout(()=>el.classList.remove('on'),2200)}
+function toast(t,ms=2200){const el=$('#toast');el.textContent=t;el.classList.add('on');clearTimeout(toast._t);toast._t=setTimeout(()=>el.classList.remove('on'),ms)}
 const DAY=864e5; const today=()=>new Date().toISOString().slice(0,10);
 
 /* ---------- state ---------- */
@@ -2271,14 +2281,319 @@ function utter(text,{lang='zh',rate=.8,pitch=1,onend}={}){
   u.pitch=pitch; if(onend){u.onend=onend;u.onerror=onend}
   return u;
 }
-function say(text,opt={}){
-  if(!('speechSynthesis' in window)){toast('Trình duyệt này không hỗ trợ đọc thành tiếng');return}
-  if(!opt.keep) speechSynthesis.cancel();
+/* ---------- giọng đọc chuẩn (âm thanh thu sẵn) ---------- */
+const AUDIO_INDEX={"p":{"~ni3":0,"~hao3":0,"~jiao4":0,"~wo3":0,"~xiao3":0,"~ming2":0,"~ne5":0,"~hen3":0,"~ma5":0,"~ye3":0,"~jian4":0,"~shi4":0,"~ren2":0,"~bu2":0,"~hui4":0,"~shuo1":0,"~zai4":0,"~xue2":0,"~nan2":0,"~tai4":0,"~you3":0,"~chi1":0,"~fan4":0,"~le5":0,"~hai2":0,"~qu4":0,"~ba5":0,"~xiang3":0,"~yu2":0,"~de5":0,"~jia1":0,"~ji3":0,"~kou3":0,"~san1":0,"~he2":0,"~ta1":0,"~ai4":0,"~xia4":0,"~yu3":0,"~dai4":0,"~re4":0,"~yao4":0,"~zou3":0,"~mei2":0,"~kan4":0,"~shan1":0,"~gao1":0,"~a5":0,"~yi4":0,"~tiao2":0,"~duo1":0,"~dou1":0,"~shou3":0,"~li3":0,"~ben3":0,"~shu1":1,"~jiu3":1,"~ba1":1,"~qi1":1,"~liu4":1,"~wu3":1,"~si4":1,"~er4":1,"~yi1":1,"~sui4":1,"~shang4":1,"~gou3":1,"~zhi1":1,"~niao3":1,"~niu2":1,"~yang2":1,"~qi2":1,"~ma3":1,"~zhi3":1,"~diao4":1,"~xie3":1,"~zi4":1,"~du2":1,"~dian3":1,"~shi2":1,"~fen1":1,"~hui2":1,"~zuo4":1,"~bu4":1,"~qian2":1,"~kuai4":1,"~gui4":1,"~mai4":1,"~mai3":1,"~liang3":1,"~ge5":1,"~ting1":1,"~dong3":1,"~qing3":1,"~man4":1,"~da3":1,"~zhu4":1,"~guo5":1,"~chang2":1,"~mang2":1,"~kai1":1,"~zhe4":1,"~song4":1,"~leng3":1,"~hua1":1,"~feng1":1,"~da4":1,"~na4":1,"~shua1":2,"~ya2":2,"~ci4":2,"~ti1":2,"~zhang1":2,"~chuang2":2,"~ba3":2,"~deng1":2,"~chuan1":2,"~chang4":2,"~ge1":2,"~wan2":2,"~chuan2":2,"~piao4":2,"~yong4":2,"~fa1":2,"~dian4":2,"~jin4":2,"~chang3":2,"~di4":2,"~wang3":2,"~dao4":2,"~you4":2,"~guai3":2,"~yuan3":2,"~bu5":2,"~lu4":2,"~jiu4":2,"~lou2":2,"~ji4":2,"~ting2":2,"~xing2":2,"~che1":2,"~huan4":2,"~zhan4":2,"~hao4":2,"~xian4":2,"~ding4":2,"~yi2":2,"~gei3":2,"~nin2":2,"~wei4":2,"~huai4":2,"~ling2":2,"~shui3":2,"~rang4":2,"~wan3":2,"~la4":2,"~he1":2,"~bei1":2,"~cha2":2,"~sao3":2,"~cai4":2,"~bang1":3,"~zhe2":3,"~shuang1":3,"~xie2":3,"~neng2":3,"~wang2":3,"~na3":3,"~kong4":3,"~bian4":3,"~gai3":3,"~bie2":3,"~wang4":3,"~ban4":3,"~san4":3,"~yue4":3,"~tian1":3,"~lai2":3,"~jie1":3,"~dui4":3,"~xian1":3,"~deng3":3,"~teng2":3,"~liang2":3,"~du4":3,"~hou4":3,"~la1":3,"~pian4":3,"~qu3":3,"~tian2":3,"~biao3":3,"~ka3":3,"~liao3":3,"~guo4":3,"~zhen1":3,"~jiao1":3,"~an4":3,"~guo2":3,"~yan2":3,"~wei2":3,"~bai3":3,"~jia4":3,"~tai2":3,"~beng4":3,"~na2":3,"~xin1":3,"~qu1":3,"~huang1":3,"~cong2":3,"~huo3":3,"~mie4":3,"~mei3":3,"~lou4":4,"~qi4":4,"~nian2":4,"~di3":4,"~fu4":4,"~qian1":4,"~shei2":4,"~shang5":4,"~bao1":4,"~li5":4,"~ke4":4,"~cha4":4,"~jin1":4,"~bi3":4,"~bing4":4,"~lei4":4,"~pao3":4,"~li2":4,"~zuo3":4,"~wen4":4,"~zhao3":4,"~men2":4,"~guan1":4,"~bei4":4,"~tou1":4,"~chui1":4,"~tang4":4,"~shao3":4,"~fang4":4,"~ping2":4,"~tun1":4,"~kao4":4,"~chuang1":4,"~cuo4":4,"~diu1":4,"~yao1":4,"~gen1":4,"~hua2":4,"~bao4":4,"~di1":4,"~zui4":4,"~jiao3":4,"~xian2":4,"~suan1":4,"~e4":4,"~bao3":4,"~wan4":4,"~yuan2":4,"~shu3":4,"~shuai4":4,"~ri4":4,"~mu4":5,"~nü3":5,"~zi3":5,"~sheng1":5,"~zhong1":5,"~lin2":5,"~sen1":5,"~zhong4":5,"~pin3":5,"~an1":5,"~xin4":5,"~qiu2":5,"~jian1":5,"~ma1":5,"~xie4":5,"~men5":5,"~ba4":5,"~lao3":5,"~shi1":5,"~zao3":5,"~mi3":5,"~guo3":5,"~rou4":5,"~bei3":5,"~jing1":5,"~dong1":5,"~xi1":5,"~hua4":5,"~jiang1":5,"~hai3":5,"~cheng2":5,"~gong1":5,"~ji1":5,"~xing4":5,"~le4":5,"~chun1":5,"~qiu1":5,"~shen1":5,"~ti3":5,"~tou2":5,"~hong2":5,"~bai2":5,"~hei1":5,"~se4":5,"~huang2":5,"~qing1":5,"~er3":5,"~zu2":5,"~mian4":5,"~li4":5,"~fang2":5,"~zhuo1":5,"~yi3":5,"~fu2":5,"~mao4":6,"~xi3":6,"~huan1":6,"~fei1":6,"~lü3":6,"~you2":6,"~guo1":6,"~lu2":6,"~bian1":6,"~yue1":6,"~gao4":6,"~xing1":6,"~zhou1":6,"~mo4":6,"~zheng4":6,"~hu4":6,"~shao1":6,"~gan3":6,"~yin2":6,"~cun2":6,"~peng2":6,"~jie2":6,"~hun1":6,"~ti2":6,"~she4":6,"~jian3":6,"~wei1":6,"~xian3":6,"~ya1":6,"~wen1":6,"~gu4":6,"~zhang4":6,"~shou1":6,"~que4":6,"~ren4":6,"~tong2":6,"~ge2":6,"~liang4":6,"~pa4":6,"~ge4":6,"~a1":6,"~xiang1":6,"~yun2":6,"~ma2":6,"~ma4":6,"~xi4":6,"~ca1":6,"~cha1":6,"~tu4":6,"~ke1":6,"~zheng1":6,"~lü4":6,"~chi3":7,"~hu2":7,"~ye4":7,"什么":8,"名字":8,"安安":8,"高兴":8,"认识":8,"谢谢":8,"明天":8,"上学":8,"中国":8,"越南":8,"中文":8,"一点儿":8,"汉字":8,"意思":8,"没有":8,"我们":8,"一起":8,"这里":8,"新鲜":8,"好吃":8,"爸爸":8,"妈妈":8,"老师":8,"医生":8,"今天":8,"下午":8,"雨伞":8,"客气":8,"对不起":8,"关系":8,"再见":8,"晚安":8,"天气":8,"晚上":8,"月亮":8,"大人":8,"小孩":8,"电话":8,"号码":8,"多少":8,"记下":8,"十八":8,"哪儿":8,"桌子":8,"手机":8,"下面":8,"找到":8,"爷爷":8,"你们":8,"这个":8,"怎么":8,"休息":8,"现在":8,"早上":8,"北京":8,"火车":8,"飞机":8,"一路":8,"平安":8,"十五":8,"十二":8,"请问":8,"看见":8,"问问":8,"哪个":8,"城市":8,"海边":8,"长城":8,"工作":8,"工程师":8,"电厂":8,"每天":8,"生日":8,"快乐":8,"礼物":8,"喜欢":8,"季节":8,"秋天":8,"春天":8,"冬天":8,"头疼":8,"好像":8,"生病":8,"医院":8,"看看":8,"身体":8,"点儿":8,"颜色":8,"红色":8,"白色":9,"黑色":9,"黄色":9,"衣服":9,"好看":9,"耳朵":9,"鼻子":9,"足球":9,"力气":9,"房间":9,"椅子":9,"窗户":9,"白天":9,"不用":9,"大衣":9,"帽子":9,"门口":9,"鞋子":9,"那儿":9,"爱好":9,"跑步":9,"周末":9,"还是":9,"机场":9,"旅游":9,"工厂":9,"发电厂":9,"锅炉":9,"那边":9,"安全帽":9,"安全":9,"地铁站":9,"一直":9,"路口":9,"分钟":9,"好意思":9,"附近":9,"厕所":9,"超市":9,"旁边":9,"银行":9,"对面":9,"左边":9,"那个":9,"知道":9,"师傅":9,"饭店":9,"安全带":9,"时间":9,"堵车":9,"的话":9,"大概":9,"二十":9,"前面":9,"一下":9,"一共":9,"三十五":9,"地铁":9,"便宜":9,"明白":9,"护照":9,"早饭":9,"房卡":9,"无线网":9,"密码":9,"前台":9,"空调":9,"马上":9,"麻烦":9,"欢迎":9,"光临":9,"菜单":9,"青菜":9,"米饭":9,"服务员":9,"买单":9,"一百":9,"二十八":9,"可以":9,"微信":9,"剩下":9,"打包":9,"问题":9,"试试":9,"试衣间":9,"有点儿":10,"怎么样":10,"合适":10,"原价":10,"三百":10,"二百":10,"经理":10,"公司":10,"阿明":10,"办公室":10,"一定":10,"准时":10,"清楚":10,"听见":10,"会议":10,"星期五":10,"邮件":10,"告诉":10,"大家":10,"打算":10,"星期六":10,"上午":10,"加班":10,"咖啡":10,"见面":10,"十三":10,"星期二":10,"快要":10,"登机":10,"手续":10,"出示":10,"行李":10,"托运":10,"箱子":10,"登机牌":10,"登机口":10,"航班":10,"晚点":10,"正点":10,"提前":10,"小时":10,"先生":10,"路上":10,"辛苦":10,"酒店":10,"外面":10,"舒服":10,"嗓子":10,"发烧":10,"体温":10,"三十八":10,"感冒":10,"青霉素":10,"过敏":10,"肚子":10,"需要":10,"二十五":10,"如果":10,"美元":10,"人民币":10,"五百":10,"这儿":10,"手续费":10,"取款机":10,"外国":10,"马路":10,"打扰":10,"漂亮":10,"哪里":10,"随便":10,"当然":11,"机器":11,"简单":11,"河内":11,"老家":11,"广州":11,"上海":11,"结婚":11,"孩子":11,"今年":11,"以后":11,"保持":11,"联系":11,"平时":11,"兴趣":11,"讨论":11,"项目":11,"进度":11,"部门":11,"任务":11,"已经":11,"完成":11,"八十":11,"备件":11,"可能":11,"推迟":11,"星期":11,"建议":11,"厂家":11,"尽快":11,"解决":11,"同意":11,"负责":11,"报告":11,"周三":11,"学校":11,"家长会":11,"安排":11,"值班":11,"水泵":11,"声音":11,"正常":11,"检查":11,"轴承":11,"停机":11,"维修":11,"切换":11,"备用":11,"下来":11,"仓库":11,"工具":11,"螺丝":11,"运行":11,"振动":11,"温度":11,"检修":11,"记录":11,"车间":11,"手套":11,"抽烟":11,"禁止":11,"吸烟":11,"危险":11,"注意":11,"高压":11,"入内":11,"着火":11,"灭火器":11,"报警":11,"受伤":11,"紧急":11,"出口":11,"出去":11,"压力":11,"十六":11,"兆帕":11,"四十":11,"负荷":11,"兆瓦":11,"警报":11,"风机":11,"升高":12,"降低":12,"发现":12,"管道":12,"通知":12,"交接班":12,"报价单":12,"收到":12,"附件":12,"重新":12,"回复":12,"确认":12,"交货":12,"视频":12,"开始":12,"翻译":12,"变化":12,"报价":12,"价格":12,"数量":12,"超过":12,"一千":12,"折扣":12,"质量":12,"保修":12,"合格":12,"考虑":12,"答复":12,"合同":12,"条件":12,"双方":12,"满意":12,"付款":12,"方式":12,"三十":12,"合作":12,"愉快":12,"希望":12,"长期":12,"他们":12,"上班":12,"拍照":12,"东西":12,"摩托车":12,"日语":12,"正在":12,"昨天":12,"因为":12,"所以":12,"时候":12,"介绍":12,"方便":12,"聪明":12,"认真":12,"起飞":12,"海鲜":12,"应该":12,"设备":12,"电源":12,"修理":12,"虽然":12,"但是":12,"越南语":12,"一边":12,"音乐":12,"聊天":12,"好久":12,"最近":12,"非常":12,"感谢":12,"名片":12,"来自":12,"贵姓":12,"英语":12,"右边":12,"迷路":12,"地图":12,"地址":12,"发票":12,"火车站":12,"入住":12,"叫醒":12,"退房":12,"推荐":13,"猪肉":13,"啤酒":13,"干杯":13,"只是":13,"退货":13,"汇率":13,"零钱":13,"签证":13,"出差":13,"座位":13,"迟到":13,"救命":13,"帮帮":13,"救护车":13,"钱包":13,"大使馆":13,"急救":13,"火警":13,"意见":13,"资料":13,"领导":13,"商量":13,"图纸":13,"阀门":13,"填写":13,"参数":13,"靠近":13,"小心":13,"停止":13,"样品":13,"加油":13,"新年":13,"太阳":13,"山水":13,"火山":13,"下雨":13,"森林":13,"树木":13,"人们":13,"人口":13,"眼睛":13,"观众":13,"一个":13,"第一":13,"上面":13,"中间":13,"里面":13,"本子":13,"你好":13,"不客气":13,"没关系":13,"哥哥":13,"姐姐":13,"弟弟":13,"妹妹":13,"儿子":13,"女儿":13,"家人":13,"爱人":13,"小狗":13,"小猫":13,"小鸟":13,"金鱼":13,"牛奶":13,"羊肉":13,"动物":13,"绿色":13,"蓝色":13,"牙齿":13,"嘴巴":13,"自己":13,"面条":13,"刷牙":13,"学生":13,"书包":13,"写字":13,"读书":13,"考试":13,"教室":13,"写信":13,"中午":13,"吃饭":13,"喝水":13,"喝茶":13,"面包":13,"水果":13,"苹果":14,"鸡蛋":14,"汽车":14,"公共汽车":14,"自行车":14,"出租车":14,"回来":14,"走路":14,"商店":14,"多少钱":14,"一块钱":14,"买东西":14,"卖完了":14,"说话":14,"汉语":14,"房子":14,"起床":14,"电灯":14,"厨房":14,"电视":14,"冰箱":14,"穿衣服":14,"裤子":14,"裙子":14,"袜子":14,"唱歌":14,"跳舞":14,"游泳":14,"玩游戏":14,"看电影":14,"踢足球":14,"画画":14,"国家":14,"长江":14,"黄河":14,"大海":14,"首都":14,"人民":14,"工人":14,"电脑":14,"开会":14,"下班":14,"生气":14,"难过":14,"害怕":14,"担心":14,"有意思":14,"产品":14,"笔尖":14,"很冷":14,"很热":14,"刮风":14,"下雪":14,"夏天":14,"吃药":14,"体育":14,"发炎":14,"运动":14,"坐船":14,"车票":14,"照相":14,"汽轮机":14,"发电机":14,"煤炭":14,"天然气":14,"石油":14,"能源":14,"安全第一":14,"后面":14,"很远":14,"很近":14,"往前走":14,"往左拐":14,"往右拐":14,"红绿灯":14,"公交车站":14,"怎么走":14,"打车":14,"司机":14,"到了":14,"停车":14,"一直走":15,"掉头":15,"快一点儿":15,"慢一点儿":15,"下车":15,"上车":15,"多长时间":15,"扫码":15,"高铁":15,"订房间":15,"单人间":15,"双人间":15,"几楼":15,"电梯":15,"热水":15,"毛巾":15,"坏了":15,"一晚":15,"押金":15,"点菜":15,"几位":15,"不要辣":15,"一杯":15,"一碗":15,"筷子":15,"勺子":15,"饺子":15,"素菜":15,"好喝":15,"打折":15,"便宜一点儿":15,"大小":15,"一双":15,"一件":15,"现金":15,"刷卡":15,"微信支付":15,"支付宝":15,"太贵了":15,"怎么卖":15,"找钱":15,"打电话":15,"手机号":15,"发短信":15,"有空":15,"没空":15,"约会":15,"忘了":15,"别忘了":15,"打错了":15,"听不清楚":15,"再说一遍":15,"没问题":15,"星期一":15,"星期天":15,"后天":15,"上个月":15,"下个月":15,"去年":15,"明年":15,"半个小时":15,"三点半":15,"一刻":15,"什么时候":15,"以前":15,"日期":15,"安检":15,"海关":15,"降落":15,"取消":15,"入口":15,"填表":15,"签名":15,"换钱":16,"不舒服":16,"量体温":16,"咳嗽":16,"嗓子疼":16,"肚子疼":16,"拉肚子":16,"挂号":16,"看病":16,"打针":16,"药店":16,"一天三次":16,"饭后":16,"多喝水":16,"急诊":16,"头晕":16,"好点儿了":16,"银行卡":16,"取钱":16,"存钱":16,"越南盾":16,"账号":16,"转账":16,"开户":16,"身份证":16,"排队":16,"取号":16,"请进":16,"请坐":16,"请喝茶":16,"帮忙":16,"麻烦你":16,"不好意思":16,"别客气":16,"不行":16,"不对":16,"好的":16,"让我想想":16,"慢走":16,"辛苦了":16,"恭喜":16,"打扰了":16,"朋友":16,"男朋友":16,"女朋友":16,"多大":16,"住在":16,"出生":16,"性格":16,"可爱":16,"保持联系":16,"一言为定":16,"会议室":16,"计划":16,"反对":16,"同事":16,"请假":16,"零件":16,"开关":16,"更换":16,"当心":16,"禁止吸烟":16,"禁止入内":16,"防护眼镜":16,"触电":16,"紧急出口":16,"事故":16,"戴好":16,"规定":16,"高温":16,"流量":16,"水位":16,"电压":16,"电流":16,"功率":16,"故障":16,"漏水":16,"漏气":16,"异常":16,"发邮件":17,"视频会议":17,"时间表":17,"文件":17,"打印":17,"签字":17,"订单":17,"客户":17,"决定":17,"签合同":17,"中国人":17,"日本":17,"一月":17,"爬山":17,"木头":17,"目标":17,"题目":17,"女人":17,"开门":17,"钓鱼":17,"田地":17,"开心":17,"手表":17,"大学":17,"二月":17,"三月":17,"三天":17,"树林":17,"男人":17,"从来":17,"炎热":17,"看书":17,"回家":17,"相信":17,"囚犯":17,"河边":17,"不谢":17,"我爱你":17,"是的":17,"不是":17,"不好":17,"学习":17,"四月":17,"四个":17,"五个":17,"五月":17,"六点":17,"七天":17,"八月":17,"九点":17,"十月":17,"她们":17,"牛肉":17,"老人":17,"早上好":17,"绿茶":17,"一米":17,"做菜":17,"去学校":17,"北方":17,"南京":17,"卖东西":17,"很多":17,"很少":17,"东方":17,"西瓜":17,"听音乐":17,"说中文":17,"开车":17,"会说":17,"很高":17,"很快":17,"热情":17,"春节":17,"大风":17,"风景":17,"头发":17,"病人":17,"红茶":17,"黑板":17,"青年":17,"努力":17,"歌手":17,"好玩":17,"车站":17,"门票":17,"能力":17,"火锅":17,"炉子":17,"远不远":17,"到机场":17,"停一下":18,"往左":18,"这边":18,"预订":18,"几号":18,"楼上":18,"三楼":18,"八点":18,"很辣":18,"很甜":18,"甜点":18,"杯子":18,"一杯咖啡":18,"一碗米饭":18,"一双鞋":18,"等一下":18,"等我":18,"大约":18,"广告":18,"星星":18,"假期":18,"下周":18,"月末":18,"一半":18,"市场":18,"护士":18,"李先生":18,"烧烤":18,"换车":18,"取票":18,"保存":18,"让我看看":18,"让一下":18,"帮我":18,"很忙":18,"友好":18,"结束":18,"婚礼":18,"几岁":18,"岁数":18,"报纸":18,"设计":18,"准备":18,"查一下":18,"保险":18,"注意安全":18,"速度":18,"邮局":18,"收拾":18,"正确":18,"价钱":18,"很好":18,"不去":18,"不忙":18,"你的":18,"~xiu1":18,"我叫小明你呢":19,"你好吗":19,"我也很好":19,"上学明天见":19,"你是中国人吗":19,"你会说中文吗":19,"汉字难吗":19,"你吃饭了吗":19,"好你想吃什么":19,"这里的鱼很新鲜很好吃":19,"你家有几口人":19,"你妈妈是老师吗":19,"我爱我的家":19,"今天下雨吗":19,"好的谢谢明天呢":19,"谢谢你":19,"对不起我要走了":19,"再见晚安":19,"你看山很高":19,"今天的天气很好":19,"这里人很多":19,"你看他手里有什么":19,"你的电话号码是多少":19,"好我记下了你几岁":19,"我的书在哪儿":19,"我的手机呢":19,"找到了谢谢":19,"你家有狗吗":19,"我爷爷家有牛和羊":19,"不会我只会钓鱼":19,"老师好":19,"老师这个字怎么读":19,"现在几点":19,"你几点上学":19,"你去哪儿":19,"你怎么去坐火车吗":19,"一路平安":19,"这个多少钱":19,"太贵了十块卖吗":19,"好我买两个":19,"你听得懂中文吗":19,"好请问你看见我的书了吗":19,"你住在哪个城市":19,"你去过长城吗":19,"你做什么工作":19,"工作忙吗":19,"祝你生日快乐":19,"这是我送你的礼物":19,"你喜欢什么季节":19,"我喜欢春天春天有很多花":20,"你怎么了":20,"你去医院看看吧":20,"祝你身体快点儿好":20,"你喜欢什么颜色":20,"我喜欢白色和黑色":20,"这是什么":20,"你每天刷牙吗":20,"你喜欢踢足球吗":20,"你的房间大吗":20,"有窗户吗":20,"今天很冷你穿大衣吧":20,"在门口鞋子也在那儿":20,"你的爱好是什么":20,"周末我们一起去玩吧":20,"我们坐飞机去还是坐船去":20,"票买了吗":20,"旅游快乐":20,"这是什么工厂":20,"锅炉在哪儿":20,"好的安全第一":20,"请问地铁站怎么走":20,"不好意思这附近有厕所吗":20,"超市在哪儿":20,"好的我知道了":20,"师傅去北京饭店":20,"到那儿要多长时间":20,"好在前面停一下就行":20,"去机场坐地铁还是打车":20,"在哪儿换车":20,"明白了谢谢":20,"你好我订了一个房间":20,"给你有早饭吗":20,"谢谢无线网密码是多少":20,"喂前台吗我的房间空调坏了":20,"八零六也没有热水":20,"好的麻烦你们了":20,"两位请给我们菜单":20,"我们要一个鱼一个青菜两碗米饭":20,"不要太辣一点儿就行":20,"两杯茶谢谢":21,"服务员买单":21,"可以用微信吗":21,"剩下的菜帮我打包好吗":21,"这件衣服可以试试吗":21,"有点儿小有大一点儿的吗":21,"很合适多少钱":21,"这双鞋怎么卖":21,"太贵了便宜一点儿吧":21,"一百二我就买":21,"喂是王经理吗":21,"我是越南公司的阿明明天下午您有空吗":21,"好我一定准时到":21,"喂喂我听不清楚":21,"能听见了请再说一遍":21,"知道了别忘了发邮件告诉大家":21,"这个周末你有什么打算":21,"那我们三点半去喝咖啡吧":21,"公司门口不见不散":21,"今天几月几号":21,"你的生日是哪天":21,"你好我要办登机手续":21,"有一个箱子":21,"航班会晚点吗":21,"您好您是李先生吗":21,"对欢迎来越南路上辛苦了":21,"对车在外面等我们":21,"你哪儿不舒服":21,"我给你量一下体温三十八度":21,"是感冒了这个药一天三次饭后吃":21,"没关系这个药里没有多喝水多休息":21,"你好我拉肚子有什么药":21,"需要多少钱":21,"好的谢谢":22,"你好我想换钱":22,"美元换人民币换五百美元":22,"要手续费吗":22,"附近有取款机吗我的卡取不了钱":22,"中国银行远吗":22,"欢迎欢迎请进":22,"你太客气了请坐请喝茶":22,"哪里哪里随便坐别客气":22,"不好意思能帮我一个忙吗":22,"我不会用这个机器麻烦你教我一下":22,"太好了辛苦你了":22,"你是哪国人":22,"我老家在广州现在住在上海":22,"结婚了有一个孩子今年五岁":22,"你平时喜欢做什么":22,"我对做饭很有兴趣":22,"大家好今天的会议讨论一下项目进度":22,"还有什么问题吗":22,"我建议马上联系厂家尽快解决":22,"经理下周三我想请一天假":22,"我孩子的学校开家长会":22,"安排好了小王会帮我值班":22,"这台水泵的声音不正常":22,"要停机维修吗":22,"仓库里有备件吗":22,"修好了吗":22,"试运行了吗":22,"好请写一下检修记录":22,"进车间要戴安全帽和手套":22,"不可以这里禁止吸烟很危险":22,"注意那边是高压区禁止入内":22,"快来那边着火了":22,"有人受伤吗":23,"火已经灭了":23,"现在锅炉的压力是多少":23,"负荷多少":23,"好每个小时记录一次":23,"警报响了什么问题":23,"先降低负荷再检查一下":23,"马上通知检修部门做好交接班记录":23,"李经理报价单您收到了吗":23,"好的我马上重新发":23,"谢谢请确认一下交货时间":23,"明天的视频会议几点开始":23,"需要翻译吗":23,"如果时间有变化请提前通知我":23,"这是我们的报价请您看一下":23,"如果数量超过一千件我们可以给百分之五的折扣":23,"质量合格保修两年":23,"合同的条件双方都满意吗":23,"对付款方式是先付百分之三十":23,"合作愉快希望长期合作":23,"我是越南人":23,"她是老师":23,"他不是医生":23,"你忙吗":23,"我不喝咖啡":23,"今天不冷":23,"他不去":23,"我很好你呢":23,"我是越南人你呢":23,"我很好":23,"这个菜很好吃":23,"北京很大":23,"你叫什么名字":23,"他是谁":23,"这是我的书":23,"我妈妈是医生":23,"老师的电话是多少":23,"我有两个孩子":23,"他没有车":23,"这儿有厕所吗":23,"你有几个孩子":23,"你们公司有多少人":24,"你几岁":24,"我买了两本书":24,"他家有一只狗":24,"我要三张票":24,"你在哪儿":24,"我在公司":24,"我在银行工作":24,"书在桌子上":24,"钱在包里":24,"银行在超市旁边":24,"我也是越南人":24,"我们都喜欢喝茶":24,"他们也都来了":24,"我们走吧":24,"你是王老师吧":24,"坐地铁吧":24,"我明天去北京":24,"他每天八点上班":24,"我晚上在家看书":24,"现在八点半":24,"我们十点一刻开会":24,"差五分九点":24,"我想喝咖啡":24,"我要一杯茶":24,"我不想去":24,"我会说一点儿中文":24,"你明天能来吗":24,"这里可以拍照吗":24,"我去超市买东西":24,"他来越南工作":24,"我们去饭店吃饭吧":24,"我坐飞机去上海":24,"他开车上班":24,"我骑摩托车去公司":24,"三块五一斤":24,"一共一百二十块":24,"今天太热了":24,"汉字不太难":24,"你看看这个":24,"我试试":24,"请等一下":24,"我吃饭了":24,"他买了一本书":24,"下雨了":24,"我没去":24,"他还没来":24,"你吃饭了没有":24,"我去过北京":24,"你吃过越南菜吗":24,"我没学过日语":24,"他在开会":24,"我正在吃饭呢":24,"外面在下雨":24,"今天比昨天冷":24,"他比我大三岁":24,"地铁比打车便宜多了":24,"因为下雨所以我没去":25,"因为他病了所以没来上班":25,"我很累因为昨天加班了":25,"你是什么时候来的":25,"我是坐飞机来的":25,"这是在哪儿买的":25,"你说得很好":25,"他跑得很快":25,"她写汉字写得很漂亮":25,"天气越来越冷了":25,"你的中文越来越好":25,"我越来越喜欢中国菜":25,"我给你打电话":25,"请给我看看":25,"他给妈妈买了礼物":25,"酒店离机场很远":25,"我家离公司不远":25,"地铁站离这儿近吗":25,"到路口往左拐":25,"往右看":25,"我从八点到五点上班":25,"从这儿到机场要多长时间":25,"从河内到北京坐飞机三个小时":25,"我介绍一下":25,"请你看一下":25,"我问一下厕所在哪儿":25,"这件衣服有点儿贵":25,"便宜一点儿吧":25,"请说慢一点儿":25,"这个菜又便宜又好吃":25,"地铁又快又方便":25,"他又聪明又认真":25,"飞机要起飞了":25,"快要下雨了":25,"会议快要开始了":25,"我看完了":25,"你听懂了吗":25,"我找到护照了":25,"我对海鲜过敏":25,"他对我很好":25,"我对这个工作很有兴趣":25,"请把门关上":25,"我把报告发给你了":25,"请把护照给我":25,"他可能不来了":25,"你应该多休息":25,"我们应该先检查一下":25,"我的手机被偷了":26,"门被风吹开了":26,"设备被他修好了":26,"如果明天下雨我们就不去了":26,"如果有问题就给我打电话":26,"如果压力太高就马上停机":26,"先吃饭再工作":26,"我们先去酒店再去公司":26,"先关电源再修理":26,"虽然价格有点儿高但是质量很好":26,"虽然很累但是我很高兴":26,"虽然他是中国人但是他会说越南语":26,"他一边吃饭一边看手机":26,"我喜欢一边听音乐一边跑步":26,"我们一边喝茶一边聊天吧":26,"您好":26,"晚上好":26,"好久不见":26,"你最近怎么样":26,"非常感谢":26,"明天见":26,"我叫阿明":26,"我是工程师":26,"我在发电厂工作":26,"很高兴认识你":26,"这是我的名片":26,"我来自河内":26,"我学了三个月中文":26,"您贵姓":26,"我们加个微信吧":26,"我听不懂":26,"请再说一遍":26,"这个用中文怎么说":26,"这是什么意思":26,"请写下来":26,"我的中文不太好":26,"你会说英语吗":26,"有没有翻译":26,"我明白了":26,"对吗":26,"厕所在哪儿":26,"离这儿远吗":26,"走路要多长时间":26,"一直往前走":26,"在路口往左拐":26,"在右边":26,"我迷路了":26,"可以在地图上指给我看吗":26,"附近有超市吗":27,"师傅去这个地址":27,"请到机场":27,"请开快一点儿":27,"在这儿停车":27,"请给我发票":27,"这趟车去火车站吗":27,"下一站是哪儿":27,"我要买一张去上海的票":27,"到了请告诉我":27,"我订了房间":27,"我要办入住":27,"有空房间吗":27,"一晚多少钱":27,"早饭几点开始":27,"无线网密码是多少":27,"空调坏了":27,"没有热水":27,"请明天早上六点叫醒我":27,"我要退房":27,"可以帮我叫车吗":27,"请给我菜单":27,"有什么推荐的菜":27,"我要这个":27,"少放盐":27,"我不吃猪肉":27,"再来一瓶啤酒":27,"很好吃":27,"可以打包吗":27,"可以试试吗":27,"有大一点儿的吗":27,"有别的颜色吗":27,"我只是看看":27,"可以刷卡吗":27,"可以用微信付吗":27,"就要这个了":27,"可以退货吗":27,"附近有银行吗":27,"我想换钱":27,"今天的汇率是多少":27,"取款机在哪儿":27,"我的卡取不了钱":27,"可以换零钱吗":27,"我的卡被吞了":27,"我要办登机手续":27,"登机口在哪儿":27,"航班晚点了吗":27,"我的行李不见了":27,"这是我的护照和签证":27,"我来出差":27,"我住在北京饭店":27,"可以要靠窗的座位吗":27,"今天几号":27,"你什么时候有空":27,"我们几点见面":28,"明天上午十点可以吗":28,"我会晚到十分钟":28,"对不起我迟到了":28,"时间改到星期五":28,"不见不散":28,"喂你好":28,"请问是哪位":28,"我找王经理":28,"他现在不在":28,"请他给我回个电话":28,"我听不清楚":28,"你打错了":28,"我给你发微信":28,"请发邮件给我":28,"手机没电了":28,"请帮帮我":28,"快叫救护车":28,"我不舒服":28,"我头疼":28,"我发烧了":28,"附近有医院吗":28,"我需要看医生":28,"我的护照丢了":28,"我的钱包被偷了":28,"请报警":28,"越南大使馆在哪儿":28,"报警电话是一一零":28,"急救电话是一二零":28,"火警电话是一一九":28,"我们开始开会吧":28,"我先介绍一下":28,"我同意你的意见":28,"我有一个问题":28,"这个问题我们再讨论一下":28,"什么时候能完成":28,"请把资料发给我":28,"我需要跟领导商量一下":28,"今天就到这儿吧":28,"辛苦大家了":28,"合作愉快":28,"这台设备有什么问题":28,"压力太高了":28,"温度正常吗":28,"需要停机检修":28,"备件什么时候到":28,"请给我看一下图纸":28,"这个阀门漏了":28,"振动太大":28,"请先关掉电源":28,"修好了可以试运行":28,"请填写检修记录":28,"这个参数是多少":28,"请戴好安全帽":29,"这里禁止吸烟":29,"危险不要靠近":29,"小心地滑":29,"高压危险":29,"着火了":29,"紧急出口在哪儿":29,"有人受伤了":29,"请马上停止工作":29,"请给我们报个价":29,"价格能不能再低一点儿":29,"最低多少钱":29,"什么时候能交货":29,"保修多长时间":29,"我们考虑一下":29,"可以先寄样品吗":29,"付款方式是什么":29,"我们签合同吧":29,"希望长期合作":29,"太好了":29,"真漂亮":29,"你的中文说得很好":29,"哪里哪里":29,"我很高兴":29,"我很累":29,"新年快乐":29,"随便坐":29,"B:你好你叫什么名字":30,"B:我叫安安很高兴认识你":30,"B:我很好谢谢你呢":30,"B:你明天上学吗":30,"B:不是我是越南人":30,"B:会一点儿我在学汉字":30,"B:不太难很有意思":30,"B:还没有我们一起去吃吧":30,"B:我想吃鱼":30,"B:我家有三口人爸爸妈妈和我":30,"B:不是她是医生":30,"B:下午下雨你带雨伞吧":30,"B:明天很热":30,"B:不客气":30,"B:没关系再见":30,"B:是啊山下有一条河":30,"B:晚上我们一起看月亮吧":30,"B:是啊大人小孩都有":30,"B:他手里有一本书":30,"B:九八七六五四三二一":30,"B:我十八岁":30,"B:在桌子上":30,"B:在书下面":30,"B:没有我家有一只鸟":30,"B:你会骑马吗":30,"B:你们好今天我们学写汉字":30,"B:读休休息的休":30,"B:早上七点十分":30,"B:八点下午五点回家":30,"B:我去北京":30,"B:不坐飞机去":30,"B:十五块":30,"B:好吧十二块":30,"B:听得懂一点儿请你说慢一点儿":30,"B:没看见你打电话问问他吧":30,"B:我住在海边的城市":30,"B:去过长城很长":30,"B:我是工程师在电厂工作":30,"B:很忙每天都要开会":30,"B:谢谢我今天很高兴":30,"B:太好了我很喜欢":30,"B:我喜欢秋天不冷也不热":31,"B:冬天风很大太冷了":31,"B:我头疼好像生病了":31,"B:医生说要吃药多休息":31,"B:我喜欢红色你呢":31,"B:这件黄色的衣服很好看":31,"B:这是耳朵那是鼻子":31,"B:每天刷两次":31,"B:喜欢踢足球要有力气":31,"B:不大有一张床一张桌子和一把椅子":31,"B:有窗户很大白天不用开灯":31,"B:好我的帽子在哪儿":31,"B:谢谢妈妈":31,"B:我喜欢唱歌和跑步":31,"B:好啊我很高兴":31,"B:坐飞机吧快一点儿":31,"B:买了明天早上在机场见":31,"B:这是发电厂用煤发电":31,"B:在那边进厂要戴安全帽":31,"B:一直往前走到路口往右拐":31,"B:不远走路五分钟就到了":31,"B:有在超市旁边":31,"B:就在银行对面左边那个楼":31,"B:好的请系好安全带":31,"B:不堵车的话大概二十分钟":31,"B:到了一共三十五块":31,"B:坐地铁吧又快又便宜":31,"B:在第三站下车换二号线":31,"B:请给我看一下您的护照":31,"B:有早饭在二楼七点到九点":31,"B:这是您的房卡房间在八楼":31,"B:对不起您住几号房间":31,"B:我们马上让人去修":32,"B:欢迎光临几位":32,"B:要辣的吗":32,"B:喝点儿什么":32,"B:一共一百二十八块":32,"B:可以请扫这个码":32,"B:没问题":32,"B:可以试衣间在那边":32,"B:有这件怎么样":32,"B:原价三百现在打八折二百四":32,"B:一百五一双":32,"B:一百三不能再便宜了":32,"B:好吧卖给你":32,"B:是我请问你是哪位":32,"B:有空三点在我办公室见吧":32,"B:现在呢能听见吗":32,"B:我说会议改到星期五了":32,"B:星期六上午要加班下午有空":32,"B:好啊在哪儿见面":32,"B:今天十月十三号星期二":32,"B:下个月五号快要到了":32,"B:请出示护照有行李要托运吗":32,"B:这是您的登机牌登机口是十二号":32,"B:现在是正点请提前半个小时登机":32,"B:是的你是来接我的吧":32,"B:不辛苦我们先去酒店吗":32,"B:我头疼嗓子也疼还有点儿发烧":32,"B:我对青霉素过敏":32,"B:吃这个吧一次两片":32,"B:二十五块如果明天还不舒服要去医院":32,"B:换什么钱换多少":32,"B:请先取号在这儿填表":32,"B:不要":32,"B:你是外国卡吧去中国银行试试":32,"B:不远过马路就到":32,"B:打扰了这是一点儿小礼物":33,"B:谢谢你家真漂亮":33,"B:当然可以什么事":33,"B:很简单先按这个再按那个":33,"B:我是越南人在河内工作你呢":33,"B:你结婚了吗":33,"B:我们加个微信吧以后保持联系":33,"B:我喜欢看书和踢足球你呢":33,"B:太好了有空来我家玩一起做越南菜":33,"B:我们部门的任务已经完成了百分之八十":33,"B:有一个问题备件还没到可能会推迟一个星期":33,"B:同意我负责联系明天给大家报告":33,"B:有什么事吗":33,"B:可以你的工作安排好了吗":33,"B:我来检查一下可能是轴承坏了":33,"B:要先切换到备用泵再把这台停下来":33,"B:有我去拿工具":33,"B:修好了换了一个新的轴承和两个螺丝":33,"B:试了半个小时振动和温度都正常":33,"B:好的这里可以抽烟吗":33,"B:明白了安全第一":33,"B:别慌先拿灭火器我马上报警":33,"B:没有大家从紧急出口出去":33,"B:压力十六点五兆帕温度五百四十度":33,"B:三百兆瓦运行正常":33,"B:二号风机振动太大温度也在升高":33,"B:发现管道漏气了":33,"B:收到了附件打不开请再发一次":34,"B:收到后我会尽快回复":34,"B:北京时间上午十点越南时间九点":34,"B:需要我已经安排好了":34,"B:价格有点儿高能不能打个折":34,"B:质量和保修呢":34,"B:好我考虑一下明天给您答复":34,"B:满意交货时间是三月底对吗":34,"B:没问题那我们签合同吧":34},"c":{"人":"~ren2","口":"~kou3","日":"~ri4","月":"~yue4","山":"~shan1","水":"~shui3","火":"~huo3","木":"~mu4","目":"~mu4","女":"~nü3","子":"~zi3","门":"~men2","马":"~ma3","鱼":"~yu2","雨":"~yu3","田":"~tian2","心":"~xin1","手":"~shou3","大":"~da4","小":"~xiao3","生":"~sheng1","一":"~yi1","二":"~er4","三":"~san1","上":"~shang4","下":"~xia4","中":"~zhong1","本":"~ben3","休":"~xiu1","明":"~ming2","好":"~hao3","林":"~lin2","森":"~sen1","男":"~nan2","从":"~cong2","众":"~zhong4","品":"~pin3","炎":"~yan2","看":"~kan4","家":"~jia1","安":"~an1","字":"~zi4","信":"~xin4","囚":"~qiu2","尖":"~jian1","鲜":"~xian1","妈":"~ma1","吗":"~ma5","河":"~he2","你":"~ni3","吃":"~chi1","谢":"~xie4","我":"~wo3","是":"~shi4","不":"~bu4","爱":"~ai4","学":"~xue2","国":"~guo2","四":"~si4","五":"~wu3","六":"~liu4","七":"~qi1","八":"~ba1","九":"~jiu3","十":"~shi2","他":"~ta1","她":"~ta1","们":"~men5","爸":"~ba4","牛":"~niu2","羊":"~yang2","鸟":"~niao3","书":"~shu1","写":"~xie3","读":"~du2","老":"~lao3","师":"~shi1","年":"~nian2","天":"~tian1","今":"~jin1","时":"~shi2","分":"~fen1","早":"~zao3","晚":"~wan3","午":"~wu3","喝":"~he1","饭":"~fan4","茶":"~cha2","米":"~mi3","菜":"~cai4","果":"~guo3","肉":"~rou4","去":"~qu4","来":"~lai2","走":"~zou3","车":"~che1","路":"~lu4","北":"~bei3","京":"~jing1","买":"~mai3","卖":"~mai4","钱":"~qian2","多":"~duo1","少":"~shao3","块":"~kuai4","东":"~dong1","西":"~xi1","见":"~jian4","听":"~ting1","说":"~shuo1","话":"~hua4","问":"~wen4","江":"~jiang1","海":"~hai3","城":"~cheng2","市":"~shi4","工":"~gong1","作":"~zuo4","电":"~dian4","机":"~ji1","医":"~yi1","开":"~kai1","会":"~hui4","高":"~gao1","兴":"~xing4","快":"~kuai4","乐":"~le4","冷":"~leng3","热":"~re4","春":"~chun1","夏":"~xia4","秋":"~qiu1","冬":"~dong1","风":"~feng1","身":"~shen1","体":"~ti3","头":"~tou2","病":"~bing4","药":"~yao4","红":"~hong2","白":"~bai2","黑":"~hei1","色":"~se4","黄":"~huang2","青":"~qing1","耳":"~er3","自":"~zi4","牙":"~ya2","足":"~zu2","面":"~mian4","力":"~li4","房":"~fang2","床":"~chuang2","桌":"~zhuo1","椅":"~yi3","灯":"~deng1","窗":"~chuang1","衣":"~yi1","服":"~fu2","穿":"~chuan1","鞋":"~xie2","帽":"~mao4","唱":"~chang4","歌":"~ge1","跑":"~pao3","玩":"~wan2","喜":"~xi3","欢":"~huan1","飞":"~fei1","船":"~chuan2","站":"~zhan4","票":"~piao4","旅":"~lü3","游":"~you2","厂":"~chang3","气":"~qi4","油":"~you2","煤":"~mei2","能":"~neng2","锅":"~guo1","炉":"~lu2","左":"~zuo3","右":"~you4","前":"~qian2","后":"~hou4","远":"~yuan3","到":"~dao4","停":"~ting2","往":"~wang3","边":"~bian1","近":"~jin4","住":"~zhu4","订":"~ding4","号":"~hao4","间":"~jian1","楼":"~lou2","点":"~dian3","辣":"~la4","甜":"~tian2","杯":"~bei1","碗":"~wan3","便":"~bian4","宜":"~yi2","贵":"~gui4","试":"~shi4","双":"~shuang1","打":"~da3","等":"~deng3","约":"~yue1","忘":"~wang4","告":"~gao4","星":"~xing1","期":"~qi1","周":"~zhou1","末":"~mo4","半":"~ban4","场":"~chang3","签":"~qian1","证":"~zheng4","护":"~hu4","李":"~li3","疼":"~teng2","烧":"~shao1","感":"~gan3","冒":"~mao4","舒":"~shu1","银":"~yin2","换":"~huan4","卡":"~ka3","取":"~qu3","存":"~cun2","请":"~qing3","让":"~rang4","帮":"~bang1","忙":"~mang2","对":"~dui4","朋":"~peng2","友":"~you3","结":"~jie2","婚":"~hun1","岁":"~sui4","议":"~yi4","报":"~bao4","计":"~ji4","划":"~hua4","题":"~ti2","设":"~she4","备":"~bei4","修":"~xiu1","检":"~jian3","查":"~cha2","危":"~wei1","险":"~xian3","注":"~zhu4","禁":"~jin4","止":"~zhi3","压":"~ya1","温":"~wen1","度":"~du4","故":"~gu4","障":"~zhang4","邮":"~you2","发":"~fa1","收":"~shou1","确":"~que4","认":"~ren4","合":"~he2","同":"~tong2","价":"~jia4","格":"~ge2","量":"~liang4","叫":"~jiao4","呢":"~ne5","很":"~hen3","也":"~ye3","在":"~zai4","难":"~nan2","太":"~tai4","有":"~you3","了":"~le5","还":"~hai2","吧":"~ba5","想":"~xiang3","的":"~de5","几":"~ji3","和":"~he2","带":"~dai4","要":"~yao4","没":"~mei2","啊":"~a5","条":"~tiao2","都":"~dou1","里":"~li3","狗":"~gou3","只":"~zhi1","骑":"~qi2","钓":"~diao4","回":"~hui2","坐":"~zuo4","两":"~liang3","个":"~ge5","得":"~de5","懂":"~dong3","慢":"~man4","过":"~guo5","长":"~chang2","做":"~zuo4","祝":"~zhu4","这":"~zhe4","送":"~song4","花":"~hua1","件":"~jian4","那":"~na4","刷":"~shua1","次":"~ci4","踢":"~ti1","张":"~zhang1","把":"~ba3","用":"~yong4","进":"~jin4","戴":"~dai4","第":"~di4","拐":"~guai3","就":"~jiu4","系":"~ji4","行":"~xing2","又":"~you4","线":"~xian4","给":"~gei3","您":"~nin2","喂":"~wei4","坏":"~huai4","零":"~ling2","位":"~wei4","扫":"~sao3","码":"~ma3","折":"~zhe2","再":"~zai4","王":"~wang2","哪":"~na3","空":"~kong4","遍":"~bian4","改":"~gai3","别":"~bie2","散":"~san4","办":"~ban4","接":"~jie1","先":"~xian1","拉":"~la1","片":"~pian4","填":"~tian2","表":"~biao3","真":"~zhen1","事":"~shi4","教":"~jiao1","按":"~an4","加":"~jia1","言":"~yan2","为":"~wei2","定":"~ding4","百":"~bai3","之":"~zhi1","假":"~jia4","台":"~tai2","泵":"~beng4","拿":"~na2","新":"~xin1","区":"~qu1","慌":"~huang1","灭":"~mie4","每":"~mei3","响":"~xiang3","漏":"~lou4","底":"~di3","付":"~fu4","谁":"~shei2","包":"~bao1","刻":"~ke4","差":"~cha4","斤":"~jin1","比":"~bi3","累":"~lei4","越":"~yue4","离":"~li2","完":"~wan2","找":"~zhao3","关":"~guan1","被":"~bei4","偷":"~tou1","吹":"~chui1","指":"~zhi3","趟":"~tang4","放":"~fang4","盐":"~yan2","瓶":"~ping2","吞":"~tun1","靠":"~kao4","错":"~cuo4","丢":"~diu1","跟":"~gen1","掉":"~diao4","地":"~di4","滑":"~hua2","低":"~di1","最":"~zui4","寄":"~ji4","脚":"~jiao3","咸":"~xian2","酸":"~suan1","饿":"~e4","饱":"~bao3","万":"~wan4","千":"~qian1","元":"~yuan2","属":"~shu3","帅":"~shuai4","怕":"~pa4","香":"~xiang1","云":"~yun2","麻":"~ma2","骂":"~ma4","知":"~zhi1","鸡":"~ji1","戏":"~xi4","擦":"~ca1","插":"~cha1","肚":"~du4","兔":"~tu4","哥":"~ge1","科":"~ke1","争":"~zheng1","绿":"~lü4","纸":"~zhi3","齿":"~chi3","湖":"~hu2","夜":"~ye4"}};
+const SILENT_MP3='data:audio/mpeg;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjYwLjE2LjEwMAAAAAAAAAAAAAAA//NwwAAAAAAAAAAAAEluZm8AAAAPAAAABgAAAykAWlpaWlpaWlpaWlpaWlpaWnt7e3t7e3t7e3t7e3t7e3t7nJycnJycnJycnJycnJycnL29vb29vb29vb29vb29vb293t7e3t7e3t7e3t7e3t7e3t7/////////////////////AAAAAExhdmM2MC4zMQAAAAAAAAAAAAAAACQEUQAAAAAAAAMpso/G6AAAAAAAAAAAAAAAAAD/80DEAAAAA0gAAAAATEFNRTMuMTAwVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQsRbAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQMSkAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMuMTAwVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV//NCxKMAAANIAAAAAFVVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMuMTAwVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV//NAxKQAAANIAAAAAFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/80LEowAAA0gAAAAAVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVU=';
+if(!S.voice) S.voice='clip'; if(!S.micMode) S.micMode='rec';
+const AUD={el:null,packs:{},unlocked:false};
+let SAYID=0;
+const nkey=t=>[...t].filter(isHan).join('');
+function audEl(){if(!AUD.el){const a=new Audio();a.preload='auto';try{a.preservesPitch=true;a.mozPreservesPitch=true;a.webkitPreservesPitch=true}catch(e){}AUD.el=a}return AUD.el}
+function getAC(){if(!AC){try{AC=new(window.AudioContext||window.webkitAudioContext)()}catch(e){}}return AC}
+document.addEventListener('pointerdown',()=>{if(AUD.unlocked)return;AUD.unlocked=true;const a=audEl();try{a.src=SILENT_MP3;const p=a.play();p&&p.catch(()=>{})}catch(e){}try{const c=getAC();c&&c.resume&&c.resume()}catch(e){}},true);
+function pyNum(py){
+  const MK={'̄':1,'́':2,'̌':3,'̀':4};let t=5;
+  let s=py.toLowerCase().normalize('NFD').replace(/ü/g,'ü');
+  s=s.replace(/[̀́̄̌]/g,m=>{t=MK[m];return ''}).replace(/[^a-zü]/g,'');
+  return s+t;
+}
+function clipKey(text,who,py){
+  const I=AUDIO_INDEX.p, h=nkey(text||''); if(!h) return null;
+  if([...h].length===1){
+    if(py&&/^[^\s]+$/.test(py.trim())){const k='~'+pyNum(py);if(I[k]!=null)return k}
+    const k=AUDIO_INDEX.c[h]; if(k&&I[k]!=null) return k;
+  }
+  if(who==='B'&&I['B:'+h]!=null) return 'B:'+h;
+  if(I[h]!=null) return h; if(I['B:'+h]!=null) return 'B:'+h;
+  return null;
+}
+function loadPack(n){
+  if(!AUD.packs[n]){
+    AUD.packs[n]=(async()=>{const emb=document.getElementById('apk-'+n); if(emb) return JSON.parse(emb.textContent);
+      const r=await fetch('audio/p'+n+'.json'); if(!r.ok) throw new Error('HTTP '+r.status); return r.json()})();
+    AUD.packs[n].catch(()=>{delete AUD.packs[n]});
+  }
+  return AUD.packs[n];
+}
+async function clipB64(key){const n=AUDIO_INDEX.p[key]; if(n==null) return null; const pk=await loadPack(n); return pk[key]||null}
+const clipRate=r=>r==null?1:Math.max(.62,Math.min(1.15,r/.82));
+const whoOf=o=>o.who||((o.pitch||1)>1.05?'B':'A');
+function hush(){SAYID++;if(AUD.el){try{AUD.el.onended=null;AUD.el.pause()}catch(e){}}try{if('speechSynthesis' in window)speechSynthesis.cancel()}catch(e){}}
+let AUDWARN=false;
+function playClip(key,text,opt,onend){
+  const id=++SAYID, a=audEl();
+  clipB64(key).then(b64=>{
+    if(id!==SAYID) return; if(!b64) throw new Error('missing');
+    a.onended=a.onerror=null; a.src='data:audio/mpeg;base64,'+b64;
+    const r=clipRate(opt.rate); a.defaultPlaybackRate=r; a.playbackRate=r;
+    a.onended=()=>{if(id===SAYID&&onend)onend()};
+    const p=a.play(); if(p&&p.catch) p.catch(e=>{if(id!==SAYID)return; if(e&&e.name==='AbortError')return; deviceSay(text,opt,onend)});
+  }).catch(()=>{if(id!==SAYID)return; if(!AUDWARN){AUDWARN=true;toast('Không tải được giọng thu sẵn, tạm dùng giọng của máy')} deviceSay(text,opt,onend)});
+}
+function deviceSay(text,opt,onend){
+  if(!('speechSynthesis' in window)){toast('Trình duyệt này không hỗ trợ đọc thành tiếng');onend&&setTimeout(onend,600);return}
   const lang=opt.lang||'zh';
   if(lang==='zh'&&!zhVoice&&speechSynthesis.getVoices().length) toast('Máy chưa có giọng tiếng Trung, âm có thể không chuẩn');
   if(lang==='vi'&&!viVoice&&speechSynthesis.getVoices().length) toast('Máy chưa có giọng tiếng Việt');
-  speechSynthesis.speak(utter(text,opt));
+  speechSynthesis.speak(utter(text,Object.assign({},opt,onend?{onend}:{})));
 }
+function say(text,opt={}){
+  if(!opt.keep) hush();
+  const lang=opt.lang||'zh';
+  if(lang==='zh'&&S.voice!=='device'){const k=clipKey(text,whoOf(opt),opt.py); if(k){playClip(k,text,opt,opt.onend);return}}
+  deviceSay(text,opt,opt.onend);
+}
+function speakThen(text,opt,cb){
+  let done=false; const once=()=>{if(!done){done=true;clearTimeout(tm);cb&&cb()}};
+  const tm=setTimeout(once,[...text].length*600+4500);
+  say(text,Object.assign({},opt,{onend:once}));
+}
+function saySeq(list,done){ // [[text,opt],...] đọc nối tiếp
+  const go=i=>{if(i>=list.length){done&&done();return}const [t,o]=list[i];speakThen(t,Object.assign({keep:i>0},o||{}),()=>setTimeout(()=>go(i+1),o&&o.gap!=null?o.gap:120))};
+  hush(); go(0);
+}
+
+/* ---------- thu âm giọng người học & chấm thanh điệu ---------- */
+/* ---------- phân tích cao độ giọng nói (YIN) & chấm thanh điệu ---------- */
+function toSR16(x,sr){
+  if(sr===16000) return x;
+  const r=sr/16000, n=Math.floor(x.length/r), y=new Float32Array(n), w=Math.max(1,Math.round(r));
+  for(let i=0;i<n;i++){const s=Math.floor(i*r);let a=0,k=0;for(let j=0;j<w&&s+j<x.length;j++){a+=x[s+j];k++}y[i]=a/k}
+  return y;
+}
+function pitchTrack(x){ // x: Float32 @16k → {f0:[Hz|0], rms:[]}, 10 ms/khung
+  const sr=16000,H=160,W=640,tmin=32,tmax=228,N=W-tmax;
+  const fr=[],rm=[];let mx=0,tot=0;
+  for(let i=0;i<x.length;i++)tot+=x[i]*x[i];
+  const rmsAll=Math.sqrt(tot/Math.max(1,x.length))+1e-9;
+  for(let s=0;s+W<=x.length;s+=H){let m=0,q=0;for(let i=0;i<W;i++)m+=x[s+i];m/=W;for(let i=0;i<W;i++){const v=x[s+i]-m;q+=v*v}const r=Math.sqrt(q/W);rm.push(r);if(r>mx)mx=r}
+  const gate=Math.max(.15*rmsAll,.06*mx,1e-4), d=new Float64Array(tmax+1), c=new Float64Array(tmax+1);
+  let k=0;
+  for(let s=0;s+W<=x.length;s+=H,k++){
+    if(rm[k]<gate){fr.push(0);continue}
+    for(let t=1;t<=tmax;t++){let a=0;for(let i=0;i<N;i++){const v=x[s+i]-x[s+i+t];a+=v*v}d[t]=a}
+    let cum=0;for(let t=1;t<=tmax;t++){cum+=d[t];c[t]=d[t]*t/Math.max(cum,1e-12)}
+    let t=tmin;while(t<tmax&&c[t]>.15)t++;
+    if(t>=tmax){fr.push(0);continue}
+    while(t+1<tmax&&c[t+1]<c[t])t++;
+    // nội suy parabol cho chính xác hơn
+    const a=c[t-1],b=c[t],e=c[t+1]||b,den=a-2*b+e,off=den?(a-e)/(2*den):0;
+    fr.push(sr/(t+(Math.abs(off)<1?off:0)));
+  }
+  return {f0:fr,rms:rm};
+}
+const median=a=>{const s=a.slice().sort((p,q)=>p-q),n=s.length;return n?(n%2?s[(n-1)/2]:(s[n/2-1]+s[n/2])/2):0};
+function cleanF0(f0){ // bỏ khung lẻ, sửa lỗi quãng tám, trả mảng semitone (NaN = vô thanh)
+  const f=f0.slice();
+  for(let i=0;i<f.length;i++){if(f[i]&&!(f[i-1])&&!(f[i+1]))f[i]=0} // khung đơn lẻ
+  const v=f.filter(x=>x>0); if(v.length<3) return null;
+  const med=median(v); let s=f.map(x=>x>0?12*Math.log2(x/med):NaN);
+  const hist=[]; // sửa lỗi nhảy quãng tám dựa trên độ liên tục
+  for(let i=0;i<s.length;i++){if(isNaN(s[i]))continue;if(hist.length){const ref=median(hist.slice(-5)),dd=s[i]-ref;if(dd>9.5&&dd<14.5)s[i]-=12;else if(dd<-9.5&&dd>-14.5)s[i]+=12}hist.push(s[i])}
+  const vv=s.filter(x=>!isNaN(x)),m2=median(vv); s=s.map(x=>isNaN(x)?x:x-m2);
+  return s;
+}
+function voicedRuns(s,minLen=3){ // các đoạn hữu thanh liên tục
+  const runs=[];let st=-1,gap=0;
+  for(let i=0;i<=s.length;i++){const v=i<s.length&&!isNaN(s[i]);
+    if(v){if(st<0)st=i;gap=0}else if(st>=0){gap++;if(gap>3||i===s.length){const en=i-gap+1;if(en-st>=minLen)runs.push([st,en]);st=-1;gap=0}}}
+  return runs;
+}
+function contourOf(s){ // nối các đoạn hữu thanh, làm mượt trung vị 5
+  const runs=voicedRuns(s); const v=[];
+  runs.forEach(([a,b])=>{for(let i=a;i<b;i++)if(!isNaN(s[i]))v.push(s[i])});
+  const out=v.map((_,i)=>median(v.slice(Math.max(0,i-2),i+3)));
+  return {c:out,runs};
+}
+function resampleArr(a,n){if(!a.length)return [];const o=[];for(let i=0;i<n;i++){const p=i*(a.length-1)/Math.max(1,n-1),j=Math.floor(p),f=p-j;o.push(a[j]*(1-f)+(a[Math.min(j+1,a.length-1)])*f)}return o}
+function toneClass(c){ // c: semitone đã làm mượt → 1..4
+  const n=c.length; if(n<4) return 0;
+  const q=Math.max(2,Math.floor(n/5)),avg=a=>a.reduce((p,x)=>p+x,0)/a.length;
+  const a=avg(c.slice(0,q)),b=avg(c.slice(-q));let mi=Infinity,im=0,mx=-Infinity;c.forEach((x,i)=>{if(x<mi){mi=x;im=i}if(x>mx)mx=x});
+  const rng=mx-mi,imr=im/Math.max(1,n-1);
+  if(rng<1.8) return a-b>1.2?4:1;
+  if(imr>.15&&imr<.85&&a-mi>1.5&&b-mi>1.0) return 3;
+  if(b-a>1.5) return 2;
+  if(a-b>1.5) return rng>=4.5?4:3;
+  return 1;
+}
+const TONE_TPL={1:[2,2,2,2,2,2],2:[-2,-2,-1,.5,2,3.5],3:[-1,-3,-4.5,-4.5,-3.5,-1.5],4:[3.5,3,1.5,-.5,-2.5,-4],5:[-1,-1.5,-2]};
+function templateContour(tones){
+  const t=tones.slice(); for(let i=0;i<t.length-1;i++) if(t[i]===3&&t[i+1]===3) t[i]=2;
+  const out=[];t.forEach((x,i)=>{const p=TONE_TPL[x]||TONE_TPL[1];
+    const tp=(x===3&&i<t.length-1)?[-1,-2.5,-4,-4.5,-4.5]:p; out.push(...resampleArr(tp,x===5?8:15))});
+  const m=median(out); return out.map(x=>x-m);
+}
+function dtwCompare(m,u){ // m: mẫu, u: người học → khoảng cách trung bình + lỗi theo vị trí mẫu
+  const L=Math.min(120,Math.max(30,Math.round(m.length*.8)));
+  const A=resampleArr(m,L),B=resampleArr(u,L);
+  const dA=A.map((x,i)=>i?x-A[i-1]:A[1]-A[0]),dB=B.map((x,i)=>i?x-B[i-1]:B[1]-B[0]);
+  const band=Math.max(4,Math.round(L*.25)),INF=1e9;
+  const D=Array.from({length:L+1},()=>new Float64Array(L+1).fill(INF)),P=Array.from({length:L+1},()=>new Int32Array(L+1));D[0][0]=0;
+  for(let i=1;i<=L;i++)for(let j=Math.max(1,i-band);j<=Math.min(L,i+band);j++){
+    const cost=Math.abs(A[i-1]-B[j-1])+2.5*Math.abs(dA[i-1]-dB[j-1]);
+    let b=D[i-1][j-1],p=0;if(D[i-1][j]<b){b=D[i-1][j];p=1}if(D[i][j-1]<b){b=D[i][j-1];p=2}
+    D[i][j]=cost+b;P[i][j]=p}
+  let i=L,j=L;const per=new Float64Array(L),cnt=new Float64Array(L);let tot=0,n=0;
+  while(i>0&&j>0){const e=Math.abs(A[i-1]-B[j-1]);per[i-1]+=e;cnt[i-1]++;tot+=e;n++;const p=P[i][j];if(p===0){i--;j--}else if(p===1)i--;else j--}
+  return {d:tot/n,per:Array.from(per,(x,k)=>x/Math.max(1,cnt[k])),A,B};
+}
+function contourScore(d){return Math.round(Math.max(0,Math.min(100,100*Math.exp(-Math.max(0,d-.9)/2.2))))}
+
+function segmentSyl(s,rms,n){ // chia vùng có tiếng thành n âm tiết theo chỗ năng lượng thấp
+  let a=0,b=s.length-1; while(a<b&&isNaN(s[a]))a++; while(b>a&&isNaN(s[b]))b--; b++;
+  const len=b-a; if(n<=1||len<n*4) return [[a,b]];
+  const sm=[];for(let i=a;i<b;i++){let t=0,k=0;for(let j=i-2;j<=i+2;j++)if(j>=0&&j<rms.length){t+=rms[j];k++}sm.push(t/k)}
+  const mx=Math.max(...sm)||1; const sc=sm.map((v,i)=>v/mx-(isNaN(s[a+i])?.6:0));
+  const unit=len/n, minSep=Math.max(3,unit*.45), edge=Math.max(2,unit*.35);
+  const idx=sc.map((v,i)=>i).filter(i=>i>=edge&&i<=len-edge).sort((p,q)=>sc[p]-sc[q]);
+  const cut=[];for(const i of idx){if(cut.every(c=>Math.abs(c-i)>=minSep))cut.push(i);if(cut.length===n-1)break}
+  while(cut.length<n-1){ // không đủ chỗ ngắt: chia đều
+    const k=cut.length+1;cut.length=0;for(let j=1;j<n;j++)cut.push(Math.round(j*len/n));}
+  cut.sort((p,q)=>p-q); const bd=[0,...cut,len];
+  return bd.slice(0,-1).map((x,i)=>[a+x,a+bd[i+1]]);
+}
+function segTones(s,rms,n){
+  return segmentSyl(s,rms,n).map(([x,y])=>{const v=[];for(let i=x;i<y;i++)if(!isNaN(s[i]))v.push(s[i]);
+    if(v.length<4) return {t:0,c:v};const c=v.map((_,i)=>median(v.slice(Math.max(0,i-2),i+3)));return {t:toneClass(c),c,mean:c.reduce((p,q)=>p+q,0)/c.length}});
+}
+function expectTones(tones,text){ // biến điệu: 3-3 → 2-3, 不 + 4 → 2, 一
+  const t=tones.slice(),ch=[...(text||'')];
+  for(let i=0;i<t.length-1;i++){if(t[i]===3&&t[i+1]===3)t[i]=2;
+    if(ch[i]==='不'&&t[i+1]===4)t[i]=2;
+    if(ch[i]==='一'&&t[i]===1&&ch.length>1&&i<t.length-1)t[i]=t[i+1]===4?2:4}
+  return t;
+}
+function toneOK(want,got,last){ // nhận cả các biến thể tự nhiên
+  if(want===5||want===0) return true; if(!got) return false;
+  if(want===got) return true;
+  if(want===3&&!last&&(got===4||got===1)) return true; // nửa thanh 3 (thấp, đi xuống) khi đứng trước âm khác
+  return false;
+}
+
+let LASTREC=null;
+const MICERR={
+  nosupport:'Trình duyệt này không cho thu âm. Hãy mở app bằng đường link https (GitHub Pages) trong Safari (iPhone) hoặc Chrome.',
+  NotAllowedError:'Micro đang bị chặn. iPhone: Cài đặt → Safari → Micro → Cho phép, rồi tải lại trang. Chrome: bấm biểu tượng ổ khóa cạnh địa chỉ trang → Micro → Cho phép.',
+  NotFoundError:'Không tìm thấy micro trên thiết bị.',
+  NotReadableError:'Micro đang được ứng dụng khác dùng (cuộc gọi, ghi âm…). Hãy tắt ứng dụng đó rồi thử lại.',
+  nospeech:'Chưa nghe thấy tiếng nói. Hãy nói to, rõ, để điện thoại gần miệng hơn.',
+  silent:'Micro không thu được âm thanh. Hãy kiểm tra micro hoặc thử lại.',
+  short:'Bạn nói hơi ngắn, hãy đọc đủ cả câu nhé.'
+};
+MICERR.SecurityError=MICERR.NotAllowedError; MICERR.OverconstrainedError=MICERR.NotFoundError;
+const inFrame=(()=>{try{return window.self!==window.top}catch(e){return true}})();
+function micErr(code){
+  let m=MICERR[code]||('Không bật được micro ('+code+').');
+  if((code==='NotAllowedError'||code==='SecurityError'||code==='nosupport')&&inFrame) m='Khung xem trước này không cho dùng micro. Hãy mở app ở trang riêng (link GitHub Pages hoặc bản cài trên điện thoại) để luyện nói.';
+  toast(m,7000);
+}
+function recStart(maxSec,onLevel,onStop){
+  const sess={kind:'rec',done:false,stopNow:false};
+  let ctx=null; try{ctx=new(window.AudioContext||window.webkitAudioContext)();ctx.resume&&ctx.resume()}catch(e){}
+  const end=(pcm,err)=>{if(sess.done)return;sess.done=true;
+    try{sess.proc&&(sess.proc.onaudioprocess=null);sess.src&&sess.src.disconnect();sess.proc&&sess.proc.disconnect()}catch(e){}
+    try{sess.stream&&sess.stream.getTracks().forEach(t=>t.stop())}catch(e){}
+    const sr=ctx?ctx.sampleRate:48000; try{ctx&&ctx.close&&ctx.close()}catch(e){}
+    onStop(pcm,err,sr)};
+  sess.stop=()=>{sess.stopNow=true; if(!sess.proc) end(null,'aborted')};
+  sess.abort=()=>end(null,'aborted');
+  if(!ctx||!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia||!ctx.createScriptProcessor){setTimeout(()=>end(null,'nosupport'));return sess}
+  navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true,autoGainControl:true}}).then(stream=>{
+    sess.stream=stream; if(sess.done){stream.getTracks().forEach(t=>t.stop());return}
+    try{ctx.resume&&ctx.resume()}catch(e){}
+    const sr=ctx.sampleRate, src=ctx.createMediaStreamSource(stream), proc=ctx.createScriptProcessor(2048,1,1), mute=ctx.createGain(); mute.gain.value=0;
+    sess.src=src; sess.proc=proc; src.connect(proc); proc.connect(mute); mute.connect(ctx.destination);
+    const chunks=[]; let t=0,noise=0,spoke=false,quiet=0,peak=0,speechT=0;
+    proc.onaudioprocess=e=>{
+      if(sess.done) return; const d=e.inputBuffer.getChannelData(0); chunks.push(new Float32Array(d));
+      let q=0;for(let i=0;i<d.length;i++){q+=d[i]*d[i];const v=Math.abs(d[i]);if(v>peak)peak=v} const r=Math.sqrt(q/d.length), dt=d.length/sr; t+=dt;
+      if(t<.3){noise=Math.max(noise,r)} else {const thr=Math.max(.01,noise*2.2); if(r>thr){spoke=true;quiet=0;speechT+=dt}else if(spoke)quiet+=dt}
+      onLevel&&onLevel(Math.min(1,r*8),spoke);
+      const fin=()=>{let n=0;chunks.forEach(c=>n+=c.length);const all=new Float32Array(n);let o=0;chunks.forEach(c=>{all.set(c,o);o+=c.length});return all};
+      if(sess.stopNow||(spoke&&quiet>1.0&&speechT>.15)||t>maxSec){ if(peak<1e-4) return end(null,'silent'); if(!spoke&&!sess.stopNow) return end(null,'nospeech'); end(fin(),null)}
+      else if(!spoke&&t>6) end(null,peak<1e-4?'silent':'nospeech');
+    };
+  }).catch(e=>end(null,(e&&e.name)||'error'));
+  return sess;
+}
+function trimSpeech(x,sr){ // cắt bớt khoảng lặng hai đầu
+  const H=Math.round(sr*.01);let mx=0;const r=[];for(let s=0;s+H<=x.length;s+=H){let q=0;for(let i=0;i<H;i++)q+=x[s+i]*x[s+i];const v=Math.sqrt(q/H);r.push(v);if(v>mx)mx=v}
+  let a=0,b=r.length-1;while(a<b&&r[a]<mx*.08)a++;while(b>a&&r[b]<mx*.08)b--;
+  return x.subarray(Math.max(0,(a-15)*H),Math.min(x.length,(b+20)*H));
+}
+const dropEr=t=>t.replace(/([点哪那这玩])儿/g,'$1');
+function tonesOf(han,py){
+  if(!py){const w=(typeof ALLWORDS!=='undefined'?ALLWORDS:[]).find(w=>w[0]===han.join(''));if(w)py=w[1]}
+  if(py){const t=sylTones(py);if(t.length===han.length)return t.map(x=>x||5)}
+  return han.map(c=>{const k=AUDIO_INDEX.c[c];if(k)return +k.slice(-1);const b=byC[c];if(b){const t=sylTones(b.py)[0];return t||5}return 5});
+}
+const MODELC={};
+async function modelContour(text,who){
+  const k=clipKey(text,who); if(!k) return null; if(MODELC[k]) return MODELC[k];
+  try{const b64=await clipB64(k); if(!b64) return null; const bin=atob(b64),buf=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)buf[i]=bin.charCodeAt(i);
+    const ctx=getAC(); const ab=await new Promise((res,rej)=>{const p=ctx.decodeAudioData(buf.buffer,res,rej);p&&p.then&&p.then(res,rej)});
+    const x=toSR16(ab.getChannelData(0),ab.sampleRate); const s=cleanF0(pitchTrack(x).f0); const c=s?contourOf(s).c:null; MODELC[k]=c; return c}catch(e){return null}
+}
+const TNAME={1:'thanh 1 (ngang, cao)',2:'thanh 2 (đi lên)',3:'thanh 3 (xuống thấp)',4:'thanh 4 (rơi mạnh)',5:'thanh nhẹ',0:'chưa rõ'};
+async function analyzeSpeech(raw,sr,target,py,who){
+  const x=toSR16(trimSpeech(raw,sr),sr), tr=pitchTrack(x), s=cleanF0(tr.f0);
+  const voiced=s?s.filter(v=>!isNaN(v)).length:0;
+  if(!s||voiced<8) return {err:'nospeech'};
+  const tgt=dropEr(target), han=[...tgt].filter(isHan), n=han.length||1;
+  const want=expectTones(tonesOf(han,py||''),tgt);
+  const segs=segTones(s,tr.rms,want.length);
+  let ok=0,cnt=0; const marks=[], tips=[];
+  want.forEach((w,i)=>{const g=segs[i]?segs[i].t:0, last=i===want.length-1;
+    let good=toneOK(w,g,last); if(!good&&w===4&&!last&&g===1)good=true;
+    if(w!==5){cnt++;if(good)ok++;else if(tips.length<2)tips.push(`<b class="hz">${han[i]}</b> cần ${TNAME[w]}, bạn đọc nghe như ${TNAME[g]}`)}
+    marks.push(good)});
+  const uc=contourOf(s).c, tpl=templateContour(want);
+  const cs=contourScore(dtwCompare(tpl,uc).d);
+  const frac=cnt?ok/cnt:1;
+  let score=n===1?(marks[0]?Math.round(Math.max(75,60+.4*cs)):Math.round(Math.min(45,.5*cs))):Math.round(65*frac+.35*cs);
+  const span=voiced*.01;
+  if(span<n*.09){score=Math.round(score*.6);tips.unshift(MICERR.short)}
+  const mc=await modelContour(target,who);
+  const all=[...target].filter(isHan); let j=0; const fullMarks=all.map((c,i)=>(c==='儿'&&i>0&&'点哪那这玩'.includes(all[i-1]))?true:(j<marks.length?marks[j++]:true));
+  return {mode:'pitch',score:Math.max(0,Math.min(100,score)),marks:fullMarks,orig:[...target].filter(isHan),tips,graph:{m:mc||tpl,u:uc,tplOnly:!mc},want,got:segs.map(x=>x.t)};
+}
+function pitchGraphSVG(g){
+  const W=300,H=96,P=6,N=80;
+  const prep=a=>{if(!a||a.length<2)return null;const m=median(a);return resampleArr(a.map(v=>v-m),N)};
+  const m=prep(g.m),u=prep(g.u); const y=v=>(H/2-Math.max(-9,Math.min(9,v))*(H/2-P)/9).toFixed(1), xx=i=>(P+i*(W-2*P)/(N-1)).toFixed(1);
+  const line=(a,cls)=>a?`<polyline class="${cls}" points="${a.map((v,i)=>xx(i)+','+y(v)).join(' ')}"/>`:'';
+  return `<figure class="pgraph"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Đường cao độ giọng mẫu và giọng bạn"><line x1="0" x2="${W}" y1="${H/2}" y2="${H/2}" class="pg0"/>${line(m,'pgm')}${line(u,'pgu')}</svg><figcaption><span class="lgm"></span>${g.tplOnly?'Hình thanh điệu chuẩn':'Giọng mẫu'} <span class="lgu"></span>Giọng bạn</figcaption></figure>`;
+}
+function playMine(){
+  if(!LASTREC){toast('Chưa có bản thu nào');return}
+  hush(); const ctx=getAC(); try{ctx.resume&&ctx.resume()}catch(e){}
+  try{const b=ctx.createBuffer(1,LASTREC.pcm.length,LASTREC.sr);b.getChannelData(0).set(LASTREC.pcm);const s=ctx.createBufferSource();s.buffer=b;s.connect(ctx.destination);s.start()}catch(e){toast('Không phát lại được bản thu')}
+}
+function startRec(btn,target,onDone,py,who){
+  hush(); btn.classList.add('on'); touch();
+  const n=[...target].filter(isHan).length, maxSec=Math.min(16,Math.max(4,n*.75+3));
+  const live=()=>document.getElementById('srLive');
+  let shown=false;
+  const sess=recStart(maxSec,(lv,spoke)=>{const el=live();if(!el)return;if(!shown){shown=true;el.innerHTML='<span class="reclv"><i></i></span><small class="rectx">Đang thu… cứ nói, nói xong sẽ tự dừng</small>'}
+      const i=el.querySelector('.reclv i');if(i)i.style.width=Math.round(lv*100)+'%'},
+    async(pcm,err,sr)=>{
+      if(REC===sess)REC=null; btn.classList.remove('on'); const el=live();
+      if(err){if(el)el.textContent=''; if(err!=='aborted')micErr(err); onDone(null,err); return}
+      if(el)el.innerHTML='<small class="rectx">Đang phân tích giọng…</small>';
+      let res=null; try{res=await analyzeSpeech(pcm,sr,target,py,who)}catch(e){res={err:'nospeech'}}
+      if(el)el.textContent='';
+      if(res.err){micErr(res.err);onDone(null,res.err);return}
+      LASTREC={pcm:trimSpeech(pcm,sr),sr}; onDone(res);
+    });
+  REC=sess;
+}
+function micTest(btn){
+  if(REC){REC.stop&&REC.stop();return}
+  const box=$('#micTestBox'); box.innerHTML='<div class="srlive" id="srLive"><small class="rectx">Đang bật micro… (nói thử "nǐ hǎo")</small></div>';
+  startRec(btn,'你好',res=>{box.innerHTML=res?`<p class="sub">Micro hoạt động tốt ✓ <button class="btn" data-myrec>▶ Nghe lại giọng bạn</button></p>`:''},'nǐ hǎo','A');
+}
+
 const SPK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16 9a4 4 0 0 1 0 6M18.5 6.5a8 8 0 0 1 0 11"/></svg>';
 
 /* ---------- writers ---------- */
@@ -2515,14 +2830,11 @@ function renderTalk(){
   $('#dlgLines').innerHTML=d.l.map(([w,h,p,v],i)=>`<div class="line ${w==='B'?'b':''}" data-i="${i}"><div class="who">${w}</div><div style="min-width:0"><div class="ruby">${rubyHTML(tokFor(h,p))}</div><div class="lv">${esc(v)}</div></div><div class="lbtns"><button class="lbtn zh" data-line="${i}" data-lang="zh" aria-label="Nghe tiếng Trung">${SPK}中文</button><button class="lbtn" data-line="${i}" data-lang="vi" aria-label="Nghe tiếng Việt">${SPK}Việt</button><button class="lbtn micl" data-micline="${i}" aria-label="Luyện nói câu này">${MICSVG}Nói</button></div><div class="srin" id="srin${i}"></div></div>`).join('');
 }
 function markLine(i){document.querySelectorAll('.line').forEach(el=>el.classList.toggle('playing',+el.dataset.i===i));if(i>=0)document.querySelector(`.line[data-i="${i}"]`)?.scrollIntoView({block:'nearest',behavior:'smooth'})}
-function stopAll(){playing=false;if('speechSynthesis' in window)speechSynthesis.cancel();markLine(-1);$('#playAll').innerHTML='<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>Nghe cả đoạn'}
+function stopAll(){playing=false;hush();markLine(-1);$('#playAll').innerHTML='<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>Nghe cả đoạn'}
 function speakLine(i,lang,done){
-  const L=DIALOGS.find(x=>x.id===dlg).l[i]; const pitch=PITCH[L[0]]||1;
-  markLine(i);
-  const seq=lang==='both'?[['zh',L[1]],['vi',L[3]]]:[[lang,lang==='vi'?L[3]:L[1]]];
-  if(!('speechSynthesis' in window)){toast('Trình duyệt này không hỗ trợ đọc thành tiếng');return}
-  speechSynthesis.cancel();
-  seq.forEach(([lg,txt],k)=>speechSynthesis.speak(utter(txt,{lang:lg,rate:tRate,pitch,onend:k===seq.length-1?()=>{if(done)done();else markLine(-1)}:null})));
+  const L=DIALOGS.find(x=>x.id===dlg).l[i]; markLine(i);
+  const seq=lang==='both'?[[L[1],{who:L[0],rate:tRate}],[L[3],{lang:'vi',rate:tRate}]]:[[lang==='vi'?L[3]:L[1],{lang,who:L[0],rate:tRate}]];
+  saySeq(seq,()=>{if(done)done();else markLine(-1)});
 }
 function playAll(){
   if(playing){stopAll();return}
@@ -2692,12 +3004,6 @@ function showPop(el){
   const ph=pop.offsetHeight; pop.style.top=(r.bottom+ph+12>innerHeight?Math.max(12,r.top-ph-8):r.bottom+8)+'px';
   say(h);
 }
-function speakThen(text,opt,cb){
-  let done=false; const once=()=>{if(!done){done=true;cb&&cb()}};
-  if(!('speechSynthesis' in window)){setTimeout(once,1200);return}
-  speechSynthesis.speak(utter(text,Object.assign({},opt,{onend:once})));
-  setTimeout(once,[...text].length*450+2500);
-}
 let AC=null;
 function beep(ok){try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();const o=AC.createOscillator(),g=AC.createGain();o.connect(g);g.connect(AC.destination);const t=AC.currentTime;o.type='sine';o.frequency.setValueAtTime(ok?660:240,t);if(ok)o.frequency.setValueAtTime(990,t+.11);else o.frequency.setValueAtTime(180,t+.12);g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.18,t+.02);g.gain.exponentialRampToValueAtTime(.0001,t+.38);o.start(t);o.stop(t+.4)}catch(e){}}
 
@@ -2721,12 +3027,13 @@ function scoreSpeech(target,heard){
 }
 const scoreLabel=s=>s>=85?['Tuyệt vời!','good']:s>=70?['Tốt lắm','good']:s>=50?['Khá rồi, thử lại nhé','mid']:['Chưa đúng, nghe mẫu rồi thử lại','bad'];
 function srResultHTML(r){if(!r)return '';const [lab,cls]=scoreLabel(r.score);
+  if(r.mode==='pitch') return `<div class="srres ${cls}"><div class="srscore">${r.score}<small>/100</small></div><div style="min-width:0"><b>${lab}</b><div class="srline hz">${r.orig.map((c,i)=>`<span class="${r.marks[i]?'mk-ok':'mk-no'}">${c}</span>`).join('')}</div>${r.tips.length?`<div class="srheard">${r.tips.join('<br>')}</div>`:`<div class="srheard">Thanh điệu khớp với mẫu.</div>`}</div>${pitchGraphSVG(r.graph)}<div class="srbtns"><button class="btn" data-myrec>▶ Giọng bạn</button><button class="btn" data-say="${esc(r.orig.join(''))}">▶ Giọng mẫu</button></div></div>`;
   return `<div class="srres ${cls}"><div class="srscore">${r.score}<small>/100</small></div><div style="min-width:0"><b>${lab}</b><div class="srline hz">${r.orig.map((c,i)=>`<span class="${r.marks[i]?'mk-ok':'mk-no'}">${c}</span>`).join('')}</div><div class="srheard">Máy nghe được: <span class="hz">${esc(r.heard||'—')}</span></div></div></div>`}
 let REC=null;
-function startMic(btn,target,onDone){
+function startSR(btn,target,onDone){
   if(!SR){toast('Trình duyệt này chưa hỗ trợ nhận giọng nói. Hãy dùng Chrome (Android, máy tính) hoặc Safari (iPhone).');return}
   if(REC){const r=REC;REC=null;try{r.abort()}catch(e){};document.querySelectorAll('.mic.on').forEach(b=>b.classList.remove('on'));return}
-  try{speechSynthesis.cancel()}catch(e){}
+  hush()
   const r=new SR(); REC=r; let finished=false, interim='';
   const finish=(res,err)=>{if(finished)return;finished=true;if(REC===r)REC=null;btn.classList.remove('on');const live=document.getElementById('srLive');if(live)live.textContent='';
     if(err&&SRERR[err]!==''){toast(SRERR[err]||('Lỗi nhận giọng nói: '+err))} onDone(res,err)};
@@ -2737,6 +3044,11 @@ function startMic(btn,target,onDone){
   r.onerror=e=>finish(null,e.error);
   r.onend=()=>{if(!finished){interim?finish(scoreSpeech(target,interim)):finish(null,'no-speech')}};
   try{r.start();btn.classList.add('on');touch()}catch(e){REC=null;toast('Không bật được micro: '+e.message)}
+}
+function startMic(btn,target,onDone,py,who){
+  if(REC){if(REC.kind==='rec'){REC.stop();return} const r=REC;REC=null;try{r.abort()}catch(e){};document.querySelectorAll('.mic.on,.lbtn.on').forEach(b=>b.classList.remove('on'));return}
+  if(S.micMode==='sr'&&SR) return startSR(btn,target,onDone);
+  startRec(btn,target,onDone,py,who);
 }
 const stopMic=()=>{if(REC){const r=REC;REC=null;try{r.abort()}catch(e){}}document.querySelectorAll('.mic.on,.lbtn.on').forEach(b=>b.classList.remove('on'))};
 const micBtn=(attr,big)=>`<button class="mic${big?' big':''}" ${attr} aria-label="Bấm rồi nói">${MICSVG}</button>`;
@@ -2793,7 +3105,7 @@ function openFlow(steps){
   if(playing) stopAll(); FL={steps,i:0,score:0,graded:0};
   $('#flow').hidden=false; document.documentElement.classList.add('flowon'); enterStep();
 }
-function closeFlow(){stopMic();FL=null;$('#flow').hidden=true;$('#pop').hidden=true;document.documentElement.classList.remove('flowon');try{speechSynthesis.cancel()}catch(e){}; if(curView==='home')renderHome(); if(curView==='talk')renderTalk();}
+function closeFlow(){stopMic();FL=null;$('#flow').hidden=true;$('#pop').hidden=true;document.documentElement.classList.remove('flowon');hush(); if(curView==='home')renderHome(); if(curView==='talk')renderTalk();}
 function enterStep(){
   stopMic(); const st=FL.steps[FL.i]; st.sel=null; st.checked=false; st.ok=null; st.res=null; st.best=null;
   if(st.type==='arrange'){st.pool=shuffle(st.tiles.map((_,i)=>i)); st.ans=[]; st.showVi=false;}
@@ -2803,7 +3115,7 @@ function enterStep(){
   if(st.type==='pic') setTimeout(()=>say(st.item.h),300);
   if(st.type==='arrange'||st.type==='mean') setTimeout(()=>say(st.L.hz),350);
   if(st.type==='role') setTimeout(roleNext,400);
-  if(['tone','tpair','mpair'].includes(st.type)) setTimeout(()=>say(st.say),350);
+  if(['tone','tpair','mpair'].includes(st.type)) setTimeout(()=>say(st.say,{py:st.py}),350);
 }
 const SPKBIG=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16 9a4 4 0 0 1 0 6M18.5 6.5a8 8 0 0 1 0 11"/></svg>`;
 const listenBtns=t=>`<div class="flisten"><button class="spk big" data-say="${esc(t)}" aria-label="Nghe">${SPKBIG}</button><button class="spk big slow" data-slow="${esc(t)}" aria-label="Nghe chậm"><span class="emo">🐢</span></button></div>`;
@@ -2888,7 +3200,7 @@ function flowMain(){
   if(st.graded&&!st.checked){checkStep(st);return}
   if(st.type==='role'&&st.wait){roleSpoke();return}
   if(st.type==='done'){closeFlow();return}
-  try{speechSynthesis.cancel()}catch(e){}
+  hush()
   if(FL.i<FL.steps.length-1){FL.i++; enterStep(); $('#fBody').scrollTop=0;}
 }
 function roleNext(){
@@ -2906,15 +3218,15 @@ function roleSpoke(){
 const markBub=i=>document.querySelectorAll('#fBody .bub').forEach(b=>b.classList.toggle('playing',+b.dataset.bi===i));
 const scrollChat=()=>{const b=$('#fBody');b.scrollTop=b.scrollHeight};
 function flowPlayAll(rate){
-  const st=FL.steps[FL.i]; const d=st.d; try{speechSynthesis.cancel()}catch(e){}
+  const st=FL.steps[FL.i]; const d=st.d; hush()
   const go=i=>{if(!FL||FL.steps[FL.i]!==st)return; if(i>=d.l.length){markBub(-1);return} markBub(i); document.querySelector(`#fBody .bub[data-bi="${i}"]`)?.scrollIntoView({block:'nearest',behavior:'smooth'});
     speakThen(d.l[i][1],{rate,pitch:PITCH[d.l[i][0]]||1},()=>setTimeout(()=>go(i+1),350))};
   go(0);
 }
 function flowClick(t){
   if(!FL) return false; const st=FL.steps[FL.i];
-  if(t.dataset.mic==='flow'&&!st.checked){startMic(t,st.L.hz,res=>{if(res&&FL&&FL.steps[FL.i]===st){st.res=res;st.best=Math.max(st.best??0,res.score);beep(res.score>=70);drawStep()}});return true}
-  if(t.dataset.mic==='role'&&st.wait){const L=lineOf(st.d,st.k);startMic(t,L.hz,res=>{if(res&&FL&&FL.steps[FL.i]===st){st.rres=res;beep(res.score>=70);drawStep()}});return true}
+  if(t.dataset.mic==='flow'&&!st.checked){startMic(t,st.L.hz,res=>{if(res&&FL&&FL.steps[FL.i]===st){st.res=res;st.best=Math.max(st.best??0,res.score);beep(res.score>=70);drawStep()}},st.L.py,st.L.who);return true}
+  if(t.dataset.mic==='role'&&st.wait){const L=lineOf(st.d,st.k);startMic(t,L.hz,res=>{if(res&&FL&&FL.steps[FL.i]===st){st.rres=res;beep(res.score>=70);drawStep()}},L.py,L.who);return true}
   if(t.dataset.fo!==undefined&&!st.checked){st.sel=+t.dataset.fo; if(st.type==='pic')say(st.opts[st.sel].h); if(st.type==='fill')say(st.opts[st.sel].h); drawStep(); return true}
   if(t.dataset.ta!==undefined&&!st.checked){const i=+t.dataset.ta; if(!st.ans.includes(i)){st.ans.push(i); say(st.tiles[i].h); drawStep();} return true}
   if(t.dataset.tr!==undefined&&!st.checked){st.ans=st.ans.filter(i=>i!==+t.dataset.tr); drawStep(); return true}
@@ -3061,6 +3373,11 @@ function renderPron(){
       <button class="pbig" data-pflow="mpair"><span class="emo">👂</span><b>Âm dễ nhầm</b><small>12 câu: zh/j, ch/q, an/ang, u/ü…</small></button>
       <button class="pbig" data-pflow="say"><span class="emo">🎤</span><b>Đọc và chấm điểm</b><small>8 từ của bài đang học, dùng micro</small></button>
     </div></section>
+  <section class="gsec setcard"><h2 class="gh">Giọng đọc & micro</h2>
+    <div class="setrow"><span>Giọng đọc tiếng Trung</span><div class="seg"><button data-setvoice="clip" aria-pressed="${S.voice!=='device'}">Giọng chuẩn thu sẵn</button><button data-setvoice="device" aria-pressed="${S.voice==='device'}">Giọng của máy</button></div></div>
+    <div class="setrow"><span>Cách chấm khi luyện nói</span><div class="seg"><button data-setmic="rec" aria-pressed="${S.micMode!=='sr'}">Thu âm + phân tích thanh điệu</button><button data-setmic="sr" aria-pressed="${S.micMode==='sr'}">Nhận dạng chữ (Chrome, cần mạng)</button></div></div>
+    <p class="sub">Chế độ thu âm chạy ngay trên máy, không cần mạng: app ghi giọng bạn, vẽ đường cao độ so với giọng mẫu và chỉ ra chữ nào sai thanh. Lần đầu trình duyệt sẽ hỏi quyền dùng micro, hãy chọn Cho phép.</p>
+    <div class="ctrls" style="justify-content:flex-start"><button class="btn" id="micTestBtn">🎤 Thử micro</button></div><div id="micTestBox"></div></section>
   <section class="gsec"><h2 class="gh">1 · Bốn thanh điệu</h2><p>Cùng một âm "ma" nhưng 4 thanh khác nhau là 4 chữ khác nghĩa. Đường kẻ biểu thị độ cao giọng từ thấp (dưới) đến cao (trên).</p>
     <div class="tones">${TONES.map(([t,n,d,c,py,m])=>`<div class="tonec">${contourSVG(t,120,70)}<b class="t${t}">${n}</b><p>${esc(d)}</p><button class="tex" data-say="${c}"><span class="hz">${c}</span><span class="py t${t}">${py}</span><small>${esc(m)}</small>${SPK}</button></div>`).join('')}</div>
     <div class="ctrls" style="justify-content:flex-start;margin-top:12px"><button class="btn pri" id="maAll">▶ Nghe cả 4 thanh: mā má mǎ mà</button></div></section>
@@ -3082,7 +3399,7 @@ function tpairFlow(){
   const steps=sample(ws,10).map(w=>{const t=sylTones(w[1]),ans=t.join('-');return {type:'tpair',w,ans,opts:shuffle([ans,...sample(all.filter(x=>x!==ans),3)]),say:w[0],graded:true}});
   return [...steps,{type:'done',key:'P-tpair',title:'Cặp thanh điệu'}];
 }
-function mpairFlow(){return [...sample(MPAIRS,12).map(p=>{const which=Math.random()<.5?0:1;return {type:'mpair',p,which,say:p[which*2],graded:true}}),{type:'done',key:'P-mpair',title:'Âm dễ nhầm'}]}
+function mpairFlow(){return [...sample(MPAIRS,12).map(p=>{const which=Math.random()<.5?0:1;return {type:'mpair',p,which,say:p[which*2],py:p[which*2+1],graded:true}}),{type:'done',key:'P-mpair',title:'Âm dễ nhầm'}]}
 function sayFlow(){
   const ws=(VOCAB[curLesson().id]||[]).filter(w=>[...w[0]].every(isHan)&&[...w[0]].length>=2);
   const src=ws.length>=4?ws:ALLWORDS.filter(w=>[...w[0]].every(isHan)&&[...w[0]].length>=2);
@@ -3155,12 +3472,11 @@ const hideBig=()=>{$('#bigshow').hidden=true; if(!FL) document.documentElement.c
 let vPlaying=false;
 function playVocab(){
   const b=$('#vocabAll'); const mark=k=>document.querySelectorAll('.vcard').forEach(el=>el.classList.toggle('playing',+el.dataset.vi===k));
-  if(vPlaying){vPlaying=false;speechSynthesis.cancel();mark(-1);b.lastChild.textContent='Nghe tất cả';return}
-  if(!('speechSynthesis' in window)){toast('Trình duyệt này không hỗ trợ đọc thành tiếng');return}
+  if(vPlaying){vPlaying=false;hush();mark(-1);b.lastChild.textContent='Nghe tất cả';return}
   const ws=VOCAB[curLesson().id]||[]; vPlaying=true; b.lastChild.textContent='Dừng';
   const go=k=>{if(!vPlaying)return; if(k>=ws.length){vPlaying=false;mark(-1);b.lastChild.textContent='Nghe tất cả';return}
     mark(k); document.querySelector(`.vcard[data-vi="${k}"]`)?.scrollIntoView({block:'nearest',behavior:'smooth'});
-    speechSynthesis.cancel(); speechSynthesis.speak(utter(ws[k][0],{rate:.75})); speechSynthesis.speak(utter(ws[k][2],{lang:'vi',onend:()=>setTimeout(()=>go(k+1),400)}));};
+    saySeq([[ws[k][0],{rate:.75,gap:250}],[ws[k][2],{lang:'vi'}]],()=>setTimeout(()=>go(k+1),400));};
   go(0);
 }
 let curView='home';
@@ -3200,7 +3516,7 @@ function refresh(){ renderLvSeg(); renderChips(); TY.item=null; gramLv='cur'; vi
 
 /* ---------- views & events ---------- */
 function view(v){
-  curView=v; if(typeof vPlaying!=='undefined'&&vPlaying){vPlaying=false;speechSynthesis.cancel()}
+  curView=v; if(typeof vPlaying!=="undefined"&&vPlaying){vPlaying=false;hush()}
   if(v==='home') renderHome();
   document.querySelectorAll('.tab').forEach(t=>t.setAttribute('aria-selected',t.dataset.v===v));
   document.querySelectorAll('.view').forEach(s=>s.hidden=s.id!=='v-'+v);
@@ -3222,7 +3538,11 @@ document.addEventListener('click',e=>{
   const t=e.target.closest('button'); if(!t) return;
   if(t.dataset.w){showPop(t);return}
   if(t.dataset.slow){say(t.dataset.slow,{rate:.45});return}
+  if(t.dataset.myrec!==undefined){playMine();return}
   if(t.dataset.say&&FL){say(t.dataset.say);return}
+  if(t.dataset.setvoice){S.voice=t.dataset.setvoice;save();renderPron();say('你好');return}
+  if(t.dataset.setmic){S.micMode=t.dataset.setmic;save();renderPron();return}
+  if(t.id==='micTestBtn'){micTest(t);return}
   if(flowClick(t)) return;
   if(t.dataset.flow==='lesson'){openFlow(lessonFlow(curLesson()));return}
   if(t.dataset.pflow){const f={tone:toneFlow,tpair:tpairFlow,mpair:mpairFlow,say:sayFlow}[t.dataset.pflow];openFlow(f());return}
@@ -3233,9 +3553,9 @@ document.addEventListener('click',e=>{
   if(t.dataset.bkflow!==undefined){openFlow(bookFlow(+t.dataset.bkflow));return}
   if(t.dataset.fav!==undefined){const it=BOOKALL[+t.dataset.fav];S.fav=S.fav||[];const i=S.fav.indexOf(it.hz);if(i>=0)S.fav.splice(i,1);else{S.fav.push(it.hz);toast('Đã lưu vào mục Đã lưu')}save();renderBook();return}
   if(t.dataset.big!==undefined){showBig(BOOKALL[+t.dataset.big]);return}
-  if(t.dataset.micbk!==undefined){const k=+t.dataset.micbk,box=$('#srbk'+k);if(!REC)box.innerHTML='<div class="srlive hz" id="srLive">Đang nghe… hãy đọc câu này</div>';startMic(t,BOOKALL[k].hz,res=>{box.innerHTML=res?srResultHTML(res):'';if(res)beep(res.score>=70)});return}
+  if(t.dataset.micbk!==undefined){const k=+t.dataset.micbk,box=$('#srbk'+k);if(!REC)box.innerHTML='<div class="srlive hz" id="srLive">Đang nghe… hãy đọc câu này</div>';startMic(t,BOOKALL[k].hz,res=>{box.innerHTML=res?srResultHTML(res):'';if(res)beep(res.score>=70)},BOOKALL[k].py);return}
   if(t.id==='bigClose'){hideBig();return}
-  if(t.id==='maAll'){try{speechSynthesis.cancel()}catch(e){}['妈','麻','马','骂'].forEach(c=>speechSynthesis.speak(utter(c,{rate:.6})));return}
+  if(t.id==='maAll'){saySeq(['妈','麻','马','骂'].map(c=>[c,{gap:350}]));return}
   if(t.dataset.v) return view(t.dataset.v);
   if(t.dataset.lv){setLevel(+t.dataset.lv);refresh();return}
   if(t.dataset.rt){radTab=t.dataset.rt;renderRad();return}
@@ -3255,7 +3575,7 @@ document.addEventListener('click',e=>{
   if(t.dataset.step==='gram'){const l=curLesson(); if(l.gp.length) openFlow(gramFlow(l.gp)); else view('gram'); return}
   if(t.dataset.step==='vocab'){$('#vocabSec').scrollIntoView({behavior:'smooth',block:'start'});return}
   if(t.dataset.step){const s=t.dataset.step; if(s==='quiz'){qScope='lesson';view('quiz');startQuiz();} else view(s==='learn'?'learn':s); if(s==='learn') show(cur); return}
-  if(t.dataset.micline!==undefined){stopAll();const i=+t.dataset.micline,L=DIALOGS.find(x=>x.id===dlg).l[i],box=$('#srin'+i);if(!REC)box.innerHTML='<div class="srlive hz" id="srLive">Đang nghe… hãy đọc câu này</div>';startMic(t,L[1],res=>{box.innerHTML=res?srResultHTML(res):'';if(res)beep(res.score>=70)});return}
+  if(t.dataset.micline!==undefined){stopAll();const i=+t.dataset.micline,L=DIALOGS.find(x=>x.id===dlg).l[i],box=$('#srin'+i);if(!REC)box.innerHTML='<div class="srlive hz" id="srLive">Đang nghe… hãy đọc câu này</div>';startMic(t,L[1],res=>{box.innerHTML=res?srResultHTML(res):'';if(res)beep(res.score>=70)},L[2],L[0]);return}
   if(t.dataset.dlg){stopAll();dlg=t.dataset.dlg;renderTalk();return}
   if(t.dataset.line!==undefined){stopAll();speakLine(+t.dataset.line,t.dataset.lang);return}
   if(t.dataset.tl){tLang=t.dataset.tl;document.querySelectorAll('#talkLang button').forEach(b=>b.setAttribute('aria-pressed',b===t));return}
@@ -3337,5 +3657,4 @@ let startView='home'; try{startView=localStorage.getItem(KEY+'.view')||'home'}ca
 view(startView);
 </script>
 
-</body>
-</html>
+<script>if('serviceWorker' in navigator && location.protocol.startsWith('http')){addEventListener('load',()=>navigator.serviceWorker.register('sw.js').then(r=>{const go=()=>{const w=navigator.serviceWorker.controller||r.active;w&&w.postMessage('cache-audio')};navigator.serviceWorker.ready.then(()=>setTimeout(go,4000))}).catch(()=>{}))}</script>
